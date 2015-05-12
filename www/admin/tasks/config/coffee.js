@@ -22,13 +22,13 @@ module.exports = function(grunt) {
 				expand: true,
 				cwd: 'assets/js/',
 				src: ['**/*.coffee'],
-				dest: '.tmp/public/js/',
+				dest: '.tmp/public/admin/js/',
 				ext: '.js'
 			}, {
 				expand: true,
 				cwd: 'assets/js/',
 				src: ['**/*.coffee'],
-				dest: '.tmp/public/js/',
+				dest: '.tmp/public/admin/js/',
 				ext: '.js'
 			}]
 		}

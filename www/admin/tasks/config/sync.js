@@ -18,7 +18,7 @@ module.exports = function(grunt) {
 			files: [{
 				cwd: './assets',
 				src: ['**/*.!(coffee)'],
-				dest: '.tmp/public'
+				dest: '.tmp/public/admin'
 			}]
 		}
 	});

@@ -32,7 +32,8 @@ module.exports.routes = {
   *                                                                          *
   ***************************************************************************/
 
-  'get /':  {view:'index'},
+  'get /': '/admin',
+  'get /admin':  {view:'index'},
 
   /***************************************************************************
   *                                                                          *
@@ -44,18 +45,16 @@ module.exports.routes = {
   *                                                                          *
   ***************************************************************************/
 
-  'get /cookie': 'CookieController.get', 
-  'get /captcha/login': 'CaptchaController.login',
+  'get /admin/cookie': 'CookieController.get', 
+  'get /admin/captcha/login': 'CaptchaController.login',
   
-  'post /api/init': 'InitController.get',
+  'post /admin/api/init': 'InitController.get',
  
-  'post /api/login': 'AuthController.login',
-  'post /api/logout': {controller:'AuthController', action:'logout', policy:'sessionAuth'},
+  'post /admin/api/login': 'AuthController.login',
+  'post /admin/api/logout': {controller:'AuthController', action:'logout', policy:'sessionAuth'},
 
   '/test': {view:'test'},
-  '/test/req': {controller:'TestController', action:'req'/*, policy:'accessGranted'*/},
-  
-  'get /admin': {view:'admin/index', locals: {layout:'admin/layout'}}
+  '/test/req': {controller:'TestController', action:'req'/*, policy:'accessGranted'*/}
           
 };
  

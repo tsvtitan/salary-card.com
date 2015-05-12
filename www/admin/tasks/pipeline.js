@@ -71,25 +71,19 @@ var jsFilesToInject = [
 // templates get spit out to the same file.  Be sure and check out `tasks/README.md`
 // for information on customizing and installing new tasks.
 var templateFilesToInject = [
-  'templates/*.html'
+  'templates/**/*.html'
 ];
 
-var templateAdminFilesToInject = [
-  'admin/*.html'
-];
 
 // Prefix relative paths to source files so they point to the proper locations
 // (i.e. where the other Grunt tasks spit them out, or in some cases, where
 // they reside in the first place)
 module.exports.cssFilesToInject = cssFilesToInject.map(function(path) {
-  return '.tmp/public/' + path;
+  return '.tmp/public/admin/' + path;
 });
 module.exports.jsFilesToInject = jsFilesToInject.map(function(path) {
-  return '.tmp/public/' + path;
+  return '.tmp/public/admin/' + path;
 });
 module.exports.templateFilesToInject = templateFilesToInject.map(function(path) {
   return 'assets/' + path;
-});
-module.exports.templateAdminFilesToInject = templateAdminFilesToInject.map(function(path) {
-  return 'assets/templates/' + path;
 });

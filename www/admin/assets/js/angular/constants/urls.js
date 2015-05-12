@@ -1,11 +1,14 @@
+var adminHome = '/admin';
 
 app.constant('Urls',{
   
-  init: '/api/init',
+  init: adminHome.concat('/api/init'),
   
-  authLogin: '/api/login',
-  authLogout: '/api/logout',
+  authLogin: adminHome.concat('/api/login'),
+  authLogout: adminHome.concat('/api/logout'),
   
-  captchaLoginUrl: '/captcha/login'
+  captchaLoginUrl: adminHome.concat('/captcha/login')
   
-})
+});
+
+
