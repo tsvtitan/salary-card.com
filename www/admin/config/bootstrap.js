@@ -609,9 +609,16 @@ module.exports.bootstrap = function(cb) {
     }
     
     req.dic = function(name,values) {
-      return getDic(['back',req.options.controller],name,values);
+      return getDic(['back',req.options.controller/*|| req.locals.view*/],name,values);
     }
     res.dic = req.dic;
+    res.locals.dic = res.dic;
+    
+    /*res.view = function(name,values) {
+      return sails.renderView(name,Utils.extend(values,{view:name}),function(err,html){
+        
+      });
+    }*/
     
     req.userAgent = new Parser().setUA(req.headers['user-agent']).getResult();
     

@@ -33,6 +33,11 @@ module.exports.routes = {
   ***************************************************************************/
 
   'get /': '/admin',
+  
+  //'get /admin/403': {view:'403',locals:{layout:'layouts/stylesOnly'}},
+  //'get /admin/404': {view:'404',locals:{layout:'layouts/stylesOnly'}},
+  //'get /admin/500': {view:'500',locals:{layout:'layouts/stylesOnly'}},
+  
   'get /admin':  {view:'index'},
 
   /***************************************************************************

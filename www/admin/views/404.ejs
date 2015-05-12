@@ -1,9 +1,15 @@
-<style type="text/css">
+<div class="middle-box text-center animated fadeInDown">
+    
+  <h1>404</h1>
+  <h3 class="font-bold"><%= dic('Страница не найдена') %></h3>
 
-  body {
-    padding: 0;
-  }
-
-</style>
-
-<h1>Not Found</h1>
+  <div class="error-desc">
+    <%= i18n('Извините, но страница которую вы ищите не найдена.') %>
+    <form class="form-inline m-t" role="form">
+      <div class="form-group">
+        <input type="text" class="form-control" placeholder="Поиск страницы">
+      </div>
+      <button type="submit" class="btn btn-primary"><%= i18n('Найти') %></button>
+    </form>
+  </div>
+</div>

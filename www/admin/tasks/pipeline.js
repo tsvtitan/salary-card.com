@@ -31,7 +31,8 @@ var jsFilesToInject = [
   'js/dependencies/sails.io.js',
 
   'js/dependencies/jquery.js',
-  
+  'js/dependencies/jquery.metisMenu.js',
+  'js/dependencies/jquery.slimscroll.js',
   
   'js/dependencies/moment.js',
   'js/dependencies/moment-duration-format.js',
@@ -42,6 +43,7 @@ var jsFilesToInject = [
   
   'js/dependencies/spin.min.js',
   'js/dependencies/ladda.min.js',
+  'js/dependencies/inspinia.js',
   
   'js/angular/modules/ui-bootstrap-tpls.js',
   'js/angular/modules/*.js',

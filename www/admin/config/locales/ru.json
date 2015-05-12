@@ -1,13 +1,20 @@
 {
   "Lang": "ru-RU",
-  "Title": "Service Card",
+  "Title": "Service Card Admin",
   "Version": "v 0.0.1",
   
   "Home.Name": "Главная",
   
   "Mailing.Name": "Рассылка",
   
+  
   "back": {
+    
+    "Страница не найдена": "Страница не найдена 0",
+    
+    "404": {
+      "Страница не найдена": "Страница не найдена 1"
+    },
     
     "You are not permitted to perform this action": "Вам запрещено выполнять это действие",
     "User is not found": "Пользователь не найден",
