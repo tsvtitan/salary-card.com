@@ -1,0 +1,16 @@
+{
+  "apps": [{
+   
+    "name": "admin-grunt",
+    "script": "/www/admin/app.js",
+    "instances": 1,
+    "max_memory_restart": "200M",
+    "merge_logs": true,
+    "exec_mode": "cluster_mode",
+    "env": {
+      "NODE_ENV": "production",
+      "PORT": false,
+      "GRUNT": true
+    }
+  }]
+}
