@@ -114,7 +114,6 @@ function initUtils() {
       return _.isString(obj);
     }
     
-    
   }
   
   global['Utils'] = utils;
@@ -584,53 +583,54 @@ module.exports.bootstrap = function(cb) {
     var req = requestState.req;
     var res = requestState.res;
     
-    req.fmt = res.fmt = Utils.format;
-    
-    var delim = sails.config.i18n.objectNotation;
-    if (typeof(delim)==='boolean' && delim) {
-      delim = '.';
-    }
-    
-    function getDic(arr,name,values) {
+    if (!res.fmt && !res.dic) {
       
-      if (util.isArray(arr) && arr.length>0) {
-        
-        var s1 = arr.join(delim)+delim+name;
-        var s2 = res.i18n(s1);
-        
-        if (s1!==s2) {
-          return Utils.format(s2,values);
-        } else {
-          arr.pop();
-          return getDic(arr,name,values);
-        }
-      } return res.i18n(Utils.format(name,values));
-      
+      req.fmt = res.fmt = Utils.format;
+
+      var delim = sails.config.i18n.objectNotation;
+      if (typeof(delim)==='boolean' && delim) {
+        delim = '.';
+      }
+
+      function getDic(arr,name,values) {
+
+        if (util.isArray(arr) && arr.length>0) {
+
+          var s1 = arr.join(delim)+delim+name;
+          var s2 = res.i18n(s1);
+
+          if (s1!==s2) {
+            return Utils.format(s2,values);
+          } else {
+            arr.pop();
+            return getDic(arr,name,values);
+          }
+        } return res.i18n(Utils.format(name,values));
+
+      }
+
+      req.dic = function(name,values) {
+        return getDic(['back',req.options.controller || req.options.view || res.locals.view],name,values);
+      }
+      res.dic = req.dic;
+      res.locals.dic = res.dic;
     }
     
-    req.dic = function(name,values) {
-      return getDic(['back',req.options.controller/*|| req.locals.view*/],name,values);
+    if (res.view && Utils.isFunction(res.view) && !res.oldView) {
+      res.oldView = res.view;
+      res.view = function(name,values,result) {
+        return res.oldView(name,Utils.extend(values,{view:name}),result);
+      }
     }
-    res.dic = req.dic;
-    res.locals.dic = res.dic;
     
-    /*res.view = function(name,values) {
-      return sails.renderView(name,Utils.extend(values,{view:name}),function(err,html){
-        
-      });
-    }*/
-    
-    req.userAgent = new Parser().setUA(req.headers['user-agent']).getResult();
+    if (!req.userAgent) req.userAgent = new Parser().setUA(req.headers['user-agent']).getResult();
     
     if (req.session) {
       req.session.payload = (req.body && req.body.payload)?req.body.payload:false;
     } 
     
     req.options.jsonp = req.wantsJSON && /callback=/.test(req.url);
-    
-    //res.locals = Utils.extend(res.locals,{grunt:sails.config.grunt});
   });
-  
   
   
   // It's very important to trigger this callback method when you are finished

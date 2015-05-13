@@ -1,0 +1,25 @@
+{
+  "Lang": "en-EN",
+  "Title": "Salary Card: Admin panel",
+  "Version": "v 0.0.1",
+  
+  "back": {
+    
+    "404": {
+      "Страница не найдена": "Page is not found",
+      "Извините, но страница которую вы ищите не найдена.": "",
+      "Поиск страницы": "",
+      "Найти": "Search"
+    }
+    
+  },
+  
+  "front": {
+
+    "Check fields": "Проверьте поля",
+    "Connection failed": "Соединение разорвано",
+    "Could not subscribe on event": "Не могу подписаться на событие",
+    "Could not unsubscribe from event": "Не могу отписаться от события"
+    
+  }
+}
