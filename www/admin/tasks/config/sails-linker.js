@@ -52,8 +52,8 @@ module.exports = function(grunt) {
 			},
 			files: {
 				'.tmp/public/**/*.html': ['.tmp/public/admin/min/production.min.js'],
-				'views/**/*.html': ['.tmp/public/min/admin/production.min.js'],
-				'views/**/*.ejs': ['.tmp/public/min/admin/production.min.js']
+				'views/**/*.html': ['.tmp/public/admin/min/production.min.js'],
+				'views/**/*.ejs': ['.tmp/public/admin/min/production.min.js']
 			}
 		},
 
@@ -143,7 +143,7 @@ module.exports = function(grunt) {
 			files: {
 				'.tmp/public/index.html': ['.tmp/public/admin/templates/jst.js'],
 				'views/**/*.html': ['.tmp/public/admin/templates/jst.js'],
-				'views/*.ejs': ['.tmp/public/admin/templates/jst.js']
+				'views/**/*.ejs': ['.tmp/public/admin/templates/jst.js']
 			}
 		},
 
