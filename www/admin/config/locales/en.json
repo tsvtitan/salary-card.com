@@ -5,12 +5,28 @@
   
   "back": {
     
+    "UrlHomePage": "/admin",
+    
     "404": {
       "Страница не найдена": "Page is not found",
-      "Извините, но страница которую вы ищите не найдена.": "",
-      "Поиск страницы": "",
+      "Извините, но страница которую вы ищите не найдена.": "Sorry, but the page is not found.",
+      "Поиск страницы": "Find page",
       "Найти": "Search"
+    },
+    
+    "403": {
+      "Доступ запрещен": "Forbidden",
+      "Извините, но доступ к странице ограничен": "Sorry, but the access is restricted",
+      "На главную": "Home page"
+    },
+    
+    "500": {
+      "Ошибка сервера": "Server Error",
+      "Сервер столкнулся с непредвиденной ошибкой": "The server encountered an unexpected error",
+      "На главную": "Home page"
     }
+    
+    
     
   },
   

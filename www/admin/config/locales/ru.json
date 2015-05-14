@@ -5,7 +5,7 @@
   
   "back": {
     
-    
+    "UrlHomePage": "/admin",
     
     "You are not permitted to perform this action": "Вам запрещено выполнять это действие",
     "User is not found": "Пользователь не найден",
