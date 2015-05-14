@@ -51,11 +51,11 @@
   <div class="splash" data-ng-hide="visible">
     <div></div>
   </div>
-  <div class="controller" data-ng-show="visible" data-ng-cloak="">
-    <%- partial ('../.tmp/public/admin/templates/header.html') %>
-    <%- partial ('../.tmp/public/admin/templates/spinner.html') %>
-    <div ui-view></div>
-    <%- partial ('../.tmp/public/admin/templates/alerts.html') %>
-    <%- partial ('../.tmp/public/admin/templates/footer.html') %>
+  <div id="wrapper" class="controller" data-ng-show="visible" data-ng-cloak="">
+    <%- partial ('../.tmp/public/admin/templates/menu.html') %>
+    <div id="page-wrapper" class="gray-bg">
+      <%- partial ('../.tmp/public/admin/templates/header.html') %>
+      <div ui-view></div>
+    </div>
   </div>
 </div>

@@ -1,31 +1,20 @@
-<div data-ng-controller="header" data-ng-show="visible">
-  <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-    <div class="container">
-      
-      <div class="navbar-header">
-        
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse" data-ng-show="auth.user || auth.templates.length">
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-        
-        <a class="navbar-brand" ui-sref="home">HOME
-          <!--img class="img-brand" alt="{{ dic('Title') }}" src="/service/images/mini-logo.png"-->
-        </a>
-      </div>
-      
-      <div class="navbar-collapse collapse" navbar>
-        <ul class="nav navbar-nav">
-          <li data-ng-repeat="(k,v) in auth.menu"><a ui-sref="{{ k }}">{{ dic(v.name) }}</a></li>
-        </ul>
-        <form class="navbar-form navbar-right" data-ng-show="auth.user">
-          <button type="button" class="btn btn-default" data-ng-click="logout()" ladda="state.logout">
-            {{ auth.user.login }}&nbsp;&nbsp;<span class="glyphicon glyphicon-log-out glyphicon-align-right" aria-hidden="true"></span>
-          </button
-        </form>
-      </div>
+<div class="row border-bottom" data-ng-controller="header" data-ng-show="visible">
+            <nav class="navbar navbar-static-top white-bg" role="navigation" style="margin-bottom: 0">
+                <div class="navbar-header">
+                    <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
+                    <form role="search" class="navbar-form-custom ng-pristine ng-valid" method="post" action="#">
+                        <div class="form-group">
+                            <input type="text" placeholder="Search for something..." class="form-control" name="top-search" id="top-search">
+                        </div>
+                    </form>
+                </div>
+                <ul class="nav navbar-top-links navbar-right">
+                    <li>
+                        <a href="#">
+                            <i class="fa fa-sign-out"></i> Log out
+                        </a>
+                    </li>
+                </ul>
 
-    </div>
-  </nav>
-</div>
+            </nav>
+        </div>

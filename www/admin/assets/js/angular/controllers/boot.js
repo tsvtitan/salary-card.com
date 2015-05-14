@@ -30,14 +30,15 @@ app.controller('boot',['$rootScope','$scope','$state','$element','$timeout','$lo
   });
   
   $scope.tryAuth = function() {
-    if ($scope.visible) {
+    /*if ($scope.visible) {
       if (!Auth.user && $state.current.name!=='auth') {
         $state.go('auth');
       } else if (Auth.user && (($state.current.name==='auth') || 
                                ($state.current.name===''))) {
         $state.go('home');
       }
-    }
+    }*/
+    $state.go('home');
   }
   
   $scope.reload = function(name) {

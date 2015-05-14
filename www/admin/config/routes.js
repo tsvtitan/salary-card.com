@@ -58,7 +58,7 @@ module.exports.routes = {
   'post /admin/api/login': 'AuthController.login',
   'post /admin/api/logout': {controller:'AuthController', action:'logout', policy:'sessionAuth'},
 
-  '/test': {view:'test'},
+  '/test': {view:'test',locals:{layout:'layouts/default'}},
   '/test/req': {controller:'TestController', action:'req'/*, policy:'accessGranted'*/}
           
 };
