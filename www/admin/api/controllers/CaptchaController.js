@@ -6,28 +6,31 @@ module.exports = {
 
   login: function(req,res) {
     
+    var chars = 'abcdefghijklmnopqrstuvwxyz';
+    var nums = '1234567890';
+    
     var options = {
       
-      charPool: ('abcdefghijklmnopqrstuvwxyz' + 'abcdefghijklmnopqrstuvwxyz'.toUpperCase() + '1234567890').split(''),
+      charPool: (chars + chars.toUpperCase() + nums).split(''),
       size: {
-        width: 150,
+        width: 146,
         height: 30
       },
       textPos: {
-        left: 26,
-        top: 25
+        left: 30,
+        top: 26
       },
       rotate: 0.0,
       charLength: 6,
-      font: '24px Arial',
-      strokeStyle: '#0088cc',
+      font: '22px Arial',
+      strokeStyle: '#bbb',
       bgColor: '#fff',
       confusion: true,
-      cFont: '28px Arial',
-      cStrokeStyle: '#adc',
+      cFont: '24px Arial',
+      cStrokeStyle: '#ddd',
       cRotate: 0.0
     }
-
+    
     captcha(options,function(err,data){
       
       if(err) res.serverError(err);

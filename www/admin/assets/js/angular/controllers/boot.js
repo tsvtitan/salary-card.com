@@ -14,7 +14,7 @@ app.controller('boot',['$rootScope','$scope','$state','$element','$timeout','$lo
   Route.defaultUrl('/');
   
   Auth.setDefTemplates({
-    auth:{url:'/auth',templateUrl:'auth.html'},
+    login:{url:'/login',templateUrl:'login.html'},
     home:{url:'/home',templateUrl:'home.html'}
   });
   
@@ -30,15 +30,14 @@ app.controller('boot',['$rootScope','$scope','$state','$element','$timeout','$lo
   });
   
   $scope.tryAuth = function() {
-    /*if ($scope.visible) {
-      if (!Auth.user && $state.current.name!=='auth') {
-        $state.go('auth');
-      } else if (Auth.user && (($state.current.name==='auth') || 
+    if ($scope.visible) {
+      if (!Auth.user && $state.current.name!=='login') {
+        $state.go('login');
+      } else if (Auth.user && (($state.current.name==='login') || 
                                ($state.current.name===''))) {
         $state.go('home');
       }
-    }*/
-    $state.go('home');
+    }
   }
   
   $scope.reload = function(name) {

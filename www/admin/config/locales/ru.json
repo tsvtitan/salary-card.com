@@ -2,10 +2,10 @@
   "Lang": "ru-RU",
   "Title": "Зарплатная карта: Административная панель",
   "Version": "v 0.0.1",
-  
+  "Copyright": "© 2015 Salary Card",
+  "UrlHomePage": "/admin",
+
   "back": {
-    
-    "UrlHomePage": "/admin",
     
     "You are not permitted to perform this action": "Вам запрещено выполнять это действие",
     "User is not found": "Пользователь не найден",
@@ -35,14 +35,13 @@
     "header": {
     },
     
-    "auth": {
-      "Login": "Логин",
-      "Input login": "Укажите логин",
-      "Password": "Пароль",
-      "Input password": "Укажите пароль",
-      "Enter": "Войти",
-      "Input code": "Введите код",
-      "Click to refresh": "Нажмите чтобы обновить"
+    "footer": {
+    },
+
+    "menu": {
+    },
+    
+    "login": {
     },
     
     "home": {

@@ -3,6 +3,7 @@ app.controller('header',['$rootScope','$scope','$state','$element','Auth','Dicti
                          function($rootScope,$scope,$state,$element,Auth,Dictionary) {
   
   $scope.dic = Dictionary.dic($element);
+  $scope.visible = false;
   $scope.state = {logout:false};
 
   $scope.logout = function() {
