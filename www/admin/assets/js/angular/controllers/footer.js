@@ -3,5 +3,5 @@ app.controller('footer',['$rootScope','$scope','$state','$element','Auth','Dicti
                          function($rootScope,$scope,$state,$element,Auth,Dictionary){
   
   $scope.dic = Dictionary.dic($element);
-  $scope.visible = false;
+  
 }]);

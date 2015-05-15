@@ -82,6 +82,7 @@ app.controller('boot',['$rootScope','$scope','$state','$element','$timeout','$lo
   Init.get(function(d){
     
     Dictionary.init(d.dictionary);
+    
     Auth.user = d.auth.user;
     Auth.captcha = d.auth.captcha;
     Auth.setTemplates(d.auth.templates);

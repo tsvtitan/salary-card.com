@@ -1,4 +1,4 @@
-<div class="middle-box text-center loginscreen animated fadeInDown" data-ng-controller="login">
+<div class="middle-box text-center loginscreen animated fadeInDown" data-ng-controller="login" data-ng-hide="state.hide">
   <div class="login">
     
     <div>
@@ -35,7 +35,7 @@
           <span class="input-group-addon half-width no-padding" id="captcha">
             <div class="text-center" data-ng-hide="state.spinner">
               <a href="#" tabindex="-1" data-ng-click="captchaRefresh()">
-                <img class="fade-in-fade-out" alt="{{ dic('Нажмите чтобы обновить') }}" after-load="captchaAfterLoad()" data-ng-src="{{ captchaUrl }}">
+                <img class="fadeIn-fadeOut" alt="{{ dic('Нажмите чтобы обновить') }}" after-load="captchaAfterLoad()" data-ng-src="{{ captchaUrl }}">
               </a>
             </div>
             <div class="text-center" data-ng-show="state.spinner">
