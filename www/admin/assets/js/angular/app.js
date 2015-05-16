@@ -1,2 +1,2 @@
 
-var app = angular.module('jobsPortal',['ngAnimate','ui.router','ui.bootstrap','angular-ladda','ab-base64']);
+var app = angular.module('salaryCard',['ngAnimate','ui.router','ui.bootstrap','angular-ladda','ab-base64']);

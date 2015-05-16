@@ -1,5 +1,4 @@
-
-app.controller('auth',['$scope','$state','$element','$timeout','Auth','Dictionary','Const','Regexp','Urls','Utils',
+app.controller('login',['$scope','$state','$element','$timeout','Auth','Dictionary','Const','Regexp','Urls','Utils',
                        function($scope,$state,$element,$timeout,Auth,Dictionary,Const,Regexp,Urls,Utils) {
   
   $scope.tryAuth();

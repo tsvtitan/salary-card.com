@@ -26,8 +26,8 @@
     border-style: solid;
     border-bottom-color: #1ab394;
     border-top-color: #1ab394;
-    border-left-color: #676a6c;
-    border-right-color: #676a6c;
+    border-left-color: #bbb;
+    border-right-color: #bbb;
     animation: rotate360 1s linear infinite;
     -webkit-animation: rotate360 1s linear infinite;
     border-width: 6px;
@@ -51,11 +51,12 @@
   <div class="splash" data-ng-hide="visible">
     <div></div>
   </div>
-  <div class="controller" data-ng-show="visible" data-ng-cloak="">
-    <%- partial ('../.tmp/public/admin/templates/header.html') %>
-    <%- partial ('../.tmp/public/admin/templates/spinner.html') %>
-    <div ui-view></div>
-    <%- partial ('../.tmp/public/admin/templates/alerts.html') %>
-    <%- partial ('../.tmp/public/admin/templates/footer.html') %>
+  <div id="wrapper" class="controller" data-ng-show="visible" data-ng-cloak="">
+    <%- partial ('../.tmp/public/admin/partials/menu.html') %>
+    <div id="page-wrapper"data-ng-class="(auth.user)?'gray-bg':'no-margin gray-bg'">
+      <%- partial ('../.tmp/public/admin/partials/header.html') %>
+      <div ui-view></div>
+      <%- partial ('../.tmp/public/admin/partials/footer.html') %>
+    </div>
   </div>
 </div>

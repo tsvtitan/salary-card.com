@@ -2,10 +2,10 @@
   "Lang": "en-EN",
   "Title": "Salary Card: Admin panel",
   "Version": "v 0.0.1",
+  "Copyright": "© 2015 Salary Card",
+  "UrlHomePage": "/admin",
   
   "back": {
-    
-    "UrlHomePage": "/admin",
     
     "404": {
       "Страница не найдена": "Page is not found",
@@ -24,13 +24,44 @@
       "Ошибка сервера": "Server Error",
       "Сервер столкнулся с непредвиденной ошибкой": "The server encountered an unexpected error",
       "На главную": "Home page"
+    },
+    
+    "captcha": {
+      "bgColor": "#f3f3f4",
+      "strokeStyle": "#1ab394"
     }
-    
-    
-    
   },
   
   "front": {
+    
+    "header": {
+      "Выйти": "Log out",
+      "Поиск...": "Search..."
+    },
+    
+    "footer": {
+      
+    },
+    
+    "menu": {
+      
+    },
+    
+    "login": {
+      "Логин": "Login",
+      "Укажите логин": "Input login",
+      "Пароль": "Password",
+      "Код": "Code",
+      "Введите код": "Input code",
+      "Нажмите чтобы обновить": "Click to refresh",
+      "Укажите пароль": "Input password",
+      "Войти": "Login",
+      "Забыли пароль?": "Forgot password?"
+    },
+    
+    "home": {
+      
+    },
 
     "Check fields": "Проверьте поля",
     "Connection failed": "Соединение разорвано",
