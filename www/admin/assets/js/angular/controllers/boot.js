@@ -92,6 +92,7 @@ app.controller('boot',['$rootScope','$scope','$state','$element','$timeout','$lo
       $location.path($scope.lastPath);
     } else $scope.tryAuth();
     
+    Auth.ready = (Auth.user);
     $scope.ready = true;
     //$scope.$broadcast('read');
   });
