@@ -52,8 +52,9 @@
     <div></div>
   </div>
   <div id="wrapper" class="controller" data-ng-show="visible" data-ng-cloak="">
+    <%- partial ('../.tmp/public/admin/partials/spinner.html') %>
     <%- partial ('../.tmp/public/admin/partials/menu.html') %>
-    <div id="page-wrapper"data-ng-class="(auth.user)?'gray-bg':'no-margin gray-bg'">
+    <div id="page-wrapper"data-ng-class="(auth.ready)?'gray-bg':'no-margin gray-bg'">
       <%- partial ('../.tmp/public/admin/partials/header.html') %>
       <div ui-view></div>
       <%- partial ('../.tmp/public/admin/partials/footer.html') %>
