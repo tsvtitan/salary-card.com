@@ -5,6 +5,7 @@
  *
  */
 
+    
 $(document).ready(function () {
 
     // Add body-small class if window less than 768px
@@ -94,7 +95,11 @@ $(document).ready(function () {
     $('.modal').appendTo("body");
 
     // Full height of sidebar
-    function fix_height() {
+    
+      function fix_height() {
+        
+        //return; // disable min-height
+        
         var heightWithoutNavbar = $("body > #wrapper").height() - 61;
         $(".sidebard-panel").css("min-height", heightWithoutNavbar + "px");
 
@@ -105,7 +110,9 @@ $(document).ready(function () {
             $('#page-wrapper').css("min-height", navbarHeigh + "px");
         }
 
-        if(navbarHeigh < wrapperHeigh){
+        //if(navbarHeigh < wrapperHeigh){
+        // tsv fix
+        if(navbarHeigh <= wrapperHeigh){
             $('#page-wrapper').css("min-height", $(window).height()  + "px");
         }
 
@@ -135,6 +142,11 @@ $(document).ready(function () {
         if(!$("body").hasClass('body-small')) {
             fix_height();
         }
+    });
+    
+    // tsv fix
+    $(window).resize(function(){
+      fix_height();
     });
 
     $("[data-toggle=popover]")

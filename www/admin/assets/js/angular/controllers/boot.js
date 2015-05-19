@@ -1,13 +1,15 @@
 
-app.controller('boot',['$rootScope','$scope','$state','$element','$timeout','$location','Init','Auth','Route','Dictionary','Const',
-                       function($rootScope,$scope,$state,$element,$timeout,$location,Init,Auth,Route,Dictionary,Const) {
+app.controller('boot',['$rootScope','$scope','$state','$element','$timeout','$location',
+                       'Init','Auth','Route','Dictionary','Const',
+                       function($rootScope,$scope,$state,$element,$timeout,$location,
+                                Init,Auth,Route,Dictionary,Const) {
   
   $scope.auth = Auth;
   $scope.dic = Dictionary.dic($element);
   $scope.visible = false;
   $scope.ready = false;
   $scope.alerts = [];
-  $scope.spinner = false;
+  $scope.spinner = true;
   $scope.lastPath = $location.path();
   
   Route.clear();

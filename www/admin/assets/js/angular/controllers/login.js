@@ -60,9 +60,9 @@ app.controller('login',['$scope','$state','$element','$timeout','Auth','Dictiona
         if (d.user) {
           $scope.state.hide = true;
           $scope.showSpinner();
+          Auth.ready = true;
           $timeout(function(){
             $scope.state.login = false;
-            Auth.ready = true;
             $scope.reload(d.user.state);
           },Const.timeoutHide);
         }

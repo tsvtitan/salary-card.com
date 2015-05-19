@@ -9,8 +9,19 @@
       </form>
     </div>
     <ul class="nav navbar-top-links navbar-right">
-      <li>
-        <a href="#" data-ng-click="logout()" ladda="state.logout" data-spinner-size="20">
+      <li data-ng-show="state.logout">
+        <div class="logout-spinner">
+          <div class="sk-spinner sk-spinner-wave">
+            <div class="sk-rect1"></div>
+            <div class="sk-rect2"></div>
+            <div class="sk-rect3"></div>
+            <div class="sk-rect4"></div>
+            <div class="sk-rect5"></div>
+          </div>
+        </div>  
+      </li>
+      <li data-ng-hide="state.logout || !auth.user">
+        <a href="#" data-ng-click="logout()">
           {{ dic('Выйти') }}&nbsp;&nbsp;<i class="fa fa-sign-out"></i>
         </a>
       </li>
