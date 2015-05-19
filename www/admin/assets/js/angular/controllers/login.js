@@ -13,7 +13,7 @@ app.controller('login',['$scope','$state','$element','$timeout','Auth','Dictiona
     captcha: ""
   };
   
-  $scope.state = {login:false,hide:false,spinner:false};
+  $scope.state = {entering:false,hide:false,spinner:false};
 
   $scope.$watch('ready',function(value){
     
@@ -48,21 +48,20 @@ app.controller('login',['$scope','$state','$element','$timeout','Auth','Dictiona
     
     if (this.form.checkFields()) {
       
-      $scope.state.login = true;
+      $scope.state.entering = true;
       
       Auth.login(this.data,function(d) {
         
         if (d.error) {
           $scope.captchaRefresh();
-          $scope.state.login = false;
+          $scope.state.entering = false;
           $scope.showError(d.error);
         }
         if (d.user) {
           $scope.state.hide = true;
           $scope.showSpinner();
           $timeout(function(){
-            $scope.state.login = false;
-            Auth.ready = true;
+            $scope.state.entering = false;
             $scope.reload(d.user.state);
           },Const.timeoutHide);
         }

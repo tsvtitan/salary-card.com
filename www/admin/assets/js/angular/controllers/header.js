@@ -1,6 +1,6 @@
 
-app.controller('header',['$rootScope','$scope','$state','$element','$timeout','Auth','Dictionary','Const',
-                         function($rootScope,$scope,$state,$element,$timeout,Auth,Dictionary,Const) {
+app.controller('header',['$rootScope','$scope','$state','$element','Auth','Dictionary',
+                         function($rootScope,$scope,$state,$element,Auth,Dictionary) {
   
   $scope.dic = Dictionary.dic($element);
   $scope.state = {logout:false};
@@ -13,15 +13,12 @@ app.controller('header',['$rootScope','$scope','$state','$element','$timeout','A
       
       Auth.logout(function(d) {
         
+        $scope.state.logout = false;
         if (d.error) {
           $scope.showError(d.error);
         } else {
           Auth.user = false;
-          $timeout(function(){
-            Auth.ready = false;
-            $scope.reload('login');
-            $scope.state.logout = false;
-          },Const.timeoutHide);
+          $scope.reload('auth');
         }
       });
     } else $scope.state.logout = false;

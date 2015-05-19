@@ -5,7 +5,6 @@ app.factory('Auth',['$http','Route','Urls','Dictionary','Payload',
   var auth = {
     
     user: false,
-    ready: false,
     captcha: false,
     defTemplates: {},
     templates: {},
