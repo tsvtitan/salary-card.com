@@ -1,8 +1,8 @@
 
 app.controller('boot',['$rootScope','$scope','$state','$element','$timeout','$location',
-                       'Init','Auth','Route','Dictionary','Const',
+                       'toastr','Init','Auth','Route','Dictionary','Const','Utils',
                        function($rootScope,$scope,$state,$element,$timeout,$location,
-                                Init,Auth,Route,Dictionary,Const) {
+                                toastr,Init,Auth,Route,Dictionary,Const,Utils) {
   
   $scope.auth = Auth;
   $scope.dic = Dictionary.dic($element);
@@ -47,9 +47,9 @@ app.controller('boot',['$rootScope','$scope','$state','$element','$timeout','$lo
     $state.transitionTo(name,{},{reload:true,inherit:false,notify:true});
   }
   
-  $scope.showAlert = function(m,v,t,k) {
+  $scope.showAlert = function(type,message,values,options) {
     
-    var alert = {msg:this.dic(m,v),type:k,hide:false};
+    /*var alert = {msg:this.dic(m,v),type:k,hide:false};
     
     alert.close = function() {
       var self = this;
@@ -73,13 +73,26 @@ app.controller('boot',['$rootScope','$scope','$state','$element','$timeout','$lo
       $scope.alerts[0].close();
     }
     
-    alert.queueClose((t)?t:Const.timeoutAlert);
+    alert.queueClose((t)?t:Const.timeoutAlert);*/
+    
+    var m = this.dic(message,values);
+    var o = {
+      
+    }
+            
+    switch (type) {
+      case 'error': {
+        o.timeOut = Const.timeoutError;
+        toastr.error(m,this.dic('Error'),Utils.extend(options,o) || o);  
+        break;
+      }
+    }
   }
   
-  $scope.showError = function(m,v,t) { $scope.showAlert(m,v,(t)?t:Const.timeoutError,'danger'); }
-  $scope.showInfo = function(m,v,t) { $scope.showAlert(m,v,(t)?t:Const.timeoutInfo,'info'); }
-  $scope.showSuccess = function(m,v,t) { $scope.showAlert(m,v,(t)?t:Const.timeoutSuccess,'success'); }
-  $scope.showWarn = function(m,v,t) { $scope.showAlert(m,v,(t)?t:Const.timeoutWarn,'warning'); }
+  $scope.showError = function(m,v,o) { $scope.showAlert('error',m,v,o); }
+  $scope.showInfo = function(m,v,o) { $scope.showAlert(m,v,(t)?t:Const.timeoutInfo,'info'); }
+  $scope.showSuccess = function(m,v,o) { $scope.showAlert(m,v,(t)?t:Const.timeoutSuccess,'success'); }
+  $scope.showWarning = function(m,v,o) { $scope.showAlert(m,v,(t)?t:Const.timeoutWarn,'warning'); }
   
   Init.get(function(d){
     

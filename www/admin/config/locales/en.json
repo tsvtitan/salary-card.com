@@ -34,6 +34,9 @@
   
   "front": {
     
+    "Проверьте поля": "Check fields",
+    "Соединение разорвано": "Connection failed",
+    
     "header": {
       "Выйти": "Log out",
       "Поиск...": "Search..."

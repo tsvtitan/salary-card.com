@@ -1,5 +1,6 @@
 
-app.config(['$provide','laddaProvider',function($provide,laddaProvider) {
+app.config(['$provide','laddaProvider','toastrConfig','Const',
+            function($provide,laddaProvider,toastrConfig,Const) {
     
   $provide.decorator('$controller', ['$delegate','$injector',function ($delegate,$injector) {
 
@@ -35,6 +36,17 @@ app.config(['$provide','laddaProvider',function($provide,laddaProvider) {
     style: 'expand-left',
     spinnerColor: '#000',
     spinnerSize: '20'
+  });
+  
+  angular.extend(toastrConfig, {
+    allowHtml: true,
+    autoDismiss: true,
+    closeButton: true,
+    maxOpened: Const.limitAlerts,    
+    newestOnTop: false,
+    preventDuplicates: true,
+    progressBar: true,
+    tapToDismiss: false
   });
 
   return this;

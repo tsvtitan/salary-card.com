@@ -11,7 +11,7 @@ app.constant('Const',{
   timeoutError: 5000,
   timeoutInfo: 3000,
   timeoutSuccess: 2000,
-  timeoutWarn: 2000,
+  timeoutWarning: 2000,
   
   limitAlerts: 3
 })

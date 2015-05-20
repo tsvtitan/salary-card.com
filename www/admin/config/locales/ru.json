@@ -5,6 +5,11 @@
   "Copyright": "© 2015 Salary Card",
   "UrlHomePage": "/admin",
 
+  "Error": "Ошибка",
+  "Information": "Информация",
+  "Warning": "Предупреждение",
+  "Success": "Успех",
+
   "back": {
     
     "You are not permitted to perform this action": "Вам запрещено выполнять это действие",
@@ -26,9 +31,7 @@
   },
   
   "front": {
-
-    "Check fields": "Проверьте поля",
-    "Connection failed": "Соединение разорвано",
+    
     "Could not subscribe on event": "Не могу подписаться на событие",
     "Could not unsubscribe from event": "Не могу отписаться от события",
     

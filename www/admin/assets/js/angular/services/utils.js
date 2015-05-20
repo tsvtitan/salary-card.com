@@ -53,6 +53,10 @@ app.service('Utils',['base64',function(base64) {
     return _.isArray(arr);
   }
   
+  this.isObject = function(arr){
+    return _.isObject(arr);
+  }
+  
   this.isDefined = function(obj) {
     return angular.isDefined(obj);
   }
