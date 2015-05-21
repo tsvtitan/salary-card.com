@@ -5,11 +5,6 @@
   "Copyright": "© 2015 Salary Card",
   "UrlHomePage": "/admin",
 
-  "Error": "Ошибка",
-  "Information": "Информация",
-  "Warning": "Предупреждение",
-  "Success": "Успех",
-
   "back": {
     
     "You are not permitted to perform this action": "Вам запрещено выполнять это действие",

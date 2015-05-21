@@ -1,5 +1,7 @@
-app.controller('login',['$scope','$state','$element','$timeout','Auth','Dictionary','Const','Regexp','Urls','Utils',
-                       function($scope,$state,$element,$timeout,Auth,Dictionary,Const,Regexp,Urls,Utils) {
+app.controller('login',['$scope','$state','$element','$timeout',
+                        'Auth','Dictionary','Const','Regexp','Urls','Utils','Alert',
+                       function($scope,$state,$element,$timeout,Auth,
+                                Dictionary,Const,Regexp,Urls,Utils,Alert) {
   
   $scope.tryAuth();
   $scope.dic = Dictionary.dic($element);
@@ -55,7 +57,7 @@ app.controller('login',['$scope','$state','$element','$timeout','Auth','Dictiona
         if (d.error) {
           $scope.captchaRefresh();
           $scope.state.login = false;
-          $scope.showError(d.error);
+          Alert.error(d.error);
         }
         if (d.user) {
           $scope.state.hide = true;
@@ -68,6 +70,6 @@ app.controller('login',['$scope','$state','$element','$timeout','Auth','Dictiona
         }
       });
       
-    } else $scope.showError(Const.checkFields);
+    } else Alert.error(Const.checkFields);
   }
 }]);

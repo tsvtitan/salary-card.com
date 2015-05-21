@@ -1,8 +1,17 @@
 
 app.constant('Const',{
+  
+  checkFields: 'Проверьте поля',
+  connectionFailed: 'Соединение разорвано',
+  
+  alertError: 'Ошибка',
+  alertInfo: 'Информация',
+  alertWarning: 'Предупреждение',
+  alertSuccess: 'Успех',
+  
+  
   countFileSelected: '{count} file(s) selected',
-  checkFields: 'Check fields',
-  connectionFailed: 'Connection failed',
+  
   couldNotSubscribeOnEvent: 'Could not subscribe on event',
   couldNotUnsubscribeFromEvent: 'Could not unsubscribe from event',
   

@@ -46,7 +46,8 @@ app.config(['$provide','laddaProvider','toastrConfig','Const',
     newestOnTop: false,
     preventDuplicates: true,
     progressBar: true,
-    tapToDismiss: false
+    tapToDismiss: false,
+    timeOut: Const.timeoutAlert
   });
 
   return this;

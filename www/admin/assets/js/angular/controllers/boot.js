@@ -1,8 +1,8 @@
 
-app.controller('boot',['$rootScope','$scope','$state','$element','$timeout','$location',
-                       'toastr','Init','Auth','Route','Dictionary','Const','Utils',
-                       function($rootScope,$scope,$state,$element,$timeout,$location,
-                                toastr,Init,Auth,Route,Dictionary,Const,Utils) {
+app.controller('boot',['$rootScope','$scope','$state','$element','$location',
+                       'Init','Auth','Route','Dictionary','Const','Utils',
+                       function($rootScope,$scope,$state,$element,$location,
+                                Init,Auth,Route,Dictionary,Const,Utils) {
   
   $scope.auth = Auth;
   $scope.dic = Dictionary.dic($element);
@@ -47,53 +47,6 @@ app.controller('boot',['$rootScope','$scope','$state','$element','$timeout','$lo
     $state.transitionTo(name,{},{reload:true,inherit:false,notify:true});
   }
   
-  $scope.showAlert = function(type,message,values,options) {
-    
-    /*var alert = {msg:this.dic(m,v),type:k,hide:false};
-    
-    alert.close = function() {
-      var self = this;
-      self.hide = true;
-      $timeout(function(){
-        $scope.alerts.splice($scope.alerts.indexOf(self),1);
-      },Const.timeoutHide);
-    }
-    
-    alert.queueClose = function(tm) {
-      var self = this;
-      $timeout(function(){
-        if ($scope.alerts.indexOf(self)!==-1) {
-          self.close();
-        }
-      },tm);
-    }
-    
-    $scope.alerts.push(alert);
-    if ($scope.alerts.length>Const.limitAlerts) {
-      $scope.alerts[0].close();
-    }
-    
-    alert.queueClose((t)?t:Const.timeoutAlert);*/
-    
-    var m = this.dic(message,values);
-    var o = {
-      
-    }
-            
-    switch (type) {
-      case 'error': {
-        o.timeOut = Const.timeoutError;
-        toastr.error(m,this.dic('Error'),Utils.extend(options,o) || o);  
-        break;
-      }
-    }
-  }
-  
-  $scope.showError = function(m,v,o) { $scope.showAlert('error',m,v,o); }
-  $scope.showInfo = function(m,v,o) { $scope.showAlert(m,v,(t)?t:Const.timeoutInfo,'info'); }
-  $scope.showSuccess = function(m,v,o) { $scope.showAlert(m,v,(t)?t:Const.timeoutSuccess,'success'); }
-  $scope.showWarning = function(m,v,o) { $scope.showAlert(m,v,(t)?t:Const.timeoutWarn,'warning'); }
-  
   Init.get(function(d){
     
     Dictionary.init(d.dictionary);
@@ -109,7 +62,7 @@ app.controller('boot',['$rootScope','$scope','$state','$element','$timeout','$lo
     
     Auth.ready = (Auth.user);
     $scope.ready = true;
-    //$scope.$broadcast('read');
+   
   });
   
 }]);

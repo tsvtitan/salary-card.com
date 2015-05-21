@@ -34,6 +34,11 @@
   
   "front": {
     
+    "Ошибка": "Error",
+    "Информация": "Information",
+    "Предупреждение": "Warning",
+    "Успех": "Success",
+  
     "Проверьте поля": "Check fields",
     "Соединение разорвано": "Connection failed",
     
