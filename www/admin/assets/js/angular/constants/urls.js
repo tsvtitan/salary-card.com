@@ -1,13 +1,18 @@
-var adminHome = '/admin';
+var root = '/admin';
+var images = root.concat('/images');
+var userImages = images.concat('/users/{id}');
 
 app.constant('Urls',{
   
-  init: adminHome.concat('/api/init'),
+  root: root,
+  init: root.concat('/api/init'),
   
-  authLogin: adminHome.concat('/api/login'),
-  authLogout: adminHome.concat('/api/logout'),
+  authLogin: root.concat('/api/login'),
+  authLogout: root.concat('/api/logout'),
   
-  captchaLoginUrl: adminHome.concat('/captcha/login')
+  captchaLogin: root.concat('/captcha/login'),
+  
+  userProfileSmallImage: userImages.concat('/profile_small.jpg')
   
 });
 

@@ -1,7 +1,8 @@
-app.controller('login',['$scope','$state','$element','$timeout',
+
+app.controller('login',['$rootScope','$scope','$state','$element','$timeout',
                         'Auth','Dictionary','Const','Regexp','Urls','Utils','Alert',
-                       function($scope,$state,$element,$timeout,Auth,
-                                Dictionary,Const,Regexp,Urls,Utils,Alert) {
+                        function($rootScope,$scope,$state,$element,$timeout,Auth,
+                                 Dictionary,Const,Regexp,Urls,Utils,Alert) {
   
   $scope.tryAuth();
   $scope.dic = Dictionary.dic($element);
@@ -10,31 +11,31 @@ app.controller('login',['$scope','$state','$element','$timeout',
   $scope.captchaPattern = Regexp.captcha;
   
   $scope.data = {
-    login: "",
-    pass: "",
-    captcha: ""
+    login: '',
+    pass: '',
+    captcha: ''
   };
   
   $scope.state = {login:false,hide:false,spinner:false};
 
-  $scope.$watch('ready',function(value){
-    
-    if (value) {
-      $scope.captchaRefresh();
-      $scope.hideSpinner();
-    }
-  });
-  
-  
   $scope.captchaRefresh = function() {
     
     if (Auth.captcha) { 
       $scope.state.spinner = true;
-      $scope.captchaUrl = Utils.format('%s?%d',[Urls.captchaLoginUrl,new Date().getTime()]);
+      $scope.captchaUrl = Utils.format('%s?%d',[Urls.captchaLogin,new Date().getTime()]);
     }
   }
   
-  $scope.captchaAfterLoad = function(error) {
+  function init() {
+    $scope.captchaRefresh();
+    $scope.hideSpinner();    
+  }
+  
+  $scope.onReady(function(){
+    init();
+  });
+  
+  $scope.captchaAfterLoad = function() {
     
     $scope.data.captcha = '';
     $scope.state.spinner = false;
@@ -46,13 +47,15 @@ app.controller('login',['$scope','$state','$element','$timeout',
   
   $scope.submit = function() {
     
-    this.form.captcha.setRequired(Auth.captcha && !Regexp.captcha.test($scope.data.captcha));
+    var self = this;
     
-    if (this.form.checkFields()) {
+    self.form.captcha.setRequired(Auth.captcha && !Regexp.captcha.test($scope.data.captcha));
+    
+    if (self.form.checkFields()) {
       
       $scope.state.login = true;
       
-      Auth.login(this.data,function(d) {
+      Auth.login(self.data,function(d) {
         
         if (d.error) {
           $scope.captchaRefresh();
@@ -60,9 +63,13 @@ app.controller('login',['$scope','$state','$element','$timeout',
           Alert.error(d.error);
         }
         if (d.user) {
+          
           $scope.state.hide = true;
           $scope.showSpinner();
+          
           Auth.ready = true;
+          $rootScope.$broadcast(Const.eventLogin);
+          
           $timeout(function(){
             $scope.state.login = false;
             $scope.reload(d.user.state);
@@ -70,6 +77,13 @@ app.controller('login',['$scope','$state','$element','$timeout',
         }
       });
       
-    } else Alert.error(Const.checkFields);
+    } else Alert.error(Const.checkFields,null,{
+      onHidden: function() {
+        self.form.hideErrors();
+      }
+    });
   }
+  
+  init();
+  
 }]);

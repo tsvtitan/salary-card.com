@@ -1,29 +1,36 @@
 
-app.controller('header',['$rootScope','$scope','$state','$element','$timeout','Auth','Dictionary','Const',
-                         function($rootScope,$scope,$state,$element,$timeout,Auth,Dictionary,Const) {
+app.controller('header',['$rootScope','$scope','$state','$element','$timeout',
+                         'Auth','Dictionary','Const','Alert',
+                         function($rootScope,$scope,$state,$element,$timeout,
+                                  Auth,Dictionary,Const,Alert) {
   
   $scope.dic = Dictionary.dic($element);
-  $scope.state = {logout:false};
-
+  
+  $scope.onLogout(function(){
+    Auth.logouting = true;
+  });
+  
   $scope.logout = function() {
     
-    $scope.state.logout = true;
-            
-    if (Auth.user) {
+    Auth.logout(function(d) {
       
-      Auth.logout(function(d) {
+      if (d.error) {
+        Alert.error(d.error);
+      } else {
         
-        if (d.error) {
-          $scope.showError(d.error);
-        } else {
-          Auth.user = false;
-          $timeout(function(){
-            Auth.ready = false;
-            $scope.reload('login');
-            $scope.state.logout = false;
-          },Const.timeoutHide);
-        }
-      });
-    } else $scope.state.logout = false;
+        Auth.user = false;
+        $rootScope.$broadcast(Const.eventLogout);
+
+        $timeout(function(){
+
+          Auth.ready = false;
+
+          $scope.reload('login');
+          Auth.logouting = false;
+          
+        },Const.timeoutHide);
+      }
+    });
+    
   }
 }]);

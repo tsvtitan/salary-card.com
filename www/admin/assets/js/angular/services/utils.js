@@ -57,8 +57,16 @@ app.service('Utils',['base64',function(base64) {
     return _.isObject(arr);
   }
   
+  this.isString = function(arr){
+    return _.isString(arr);
+  }
+  
   this.isDefined = function(obj) {
     return angular.isDefined(obj);
+  }
+  
+  this.forEach = function(items,callback) {
+    return _.forEach(items,callback);
   }
   
   this.formatSeconds = function(seconds,fmt) {

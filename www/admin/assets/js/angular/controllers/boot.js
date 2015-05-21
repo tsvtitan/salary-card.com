@@ -1,15 +1,13 @@
 
-app.controller('boot',['$rootScope','$scope','$state','$element','$location',
+app.controller('boot',['$rootScope','$scope','$state','$element','$location','$q',
                        'Init','Auth','Route','Dictionary','Const','Utils',
-                       function($rootScope,$scope,$state,$element,$location,
+                       function($rootScope,$scope,$state,$element,$location,$q,
                                 Init,Auth,Route,Dictionary,Const,Utils) {
   
   $scope.auth = Auth;
   $scope.dic = Dictionary.dic($element);
   $scope.visible = false;
-  $scope.ready = false;
-  $scope.alerts = [];
-  $scope.spinner = true;
+  $scope.spinner = false;
   $scope.lastPath = $location.path();
   
   Route.clear();
@@ -21,14 +19,48 @@ app.controller('boot',['$rootScope','$scope','$state','$element','$location',
   });
   
   $scope.showSpinner = function() { $scope.spinner = true; }
-  $scope.hideSpinner = function() { $scope.spinner = false; }
+  $scope.hideSpinner = function() { 
+    $scope.spinner = false; 
+  }
+  
+  $scope.onRootEvents = function(events,callback) {
+    
+    if (Utils.isString(events)) {
+      $rootScope.$on(events,callback);
+    } else if (Utils.isArray(events)) {
+      
+      Utils.forEach(events,function(event){
+        $rootScope.$on(event,callback);
+      });
+    }
+  }
+  
+  $scope.onReady = function(callback) {
+    $scope.onRootEvents([Const.eventReady],callback);
+  }
+  
+  $scope.onLogin = function(callback) {
+    $scope.onRootEvents([Const.eventLogin],callback);
+  }
+  
+  $scope.onLogout = function(callback) {
+    $scope.onRootEvents(Const.eventLogout,callback);
+  }
+  
+  $scope.onInit = function(callback) {
+    $scope.onRootEvents([Const.eventReady,Const.eventLogin],callback);
+  }
   
   $rootScope.$on('$stateChangeStart',function() {
     $scope.showSpinner();
   });
   
   $rootScope.$on('$stateChangeSuccess',function() {
-    //$scope.showSpinner();
+    //$scope.hideSpinner();
+  });
+  
+  $scope.onLogout(function(){
+    //$scope.hideSpinner();
   });
   
   $scope.tryAuth = function() {
@@ -50,19 +82,18 @@ app.controller('boot',['$rootScope','$scope','$state','$element','$location',
   Init.get(function(d){
     
     Dictionary.init(d.dictionary);
-    
+
     Auth.user = d.auth.user;
     Auth.captcha = d.auth.captcha;
     Auth.setTemplates(d.auth.templates);
-    
+
     $scope.visible = true;
     if (Auth.user && $scope.lastPath && $scope.lastPath!=='/') {
       $location.path($scope.lastPath);
     } else $scope.tryAuth();
-    
+
     Auth.ready = (Auth.user);
-    $scope.ready = true;
-   
+    $rootScope.$broadcast(Const.eventReady);
   });
   
 }]);

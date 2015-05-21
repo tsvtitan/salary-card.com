@@ -9,7 +9,7 @@
       </form>
     </div>
     <ul class="nav navbar-top-links navbar-right">
-      <li data-ng-show="state.logout">
+      <li data-ng-show="auth.logouting">
         <div class="logout-spinner">
           <div class="sk-spinner sk-spinner-wave">
             <div class="sk-rect1"></div>
@@ -20,7 +20,7 @@
           </div>
         </div>  
       </li>
-      <li data-ng-hide="state.logout || !auth.user">
+      <li data-ng-hide="auth.logouting || !auth.user">
         <a href="#" data-ng-click="logout()">
           {{ dic('Выйти') }}&nbsp;&nbsp;<i class="fa fa-sign-out"></i>
         </a>

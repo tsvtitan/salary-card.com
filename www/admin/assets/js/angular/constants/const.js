@@ -9,8 +9,12 @@ app.constant('Const',{
   alertWarning: 'Предупреждение',
   alertSuccess: 'Успех',
   
+  emailNotDefined: 'неопределен',
   
   countFileSelected: '{count} file(s) selected',
+  
+  eventLogin: 'login',
+  eventLogout: 'logout',
   
   couldNotSubscribeOnEvent: 'Could not subscribe on event',
   couldNotUnsubscribeFromEvent: 'Could not unsubscribe from event',

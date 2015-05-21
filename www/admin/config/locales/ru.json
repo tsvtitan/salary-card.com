@@ -3,6 +3,7 @@
   "Title": "Зарплатная карта: Административная панель",
   "Version": "v 0.0.2",
   "Copyright": "© 2015 Salary Card",
+  "Logo": "SC",
   "UrlHomePage": "/admin",
 
   "back": {

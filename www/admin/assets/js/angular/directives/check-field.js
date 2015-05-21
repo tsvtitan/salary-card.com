@@ -9,8 +9,7 @@ app.directive('checkField',function() {
       var element = angular.element(el[0].querySelector("[name]"));
       
       var model = element.attr('data-ng-model');
-      //var required = element.attr('required');
-
+      
       if (model) {
         var fmEl = formCtrl[element.attr('name')];
         
@@ -18,8 +17,8 @@ app.directive('checkField',function() {
           el.toggleClass('has-error',(fmEl.$invalid && fmEl.$dirty));
         });
         
-        scope.$on('show-errors',function() {
-          el.toggleClass('has-error',(fmEl.$invalid));
+        scope.$on('show-errors',function(event,flag) {
+          el.toggleClass('has-error',(flag && fmEl.$invalid));
         });
         
         if (fmEl.setRequired===undefined) {
@@ -27,16 +26,24 @@ app.directive('checkField',function() {
             fmEl.$setValidity(fmEl.$name,!required);
           }
         }
-      }
-      
-      if (formCtrl.checkFields===undefined) {
-        formCtrl.checkFields = function() {
+        
+        if (formCtrl.checkFields===undefined) {
 
-          if (this.$invalid) {
-            scope.$broadcast('show-errors');
+          formCtrl.checkFields = function() {
+            if (this.$invalid) {
+              scope.$broadcast('show-errors',true);
+            }
+            return !this.$invalid;
           }
-          return !this.$invalid;
         }
+
+        if (formCtrl.hideErrors===undefined) {
+
+          formCtrl.hideErrors = function() {
+            scope.$broadcast('show-errors',false);
+          }
+        }
+        
       }
     }
   }

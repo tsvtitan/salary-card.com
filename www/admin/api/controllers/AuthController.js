@@ -52,7 +52,10 @@ module.exports = {
                     id: user.id,
                     login: user.login,
                     email: user.email,
-                    state: user.state
+                    name: user.name,
+                    firstName: user.firstName,
+                    state: user.state,
+                    images: user.images
                   }
                   req.session.userId = u.id;
                   delete req.session.loginCount;
