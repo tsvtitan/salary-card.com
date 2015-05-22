@@ -1,7 +1,7 @@
 
-app.controller('boot',['$rootScope','$scope','$state','$element','$location','$q',
+app.controller('boot',['$rootScope','$scope','$state','$element','$location','$q','$timeout',
                        'Init','Auth','Route','Dictionary','Const','Utils',
-                       function($rootScope,$scope,$state,$element,$location,$q,
+                       function($rootScope,$scope,$state,$element,$location,$q,$timeout,
                                 Init,Auth,Route,Dictionary,Const,Utils) {
   
   $scope.auth = Auth;
@@ -9,75 +9,71 @@ app.controller('boot',['$rootScope','$scope','$state','$element','$location','$q
   $scope.visible = false;
   $scope.spinner = false;
   $scope.lastPath = $location.path();
-  
+  $scope.changing = false;
+
   Route.clear();
-  Route.defaultUrl('/');
-  
+  Route.defaultUrl('/home');
+
   Auth.setDefTemplates({
     login:{url:'/login',templateUrl:'login.html'},
-    home:{url:'/home',templateUrl:'home.html'}
+    home:{url:'/home',templateUrl:'home.html'},
+    profile:{url:'/user/profile',templateUrl:'user/profile.html'}
   });
+
+  $scope.showSpinner = function() { 
+    $scope.spinner = true; 
+  }
   
-  $scope.showSpinner = function() { $scope.spinner = true; }
   $scope.hideSpinner = function() { 
     $scope.spinner = false; 
   }
   
-  $scope.onRootEvents = function(events,callback) {
+  $scope.tryAuth = function(state) {
     
-    if (Utils.isString(events)) {
-      $rootScope.$on(events,callback);
-    } else if (Utils.isArray(events)) {
-      
-      Utils.forEach(events,function(event){
-        $rootScope.$on(event,callback);
-      });
-    }
-  }
-  
-  $scope.onReady = function(callback) {
-    $scope.onRootEvents([Const.eventReady],callback);
-  }
-  
-  $scope.onLogin = function(callback) {
-    $scope.onRootEvents([Const.eventLogin],callback);
-  }
-  
-  $scope.onLogout = function(callback) {
-    $scope.onRootEvents(Const.eventLogout,callback);
-  }
-  
-  $scope.onInit = function(callback) {
-    $scope.onRootEvents([Const.eventReady,Const.eventLogin],callback);
-  }
-  
-  $rootScope.$on('$stateChangeStart',function() {
-    $scope.showSpinner();
-  });
-  
-  $rootScope.$on('$stateChangeSuccess',function() {
-    //$scope.hideSpinner();
-  });
-  
-  $scope.onLogout(function(){
-    //$scope.hideSpinner();
-  });
-  
-  $scope.tryAuth = function() {
     if ($scope.visible) {
       if (!Auth.user && $state.current.name!=='login') {
+        
         $state.go('login');
-      } else if (Auth.user && (($state.current.name==='login') || 
-                               ($state.current.name===''))) {
-        $state.go('home');
+        return false;
+        
+      } else if (Auth.user) {
+        
+        var s = (state)?state:'home';
+        if ($state.current.name!==s) {
+          
+          $state.go(s);
+          return false;
+        }
+
+        return true;
       }
-    }
+    } else return false;
   }
   
   $scope.reload = function(name) {
     if (!name) { name = 'home'; }
     $state.transitionTo(name,{},{reload:true,inherit:false,notify:true});
   }
+  
+  $rootScope.$on('$stateChangeStart',function(event,toState) {
+    
+    try {
+      if (!$scope.changing) {
+        $scope.changing = true;
+        if ($scope.tryAuth(toState)) {
+          $scope.showSpinner();
+        } else {
+          event.preventDefault();
+        }
+      }
+    } finally {
+      $scope.changing = false;
+    }
+  });
+  
+  Auth.onLogout(function(){
+    Init.reset();
+  });
   
   Init.get(function(d){
     
@@ -89,11 +85,12 @@ app.controller('boot',['$rootScope','$scope','$state','$element','$location','$q
 
     $scope.visible = true;
     if (Auth.user && $scope.lastPath && $scope.lastPath!=='/') {
-      $location.path($scope.lastPath);
+      $location.path($scope.lastPath); // need to change $state.go(lastState)
     } else $scope.tryAuth();
 
     Auth.ready = (Auth.user);
-    $rootScope.$broadcast(Const.eventReady);
+    if (Auth.ready) Auth.emitLogin();
+    
   });
   
 }]);

@@ -24,13 +24,13 @@
             </div>
           </div> 
 
-          <div class="form-group">
+          <div class="form-group" check-field>
             <label class="sr-only" for="pass">{{ dic('Пароль') }}</label>
             <div class="input-group">
               <span class="input-group-addon" id="pass">
                 <span class="glyphicon glyphicon-eye-close"></span>
               </span>
-              <input type="password" class="form-control" placeholder="{{ dic('Укажите пароль') }}"  data-ng-model="data.pass" data-ng-disabled="state.login">
+              <input type="password" class="form-control" placeholder="{{ dic('Укажите пароль') }}" name="pass"  data-ng-model="data.pass" data-ng-disabled="state.login">
             </div>
           </div> 
 

@@ -1,6 +1,6 @@
 
-app.factory('Auth',['$http','Route','Urls','Dictionary','Payload','Utils',
-                    function($http,Route,Urls,Dictionary,Payload,Utils) {
+app.factory('Auth',['$rootScope','$http','Route','Urls','Dictionary','Payload','Utils','Const',
+                    function($rootScope,$http,Route,Urls,Dictionary,Payload,Utils,Const) {
   
   var auth = {
     
@@ -84,6 +84,34 @@ app.factory('Auth',['$http','Route','Urls','Dictionary','Payload','Utils',
           r = Utils.format(Urls.userProfileSmallImage,this.user);
       }
       return r;
+    },
+    
+    onEvents: function(events,callback) {
+      
+      if (Utils.isString(events)) {
+        $rootScope.$on(events,callback);
+      } else if (Utils.isArray(events)) {
+
+        Utils.forEach(events,function(event){
+          $rootScope.$on(event,callback);
+        });
+      }
+    },
+    
+    onLogin: function(callback) {
+      this.onEvents([Const.eventLogin],callback);
+    },
+    
+    emitLogin: function() {
+      $rootScope.$broadcast(Const.eventLogin);
+    },
+  
+    onLogout: function(callback) {
+      this.onEvents([Const.eventLogout],callback);
+    },
+    
+    emitLogout: function() {
+      $rootScope.$broadcast(Const.eventLogout);
     }
   }
   

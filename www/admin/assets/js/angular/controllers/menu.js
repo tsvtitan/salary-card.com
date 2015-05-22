@@ -1,12 +1,11 @@
 
 app.controller('menu',['$rootScope','$scope','$state','$element','$timeout',
-                       'Auth','Dictionary','Const','Alert',
+                       'Auth','Dictionary','Const','Alert','Init',
                        function($rootScope,$scope,$state,$element,$timeout,
-                                Auth,Dictionary,Const,Alert){
-  
-  $scope.dic = Dictionary.dic($element);
+                                Auth,Dictionary,Const,Alert,Init){
   
   function init() {
+    $scope.dic = Dictionary.dic($element);
     $scope.name = '';
     $scope.email = '';
     if (Auth.user) {
@@ -15,12 +14,7 @@ app.controller('menu',['$rootScope','$scope','$state','$element','$timeout',
       $scope.email = (Auth.user.email)?Auth.user.email:Dictionary.get(Const.emailNotDefined);
     }
     $scope.imageProfileUrl = Auth.getUserImageProfileSmallUrl();
-    
   }
-  
-  $scope.onInit(function(){
-    init();
-  });
   
   $scope.logout = function() {
     
@@ -32,7 +26,7 @@ app.controller('menu',['$rootScope','$scope','$state','$element','$timeout',
         
         Auth.logouting = true;
         Auth.user = false;
-        $rootScope.$broadcast(Const.eventLogout);
+        Auth.emitLogout();
 
         $timeout(function(){
 
@@ -45,6 +39,13 @@ app.controller('menu',['$rootScope','$scope','$state','$element','$timeout',
     });
   }
   
-  init();
+  Init.once('menu',function(){
+    
+    Auth.onLogin(function(){
+      init();
+    });
+    
+    init();
+  });
   
 }]);

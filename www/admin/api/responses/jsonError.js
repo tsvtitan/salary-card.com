@@ -5,7 +5,7 @@ module.exports = function jsonError (error,values,data,status) {
   var req = this.req;
   var res = this.res;
   
-  if (typeof(error)==='string') {
+  if (Utils.isString(error)) {
     error = res.dic(error,values);  
   } if (error===undefined) {
     error = false;
@@ -15,7 +15,7 @@ module.exports = function jsonError (error,values,data,status) {
     error: error
   }
   
-  if (typeof(data)==='object') {
+  if (Utils.isObject(data)) {
     obj = Utils.extend(obj,data);
   }
   

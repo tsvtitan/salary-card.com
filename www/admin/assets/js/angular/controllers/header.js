@@ -1,25 +1,22 @@
 
-app.controller('header',['$rootScope','$scope','$state','$element','$timeout',
-                         'Auth','Dictionary','Const','Alert',
-                         function($rootScope,$scope,$state,$element,$timeout,
-                                  Auth,Dictionary,Const,Alert) {
-  
-  $scope.dic = Dictionary.dic($element);
-  
-  $scope.onLogout(function(){
-    Auth.logouting = true;
-  });
+app.controller('header',['$scope','$state','$element','$timeout',
+                         'Auth','Dictionary','Const','Alert','Init',
+                         function($scope,$state,$element,$timeout,
+                                  Auth,Dictionary,Const,Alert,Init) {
+  function init() {
+    $scope.dic = Dictionary.dic($element);
+  }
   
   $scope.logout = function() {
-    
+
     Auth.logout(function(d) {
-      
+
       if (d.error) {
         Alert.error(d.error);
       } else {
-        
+
         Auth.user = false;
-        $rootScope.$broadcast(Const.eventLogout);
+        Auth.emitLogout();
 
         $timeout(function(){
 
@@ -27,10 +24,24 @@ app.controller('header',['$rootScope','$scope','$state','$element','$timeout',
 
           $scope.reload('login');
           Auth.logouting = false;
-          
+
         },Const.timeoutHide);
       }
     });
-    
   }
+  
+  Init.once('header',function(){
+    
+    Auth.onLogin(function(){
+      init();
+    });
+    
+    Auth.onLogout(function(){
+      Auth.logouting = true;
+    });
+    
+    init();
+    
+  });
+  
 }]);

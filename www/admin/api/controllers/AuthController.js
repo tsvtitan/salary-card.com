@@ -90,7 +90,12 @@ module.exports = {
             setTimeout(function onLoginResponse() {
 
               log.debug('Captcha is invalid');
-              res.jsonError('Code is invalid',null,data);
+              
+              var error = {
+                message: 'Code is invalid',
+                fields: ['captcha']
+              }
+              res.jsonError(error,null,data);
 
             },250);
           }

@@ -10,9 +10,11 @@ app.constant('Const',{
   alertSuccess: 'Успех',
   
   emailNotDefined: 'неопределен',
+  messageNotDefined: 'Сообщение не определено',
   
   countFileSelected: '{count} file(s) selected',
   
+  //eventInit: 'init',
   eventLogin: 'login',
   eventLogout: 'logout',
   

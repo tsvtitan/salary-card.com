@@ -1,26 +1,26 @@
 
-app.controller('home',['$rootScope','$scope','$element','$timeout',
-                       'Dictionary','Const','Auth',
-                       function($rootScope,$scope,$element,$timeout,
-                                Dictionary,Const,Auth) {
-  $scope.tryAuth();
-  $scope.dic = Dictionary.dic($element);
-  
+app.controller('home',['$rootScope','$state','$scope','$element','$timeout',
+                       'Dictionary','Const','Auth','Init',
+                       function($rootScope,$state,$scope,$element,$timeout,
+                                Dictionary,Const,Auth,Init) {
   function init() {
+    $scope.dic = Dictionary.dic($element);
     
-    if (Auth.ready) {
-      
+    $timeout(function(){
       $scope.hideSpinner();
-      
-    } else 
-      $scope.hideSpinner();
-  }
+    },1000);
+    
+  } 
   
-  $scope.onInit(function(){
+  Init.once('home',function(){
+    
+    Auth.onLogin(function(){
+      init();
+    });
+    
     init();
   });
   
-  init();
   
 }]);
 

@@ -65,6 +65,14 @@ app.service('Utils',['base64',function(base64) {
     return angular.isDefined(obj);
   }
   
+  this.isBoolean = function(obj) {
+    return _.isBoolean(obj);
+  }
+  
+  this.isFunction = function(obj) {
+    return _.isFunction(obj);
+  }
+  
   this.forEach = function(items,callback) {
     return _.forEach(items,callback);
   }
