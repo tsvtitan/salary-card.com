@@ -19,7 +19,7 @@ Events.prototype = {
 
   on: function(event,result) {
     this.nrp.on(event,function(data){
-      this.log = extendUpToLog({},null,event).log;
+      this.log = Log.extend({},null,event).log;
       this.log.debug('Data: %s',[data]);
       result(data);
     });
