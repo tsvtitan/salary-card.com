@@ -3,26 +3,20 @@ app.controller('login',['$rootScope','$scope','$state','$element','$timeout',
                         'Auth','Dictionary','Const','Regexp','Urls','Utils','Init',
                         function($rootScope,$scope,$state,$element,$timeout,
                                  Auth,Dictionary,Const,Regexp,Urls,Utils,Init) {
-  
-  function init() {
-    $scope.dic = Dictionary.dic($element);
+  $scope.dic = Dictionary.dic($element);
 
-    $scope.captchaUrl = '';
-    $scope.captchaPattern = Regexp.captcha;
-    $scope.captchaRequired = false;
+  $scope.captchaUrl = '';
+  $scope.captchaPattern = Regexp.captcha;
+  $scope.captchaRequired = false;
 
-    $scope.data = {
-      login: '',
-      pass: '',
-      captcha: ''
-    };
+  $scope.data = {
+    login: '',
+    pass: '',
+    captcha: ''
+  };
 
-    $scope.state = {login:false,hide:false,spinner:false};
+  $scope.state = {login:false,hide:false,spinner:false};
     
-    $scope.captchaRefresh();
-    $scope.hideSpinner(); 
-  }
-
   $scope.captchaRefresh = function() {
     
     if (Auth.captcha) { 
@@ -78,15 +72,12 @@ app.controller('login',['$rootScope','$scope','$state','$element','$timeout',
       
     } else form.error(Const.checkFields);
   }
-  
-  Init.once('login',function(){
-    
-    Auth.onLogin(function(){
-      init;
-    });
-    
-    init();
-  });
-  
+
+  function init() {
+    $scope.captchaRefresh();
+    $scope.ready(); 
+  }
+                          
+  init();
   
 }]);

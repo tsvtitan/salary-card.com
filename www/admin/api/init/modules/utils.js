@@ -113,6 +113,21 @@ Utils.prototype = {
   extend: function(obj1,obj2) {
     return _.extend(obj1,obj2);
   },
+  
+  extendSeries: function(arr) {
+    
+    if (_.isArray(arr)) {
+      
+      var r = {};
+      
+      _.forEach(arr,function(a){
+        r = _.extend(r,a || {});
+      });
+      
+      return r;
+      
+    } else return arr;
+  },
 
   reject: function(item,result) {
     return _.reject(item,result);
@@ -148,6 +163,17 @@ Utils.prototype = {
 
   isString: function(obj) {
     return _.isString(obj);
+  },
+    
+  isEmpty: function(obj) {
+
+    if (_.isString(obj)) {
+      return obj.trim()!=='';
+    } else return !(obj);
+  },
+  
+  isBoolean: function(obj) {
+    return !_.isBoolean(obj);
   }
 
 }

@@ -6,7 +6,7 @@
           <span>
             <img alt="image" class="img-circle img-profile-small" data-ng-src="{{ imageProfileUrl }}">
           </span>
-          <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+          <a data-toggle="dropdown" class="dropdown-toggle">
             <span class="clear">
               <span class="block m-t-xs"> <strong class="font-bold">{{ name }}</strong></span> 
               <span class="text-muted text-xs block">{{ email }} <b class="caret"></b></span>
@@ -16,7 +16,7 @@
             <li><a ui-sref="profile">{{ dic('Профиль') }}</a></li>
             <li class="divider"></li>
             <li>
-              <a href="#" data-ng-click="logout()">
+              <a data-ng-click="logout()">
                 {{ dic('Выйти') }}&nbsp;&nbsp;<i class="fa fa-sign-out"></i>
               </a>
             </li>
