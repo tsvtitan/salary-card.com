@@ -65,7 +65,10 @@ module.exports = {
                 u = {
                   id: user.id,
                   login: user.login,
-                  email: user.email
+                  email: user.email,
+                  name: user.name,
+                  firstName: user.firstName,
+                  images: user.images
                 }
               }
               
@@ -80,10 +83,12 @@ module.exports = {
                 dictionary:d
               }
               
-              if (user)
-                res.jsonSuccess(data);
-              else
-                res.jsonError('User is not found',null,data)
+              setTimeout(function(){
+                if (user)
+                  res.jsonSuccess(data);
+                else
+                  res.jsonError('User is not found',null,data);
+              },0);
 
             } else {
               

@@ -1,43 +1,53 @@
 
-app.controller('boot',['$rootScope','$scope','$state','$element','$timeout','$location','Init','Auth','Route','Dictionary','Const',
-                       function($rootScope,$scope,$state,$element,$timeout,$location,Init,Auth,Route,Dictionary,Const) {
+app.controller('boot',['$rootScope','$scope','$state','$element','$location','$q','$timeout',
+                       'Init','Auth','Route','Dictionary','Const','Utils',
+                       function($rootScope,$scope,$state,$element,$location,$q,$timeout,
+                                Init,Auth,Route,Dictionary,Const,Utils) {
   
   $scope.auth = Auth;
   $scope.dic = Dictionary.dic($element);
   $scope.visible = false;
-  $scope.ready = false;
-  $scope.alerts = [];
   $scope.spinner = false;
   $scope.lastPath = $location.path();
-  
+  $scope.changing = false;
+
   Route.clear();
-  Route.defaultUrl('/');
-  
+  Route.defaultUrl('/home');
+
   Auth.setDefTemplates({
     login:{url:'/login',templateUrl:'login.html'},
-    home:{url:'/home',templateUrl:'home.html'}
+    home:{url:'/home',templateUrl:'home.html'},
+    profile:{url:'/user/profile',templateUrl:'user/profile.html'}
   });
+
+  $scope.showSpinner = function() { 
+    $scope.spinner = true; 
+  }
   
-  $scope.showSpinner = function() { $scope.spinner = true; }
-  $scope.hideSpinner = function() { $scope.spinner = false; }
+  $scope.hideSpinner = function() { 
+    $scope.spinner = false; 
+  }
   
-  $rootScope.$on('$stateChangeStart',function() {
-    $scope.showSpinner();
-  });
-  
-  $rootScope.$on('$stateChangeSuccess',function() {
-    //$scope.showSpinner();
-  });
-  
-  $scope.tryAuth = function() {
+  $scope.tryAuth = function(state) {
+    
     if ($scope.visible) {
       if (!Auth.user && $state.current.name!=='login') {
+        
         $state.go('login');
-      } else if (Auth.user && (($state.current.name==='login') || 
-                               ($state.current.name===''))) {
-        $state.go('home');
+        return false;
+        
+      } else if (Auth.user) {
+        
+        var s = (state)?state:'home';
+        if ($state.current.name!==s) {
+          
+          $state.go(s);
+          return false;
+        }
+
+        return true;
       }
-    }
+    } else return false;
   }
   
   $scope.reload = function(name) {
@@ -45,55 +55,42 @@ app.controller('boot',['$rootScope','$scope','$state','$element','$timeout','$lo
     $state.transitionTo(name,{},{reload:true,inherit:false,notify:true});
   }
   
-  $scope.showAlert = function(m,v,t,k) {
+  $rootScope.$on('$stateChangeStart',function(event,toState) {
     
-    var alert = {msg:this.dic(m,v),type:k,hide:false};
-    
-    alert.close = function() {
-      var self = this;
-      self.hide = true;
-      $timeout(function(){
-        $scope.alerts.splice($scope.alerts.indexOf(self),1);
-      },Const.timeoutHide);
-    }
-    
-    alert.queueClose = function(tm) {
-      var self = this;
-      $timeout(function(){
-        if ($scope.alerts.indexOf(self)!==-1) {
-          self.close();
+    try {
+      if (!$scope.changing) {
+        $scope.changing = true;
+        if ($scope.tryAuth(toState)) {
+          $scope.showSpinner();
+        } else {
+          event.preventDefault();
         }
-      },tm);
+      }
+    } finally {
+      $scope.changing = false;
     }
-    
-    $scope.alerts.push(alert);
-    if ($scope.alerts.length>Const.limitAlerts) {
-      $scope.alerts[0].close();
-    }
-    
-    alert.queueClose((t)?t:Const.timeoutAlert);
-  }
+  });
   
-  $scope.showError = function(m,v,t) { $scope.showAlert(m,v,(t)?t:Const.timeoutError,'danger'); }
-  $scope.showInfo = function(m,v,t) { $scope.showAlert(m,v,(t)?t:Const.timeoutInfo,'info'); }
-  $scope.showSuccess = function(m,v,t) { $scope.showAlert(m,v,(t)?t:Const.timeoutSuccess,'success'); }
-  $scope.showWarn = function(m,v,t) { $scope.showAlert(m,v,(t)?t:Const.timeoutWarn,'warning'); }
+  Auth.onLogout(function(){
+    Init.reset();
+  });
   
   Init.get(function(d){
     
     Dictionary.init(d.dictionary);
-    
+
     Auth.user = d.auth.user;
     Auth.captcha = d.auth.captcha;
     Auth.setTemplates(d.auth.templates);
-    
+
     $scope.visible = true;
     if (Auth.user && $scope.lastPath && $scope.lastPath!=='/') {
-      $location.path($scope.lastPath);
+      $location.path($scope.lastPath); // need to change $state.go(lastState)
     } else $scope.tryAuth();
+
+    Auth.ready = (Auth.user);
+    if (Auth.ready) Auth.emitLogin();
     
-    $scope.ready = true;
-    //$scope.$broadcast('read');
   });
   
 }]);

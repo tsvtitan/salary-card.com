@@ -1,7 +1,8 @@
 {
   "Lang": "en-EN",
   "Title": "Salary Card: Admin panel",
-  "Version": "v 0.0.1",
+  "Version": "v 0.0.2",
+  "Logo": "SC",
   "Copyright": "© 2015 Salary Card",
   "UrlHomePage": "/admin",
   
@@ -33,6 +34,14 @@
   },
   
   "front": {
+    
+    "Ошибка": "Error",
+    "Информация": "Information",
+    "Предупреждение": "Warning",
+    "Успех": "Success",
+  
+    "Проверьте поля": "Check fields",
+    "Соединение разорвано": "Connection failed",
     
     "header": {
       "Выйти": "Log out",

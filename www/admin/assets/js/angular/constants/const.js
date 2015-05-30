@@ -1,8 +1,23 @@
 
 app.constant('Const',{
+  
+  checkFields: 'Проверьте поля',
+  connectionFailed: 'Соединение разорвано',
+  
+  alertError: 'Ошибка',
+  alertInfo: 'Информация',
+  alertWarning: 'Предупреждение',
+  alertSuccess: 'Успех',
+  
+  emailNotDefined: 'неопределен',
+  messageNotDefined: 'Сообщение не определено',
+  
   countFileSelected: '{count} file(s) selected',
-  checkFields: 'Check fields',
-  connectionFailed: 'Connection failed',
+  
+  //eventInit: 'init',
+  eventLogin: 'login',
+  eventLogout: 'logout',
+  
   couldNotSubscribeOnEvent: 'Could not subscribe on event',
   couldNotUnsubscribeFromEvent: 'Could not unsubscribe from event',
   
@@ -11,7 +26,7 @@ app.constant('Const',{
   timeoutError: 5000,
   timeoutInfo: 3000,
   timeoutSuccess: 2000,
-  timeoutWarn: 2000,
+  timeoutWarning: 2000,
   
   limitAlerts: 3
 })

@@ -1,26 +1,47 @@
 
-app.controller('header',['$rootScope','$scope','$state','$element','Auth','Dictionary',
-                         function($rootScope,$scope,$state,$element,Auth,Dictionary) {
-  
-  $scope.dic = Dictionary.dic($element);
-  $scope.state = {logout:false};
-
-  $scope.logout = function() {
-    
-    $scope.state.logout = true;
-            
-    if (Auth.user) {
-      
-      Auth.logout(function(d) {
-        
-        $scope.state.logout = false;
-        if (d.error) {
-          $scope.showError(d.error);
-        } else {
-          Auth.user = false;
-          $scope.reload('auth');
-        }
-      });
-    } else $scope.state.logout = false;
+app.controller('header',['$scope','$state','$element','$timeout',
+                         'Auth','Dictionary','Const','Alert','Init',
+                         function($scope,$state,$element,$timeout,
+                                  Auth,Dictionary,Const,Alert,Init) {
+  function init() {
+    $scope.dic = Dictionary.dic($element);
   }
+  
+  $scope.logout = function() {
+
+    Auth.logout(function(d) {
+
+      if (d.error) {
+        Alert.error(d.error);
+      } else {
+
+        Auth.user = false;
+        Auth.emitLogout();
+
+        $timeout(function(){
+
+          Auth.ready = false;
+
+          $scope.reload('login');
+          Auth.logouting = false;
+
+        },Const.timeoutHide);
+      }
+    });
+  }
+  
+  Init.once('header',function(){
+    
+    Auth.onLogin(function(){
+      init();
+    });
+    
+    Auth.onLogout(function(){
+      Auth.logouting = true;
+    });
+    
+    init();
+    
+  });
+  
 }]);

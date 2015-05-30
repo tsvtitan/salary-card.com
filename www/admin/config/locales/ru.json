@@ -1,8 +1,9 @@
 {
   "Lang": "ru-RU",
   "Title": "Зарплатная карта: Административная панель",
-  "Version": "v 0.0.1",
+  "Version": "v 0.0.2",
   "Copyright": "© 2015 Salary Card",
+  "Logo": "SC",
   "UrlHomePage": "/admin",
 
   "back": {
@@ -26,9 +27,7 @@
   },
   
   "front": {
-
-    "Check fields": "Проверьте поля",
-    "Connection failed": "Соединение разорвано",
+    
     "Could not subscribe on event": "Не могу подписаться на событие",
     "Could not unsubscribe from event": "Не могу отписаться от события",
     

@@ -52,7 +52,10 @@ module.exports = {
                     id: user.id,
                     login: user.login,
                     email: user.email,
-                    state: user.state
+                    name: user.name,
+                    firstName: user.firstName,
+                    state: user.state,
+                    images: user.images
                   }
                   req.session.userId = u.id;
                   delete req.session.loginCount;
@@ -87,7 +90,12 @@ module.exports = {
             setTimeout(function onLoginResponse() {
 
               log.debug('Captcha is invalid');
-              res.jsonError('Code is invalid',null,data);
+              
+              var error = {
+                message: 'Code is invalid',
+                fields: ['captcha']
+              }
+              res.jsonError(error,null,data);
 
             },250);
           }

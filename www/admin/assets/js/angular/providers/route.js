@@ -11,6 +11,7 @@ app.provider('Route',['$stateProvider','$urlRouterProvider',
         return $stateProvider.state(name,definition);
       },
       clear: function() {
+        $urlRouterProvider.clear();
         return $stateProvider.clear();
       }
     }

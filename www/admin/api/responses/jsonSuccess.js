@@ -9,7 +9,7 @@ module.exports = function jsonError (data) {
     error: false
   }
   
-  if (typeof(data)==='object') {
+  if (Utils.isObject(data)) {
     obj = Utils.extend(obj,data);
   }
   
