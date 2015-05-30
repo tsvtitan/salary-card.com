@@ -1,6 +1,8 @@
 <nav class="navbar-default navbar-static-side fadeInLeft-fadeOutLeft" role="navigation" data-ng-controller="menu" data-ng-show="auth.ready">
   <div class="sidebar-collapse">
+    
     <ul class="nav" id="side-menu">
+      
       <li class="nav-header">
         <div class="dropdown profile-element">
           <span>
@@ -24,12 +26,32 @@
         </div>
         <div class="logo-element">{{ dic('Logo') }}</div>
       </li>
-      <li class="active">
-        <a ui-sref="home"><i class="fa fa-th-large"></i> <span class="nav-label">Home</span></a>
+      
+      <li data-ng-class="isMenuActive(v1)?'active':''" data-ng-repeat="(k1,v1) in auth.menu">
+        
+        <a data-ng-click="menuClick(v1)">
+          <i class="fa" data-ng-class="v1.class?v1.class:'fa-ellipsis-h'"></i>
+          &nbsp;<span class="nav-label">{{ dic(v1.name) }}&nbsp;</span>
+          <span class="fa arrow" data-ng-show="v1.items"></span>
+        </a>
+        
+        <ul class="nav nav-second-level fadeIn-fadeOut collapse" data-ng-class="v1.expanded?'in':''" data-ng-show="v1.items">
+          
+          <li data-ng-repeat="(k2,v2) in v1.items">
+            <a data-ng-click="menuClick(v2,true)">
+              {{ dic(v2.name) }}&nbsp;
+              <span class="fa arrow" data-ng-show="v2.items"></span>
+            </a>
+            <ul class="nav nav-third-level fadeIn-fadeOut collapse" data-ng-class="v2.expanded?'in':''">
+              
+              <li data-ng-repeat="(k3,v3) in v2.items">
+                <a data-ng-click="menuClick(v3,true)">{{ dic(v3.name) }}</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
       </li>
-      <li>
-        <a ui-sref="profile"><i class="fa fa-th-large"></i> <span class="nav-label">Profile</span> </a>
-      </li>
+      
     </ul>
   </div>
 </nav>

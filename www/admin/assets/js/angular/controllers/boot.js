@@ -18,11 +18,11 @@ app.controller('boot',['$rootScope','$scope','$state','$element','$location','$q
   
   defaultUrl();
 
-  Auth.setDefTemplates({
-    login:{url:'/login',templateUrl:'login.html'},
-    home:{url:'/home',templateUrl:'home.html'},
-    profile:{url:'/user/profile',templateUrl:'user/profile.html'}
-  });
+  Auth.setDefTemplates([
+    {name:'login',url:'/login',templateUrl:'login.html'},
+    {name:'home',url:'/home',templateUrl:'home.html'},
+    {name:'profile',url:'/user/profile',templateUrl:'user/profile.html'}
+  ]);
 
   $scope.showSpinner = function() { 
     $scope.spinner = true; 
@@ -65,7 +65,7 @@ app.controller('boot',['$rootScope','$scope','$state','$element','$location','$q
   $scope.ready = function() {
     $timeout(function(){
       $scope.hideSpinner();
-    },1000);
+    },500);
   }
   
   $rootScope.$on('$stateChangeStart',function(event,toState) {
@@ -105,8 +105,7 @@ app.controller('boot',['$rootScope','$scope','$state','$element','$location','$q
     Auth.user = d.auth.user;
     Auth.captcha = d.auth.captcha;
     Auth.setTemplates(d.auth.templates);
-    
-    defaultUrl();
+    Auth.menu = d.auth.menu;
     
     $scope.visible = true;
     

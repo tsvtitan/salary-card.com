@@ -65,8 +65,15 @@ app.service('Utils',['base64',function(base64) {
     return angular.isDefined(obj);
   }
   
+  this.isEmpty = function(obj) {
+
+    if (_.isString(obj)) {
+      return obj.trim()==='';
+    } else return !(obj);
+  },
+  
   this.isBoolean = function(obj) {
-    return _.isBoolean(obj);
+    return !_.isBoolean(obj);
   }
   
   this.isFunction = function(obj) {

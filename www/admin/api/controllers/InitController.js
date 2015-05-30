@@ -11,23 +11,16 @@ module.exports = {
       res.jsonError('Initialization error');
     }
     
-    function getAuth(result) {
+    function getEnvironment(result) {
       
       if (req.session && req.session.userId) {
         
-        Users.findOneById(req.session.userId,function(err,user){
-          
-          if (err) result(err,null,[],false);
-          else if (user) {
-            
-            Templates.getByUser(user,function(err,tpls){
-              result(err,user,tpls,false);
-            });
-            
-          } else result(null,null,[],true);
+        Users.getEnvironment(req.session.userId,function(err,user,env){
+        
+          result(err,user,env,!(user));
         });
         
-      } else result(null,null,[],false);
+      } else result();
     }
     
     var log = this.log;
@@ -45,7 +38,7 @@ module.exports = {
 
         if (exists) {
 
-          getAuth(function(err,user,tpls,reset) {
+          getEnvironment(function(err,user,env,reset) {
 
             if (err) error(err)
             else if (!reset) {
@@ -74,12 +67,13 @@ module.exports = {
               
               var loginCount = (req.session.loginCount)?req.session.loginCount:0;
               
+              var auth = {
+                user: u,
+                captcha: loginCount>2
+              }
+              
               var data = {
-                auth: {
-                  user: u,
-                  templates: tpls,
-                  captcha: loginCount>2
-                },
+                auth: Utils.extend(auth,env),
                 dictionary:d
               }
               

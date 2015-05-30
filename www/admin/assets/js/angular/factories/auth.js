@@ -9,28 +9,36 @@ app.factory('Auth',['$rootScope','$http','Route','Urls','Dictionary','Payload','
     logining: false,
     logouting: false,
     captcha: false,
-    defTemplates: {},
-    templates: {},
-    menu: {},
+    defTemplates: [],
+    templates: [],
+    menu: [],
     
     setTemplates: function(tpls) {
-      if (tpls) {
+      
+      Route.clear();
+      
+      for (var i in this.defTemplates) {
+        var t = this.defTemplates[i];
+        Route.state(t.name,{
+          url: t.url,
+          templateUrl: t.templateUrl
+        });
+      }
         
-        Route.clear();
-        for (var k in this.defTemplates) {
-          var t = this.defTemplates[k];
-          Route.state(k,t);
-        }
+      if (Utils.isArray(tpls)) {
         
-        this.templates = {};
-        this.menu = {};
-        for (var k in tpls) {
-          var t = tpls[k];
-          Route.state(k,{url:t.url,templateUrl:t.template});
-          this.templates[k] = t;
-          if (t.menu) {
-            this.menu[k] = t;
-          }
+        this.templates = [];
+        
+        for (var i in tpls) {
+          var t = tpls[i];
+          
+          Route.state(t.name,{
+            url: t.url,
+            templateUrl: t.templateUrl
+          });
+          
+          this.templates.push(t);
+          
         }
       }
     },
@@ -46,6 +54,7 @@ app.factory('Auth',['$rootScope','$http','Route','Urls','Dictionary','Payload','
           self.user = d.user;
           self.captcha = d.captcha;
           self.setTemplates(d.templates);
+          self.menu = Utils.isArray(d.menu)?d.menu:[];
           result(d);
         }).error(function(d){
           result({error:Dictionary.connectionFailed(d),user:this.user});
@@ -63,7 +72,8 @@ app.factory('Auth',['$rootScope','$http','Route','Urls','Dictionary','Payload','
           if (!d.error) {
             self.user = false;
             self.captcha = false;
-            self.setTemplates({});
+            self.setTemplates([]);
+            self.menu = [];
           }
           self.logouting = false;
           result(d);

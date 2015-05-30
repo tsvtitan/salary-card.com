@@ -1,3 +1,4 @@
+"use strict";
 
 function Utils() {}
 
@@ -111,7 +112,7 @@ Utils.prototype = {
   },
 
   extend: function(obj1,obj2) {
-    return _.extend(obj1,obj2);
+    return _.extend(obj1,obj2 || {});
   },
   
   extendSeries: function(arr) {
@@ -127,6 +128,57 @@ Utils.prototype = {
       return r;
       
     } else return arr;
+  },
+  
+  remainKeys: function(arr,keys) {
+    
+    function inKeys(k) {
+      
+      if (_.isArray(keys)) {
+        
+        return (keys.indexOf(k)!==-1);
+        
+      } else if (_.isObject(keys)) {
+        
+        for (var i in keys) {
+          if (i===k) {
+            return true;
+          }
+        }
+      } else return (k===keys);
+    }
+    
+    function remove(obj) {
+      
+      if (_.isObject(obj)) {
+        
+        var temp = [];
+        
+        for (var k1 in obj) {
+          
+          var o = obj[k1];
+          
+          if (_.isObject(o)) {
+            obj[k1] = remove(o);
+          } else if (!inKeys(k1)) {
+            temp.push(k1);
+          }
+        }
+        
+        for (var k2 in temp) {
+          delete obj[temp[k2]];
+        }
+      }
+      return obj;
+    }
+    
+    if (_.isArray(arr)) {
+      for (var i in arr) {
+        arr[i] = remove(arr[i]);
+      }
+    } else arr = remove(arr);
+    
+    return arr;
   },
 
   reject: function(item,result) {
@@ -168,7 +220,7 @@ Utils.prototype = {
   isEmpty: function(obj) {
 
     if (_.isString(obj)) {
-      return obj.trim()!=='';
+      return obj.trim()=='';
     } else return !(obj);
   },
   
