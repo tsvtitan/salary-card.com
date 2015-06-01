@@ -204,12 +204,18 @@ module.exports = {
             
             var items = [];
 
-            items.push({name:'templates',getter:Templates,fields:{}});
+            //items.push({name:'templates',getter:Templates,fields:{}});
             
             items.push({
-              name:'menu',
-              getter:Menu,
-              fields:{name:1,description:1,state:1,items:1,class:1}
+              name: 'pages',
+              getter: Pages,
+              fields: {name:1,title:1,description:1,url:1,template:1,navigation:1}
+            });
+            
+            items.push({
+              name: 'menu',
+              getter: Menu,
+              fields: {title:1,description:1,page:1,items:1,class:1}
             });
 
             async.map(items,function(item,cb){
@@ -274,7 +280,7 @@ module.exports = {
             if (user.locked) {
               
               log.debug('User\'s credentials are invalid and locked');
-              ret();
+              ret(null,null,null);
               
             } else {
               
@@ -298,12 +304,12 @@ module.exports = {
                 if (!user.pass && !pass) {
                   
                   log.debug('User\'s credentials have not set');
-                  ret(null,false,user);
+                  ret(null,null,user);
                 }
               }
             } 
             
-          } else ret();
+          } else ret(null,null,null);
         },
         
         function tryLock(wrong,user,ret) {
@@ -313,7 +319,7 @@ module.exports = {
             log.debug('User\'s credentials are invalid. Locking...');
             
             self.update({id:user.id},{locked:new Date()},function(err,u){
-              ret(err);
+              ret(err,(u)?user:null);
             });
             
           } else ret(null,user);
@@ -321,13 +327,13 @@ module.exports = {
         
         function getEnv(user,ret) {
           
-          if (user) {
+          if (user && needEnv) {
             
-            self.getEnvironment(user,function(err,env){
+            self.getEnvironment(user,function(err,user,env){
               ret(err,user,env);
             });
                 
-          } else ret();
+          } else ret(null,user,null);
         }
         
         
@@ -335,7 +341,7 @@ module.exports = {
         result(err,user,env);
       });
       
-    } else result(null,null,[],[]);
+    } else result(null,null,null);
   }
   
 };

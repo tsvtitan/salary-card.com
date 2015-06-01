@@ -65,7 +65,7 @@ app.controller('login',['$rootScope','$scope','$state','$element','$timeout',
           
           $timeout(function(){
             $scope.state.login = false;
-            $scope.reload(d.user.state);
+            $scope.reload(d.user.page);
           },Const.timeoutHide);
         }
       });

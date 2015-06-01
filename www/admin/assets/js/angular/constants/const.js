@@ -3,6 +3,7 @@ app.constant('Const',{
   
   checkFields: 'Проверьте поля',
   connectionFailed: 'Соединение разорвано',
+  pageNotAvailable: 'Страница не найдена',
   
   alertError: 'Ошибка',
   alertInfo: 'Информация',

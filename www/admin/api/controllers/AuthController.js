@@ -41,7 +41,7 @@ module.exports = {
             Users.getByLogin(req.body.login,req.body.pass,
                              lockOnFail,true,
                              function(err,user,env){
-
+              
               if (err) error(err);
               else {
 
@@ -56,7 +56,7 @@ module.exports = {
                     email: user.email,
                     name: user.name,
                     firstName: user.firstName,
-                    state: user.state,
+                    page: user.page,
                     images: user.images
                   }
                   req.session.userId = u.id;

@@ -61,7 +61,8 @@ module.exports = {
                   email: user.email,
                   name: user.name,
                   firstName: user.firstName,
-                  images: user.images
+                  images: user.images,
+                  page: user.page
                 }
               }
               

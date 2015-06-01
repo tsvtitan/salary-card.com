@@ -13,7 +13,7 @@ module.exports = {
       required: true
     },
   
-    interface: {
+    entity: {
       type: 'string',
       required: true
     },
@@ -29,7 +29,7 @@ module.exports = {
     
   },
   
-  forFind: function (userOrLogin,interface,action,result) {
+  forFind: function (userOrLogin,entity,action,result) {
     
     var self = this;
     
@@ -37,7 +37,7 @@ module.exports = {
       
       var where = {
         login: login,
-        interface: interface,
+        entity: entity,
         locked: [null,undefined,false]
       }
       where[action] = {'!':[null,undefined,false]};

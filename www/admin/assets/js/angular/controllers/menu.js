@@ -50,8 +50,8 @@ app.controller('menu',['$rootScope','$scope','$state','$element','$timeout',
     if (Utils.isArray(m.items) && m.items.length>0) {
       m.expanded = !m.expanded;
     } 
-    if (!Utils.isEmpty(m.state)) {
-      $scope.reload(m.state);
+    if (!Utils.isEmpty(m.page)) {
+      $scope.reload(m.page);
     }
   }
   

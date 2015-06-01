@@ -9,14 +9,15 @@ module.exports = {
   attributes: {
     
     
-    title: {
+    name: {
       type: 'string',
       required: true
     },
+    title: 'string',
     description: 'string',
-    items: 'json',
+    url: 'string',
+    template: 'string',
     priority: 'integer',
-    page: 'string',
     locked: 'datetime',
     
     toJSON: function() {
@@ -51,7 +52,7 @@ module.exports = {
           
           if (user) {
             
-            Permissions.forFind(user,'menu','view',function(err,access){
+            Permissions.forFind(user,'pages','view',function(err,access){
               
               ret(err,access);
             });
@@ -59,20 +60,20 @@ module.exports = {
           } else ret(null,null);
         },
         
-        function getMenu(access,ret) {
+        function getPages(access,ret) {
           
           var where = {locked:[null,undefined,false]};
           
           where = Utils.extend(where,access);
           
           self.find({where:where,sort:{priority:1}},{fields:fields},
-                    function(err,menu){
-            ret(err,menu);          
+                    function(err,pages){
+            ret(err,pages);          
           });
         }
         
-      ],function(err,menu){
-        result(err,Utils.remainKeys(menu,fields));
+      ],function(err,pages){
+        result(err,Utils.remainKeys(pages,fields));
       });
       
     } else result(null,[]);

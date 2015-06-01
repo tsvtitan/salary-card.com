@@ -6,7 +6,6 @@ app.directive('back1',['$window','$state',
     link: function (scope, elem, attrs) {
       elem.bind('click', function () {
         $window.history.back();
-        //$state.go('mailings');
       });
     }
   };

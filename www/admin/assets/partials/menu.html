@@ -15,7 +15,7 @@
             </span>
           </a>
           <ul class="dropdown-menu animated flipInX m-t-xs">
-            <li><a ui-sref="profile">{{ dic('Профиль') }}</a></li>
+            <li data-ng-show="auth.pageExists('profile')"><a ui-sref="profile">{{ dic('Профиль') }}</a></li>
             <li class="divider"></li>
             <li>
               <a data-ng-click="logout()">
@@ -31,7 +31,7 @@
         
         <a data-ng-click="menuClick(v1)">
           <i class="fa" data-ng-class="v1.class?v1.class:'fa-ellipsis-h'"></i>
-          &nbsp;<span class="nav-label">{{ dic(v1.name) }}&nbsp;</span>
+          &nbsp;<span class="nav-label">{{ dic(v1.title) }}&nbsp;</span>
           <span class="fa arrow" data-ng-show="v1.items"></span>
         </a>
         
@@ -39,13 +39,13 @@
           
           <li data-ng-repeat="(k2,v2) in v1.items">
             <a data-ng-click="menuClick(v2,true)">
-              {{ dic(v2.name) }}&nbsp;
+              {{ dic(v2.title) }}&nbsp;
               <span class="fa arrow" data-ng-show="v2.items"></span>
             </a>
             <ul class="nav nav-third-level fadeIn-fadeOut collapse" data-ng-class="v2.expanded?'in':''">
               
               <li data-ng-repeat="(k3,v3) in v2.items">
-                <a data-ng-click="menuClick(v3,true)">{{ dic(v3.name) }}</a>
+                <a data-ng-click="menuClick(v3,true)">{{ dic(v3.title) }}</a>
               </li>
             </ul>
           </li>
