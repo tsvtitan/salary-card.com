@@ -1,7 +1,7 @@
 <div class="row border-bottom fadeInDown-fadeOutUp" data-ng-controller="header" data-ng-show="auth.ready">
   <nav class="navbar navbar-static-top white-bg" role="navigation" style="margin-bottom: 0">
     <div class="navbar-header">
-      <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
+      <a class="navbar-minimalize minimalize-styl-2 btn btn-primary"><i class="fa fa-bars"></i> </a>
       <form role="search" class="navbar-form-custom ng-pristine ng-valid" method="post" action="#">
         <div class="form-group">
           <input type="text" placeholder="{{ dic('Поиск...') }}" class="form-control" name="top-search" id="top-search">
@@ -21,7 +21,7 @@
         </div>  
       </li>
       <li data-ng-hide="auth.logouting || !auth.user">
-        <a href="#" data-ng-click="logout()">
+        <a data-ng-click="logout()">
           {{ dic('Выйти') }}&nbsp;&nbsp;<i class="fa fa-sign-out"></i>
         </a>
       </li>

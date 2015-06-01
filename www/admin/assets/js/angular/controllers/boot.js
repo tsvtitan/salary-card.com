@@ -8,17 +8,21 @@ app.controller('boot',['$rootScope','$scope','$state','$element','$location','$q
   $scope.dic = Dictionary.dic($element);
   $scope.visible = false;
   $scope.spinner = false;
-  $scope.lastPath = $location.path();
   $scope.changing = false;
 
   Route.clear();
-  Route.defaultUrl('/home');
+  
+  function defaultUrl() {
+    Route.defaultUrl((Auth.user)?'/home':'/login');
+  }
+  
+  defaultUrl();
 
-  Auth.setDefTemplates({
-    login:{url:'/login',templateUrl:'login.html'},
-    home:{url:'/home',templateUrl:'home.html'},
-    profile:{url:'/user/profile',templateUrl:'user/profile.html'}
-  });
+  Auth.setDefTemplates([
+    {name:'login',url:'/login',templateUrl:'login.html'},
+    {name:'home',url:'/home',templateUrl:'home.html'},
+    {name:'profile',url:'/user/profile',templateUrl:'user/profile.html'}
+  ]);
 
   $scope.showSpinner = function() { 
     $scope.spinner = true; 
@@ -28,26 +32,29 @@ app.controller('boot',['$rootScope','$scope','$state','$element','$location','$q
     $scope.spinner = false; 
   }
   
-  $scope.tryAuth = function(state) {
+  function tryGoTo(state) {
     
     if ($scope.visible) {
-      if (!Auth.user && $state.current.name!=='login') {
-        
-        $state.go('login');
-        return false;
-        
-      } else if (Auth.user) {
+      
+      if (Auth.user && state!=='login') {
         
         var s = (state)?state:'home';
         if ($state.current.name!==s) {
           
           $state.go(s);
-          return false;
-        }
+          return {spinner:true};
+        } 
 
-        return true;
+        return false;
+        
+      } else if (!Auth.user) {
+        
+        $state.go('login');
+        return {spinner:false};
+      
       }
-    } else return false;
+    }
+    return false;
   }
   
   $scope.reload = function(name) {
@@ -55,13 +62,24 @@ app.controller('boot',['$rootScope','$scope','$state','$element','$location','$q
     $state.transitionTo(name,{},{reload:true,inherit:false,notify:true});
   }
   
+  $scope.ready = function() {
+    $timeout(function(){
+      $scope.hideSpinner();
+    },500);
+  }
+  
   $rootScope.$on('$stateChangeStart',function(event,toState) {
     
     try {
       if (!$scope.changing) {
         $scope.changing = true;
-        if ($scope.tryAuth(toState)) {
-          $scope.showSpinner();
+        
+        var r = tryGoTo(toState.name);
+        if (r) {
+          
+          Route.setLastState(toState.name);
+          if (r.spinner) $scope.showSpinner();
+          
         } else {
           event.preventDefault();
         }
@@ -71,7 +89,12 @@ app.controller('boot',['$rootScope','$scope','$state','$element','$location','$q
     }
   });
   
+  Auth.onLogin(function(){
+    defaultUrl();
+  });
+  
   Auth.onLogout(function(){
+    defaultUrl();
     Init.reset();
   });
   
@@ -82,14 +105,14 @@ app.controller('boot',['$rootScope','$scope','$state','$element','$location','$q
     Auth.user = d.auth.user;
     Auth.captcha = d.auth.captcha;
     Auth.setTemplates(d.auth.templates);
-
+    Auth.menu = d.auth.menu;
+    
     $scope.visible = true;
-    if (Auth.user && $scope.lastPath && $scope.lastPath!=='/') {
-      $location.path($scope.lastPath); // need to change $state.go(lastState)
-    } else $scope.tryAuth();
-
+    
     Auth.ready = (Auth.user);
     if (Auth.ready) Auth.emitLogin();
+    
+    tryGoTo((Auth.user)?Auth.user.state:null);
     
   });
   

@@ -31,7 +31,7 @@ module.exports = {
     }
   },
   
-  getByUser: function (user,result) {
+  getByUser: function (user,fields,result) {
 
     this.find(function(err,templates){
 
@@ -43,9 +43,9 @@ module.exports = {
 
         function access(tpl) {
 
-          if (typeof(tpl.id)==='string') {
+          if (Utils.isString(tpl.id)) {
 
-            if (typeof(user.templates)==='object') {
+            if (Utils.isObject(user.templates)) {
 
               for (var t1 in user.templates) {
                 if (tpl.id.search(t1)!==-1) {
@@ -54,7 +54,7 @@ module.exports = {
               }
             } else {
               
-              if (typeof(user.templates)==='string') {
+              if (Utils.isString(user.templates)) {
                 var r = user.templates==='*';
                 if (!r) {
                   r = tpl.id.search(user.templates)!==-1;
@@ -66,17 +66,17 @@ module.exports = {
           return false;
         }
 
-        var tpls = {};
+        var tpls = [];
+        
         for (var i in templates) {
           var t = templates[i];
           var a = access(t);
           if (a) {
-            tpls[t.id] = {
+            tpls.push({
               name: t.name,
-              template: t.template,
               url: t.url,
-              menu: (t.menu)?true:false
-            }
+              templateUrl: t.templateUrl
+            });
           }
         }
         result(null,tpls);

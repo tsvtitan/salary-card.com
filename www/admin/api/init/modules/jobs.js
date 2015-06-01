@@ -8,6 +8,8 @@ function Jobs(name) {
 
   this.name = name;
   this.files = {};
+  this.dones = {};
+  this.exists = [];
 
   var agenda = new Agenda(sails.config.jobs);
   this.agenda = agenda;
@@ -27,10 +29,22 @@ function Jobs(name) {
   });
 
   agenda.on('success',function(job) {
+    
+    Utils.forEach(self.dones[job.name],function(d){
+      d(null,job);
+    });
+    delete self.dones[job.name];
+    
     self.log.debug('{name} finished {reason}',{name:job.name,reason:(job.forced)?'forcedly':'successfully'});
   });
 
   agenda.on('fail',function(err,job) {
+    
+    Utils.forEach(self.dones[job.name],function(d){
+      d(err,job);
+    });
+    delete self.dones[job.name];
+   
     self.log.error('{name} finished with error: {error}',{name:job.name,error:err});
   });
 
@@ -44,6 +58,7 @@ Jobs.prototype = {
   },
 
   define: function(name,result) {
+    
     var f = this.files[name];
     if (f && f.event) {
 
@@ -52,49 +67,51 @@ Jobs.prototype = {
 
       Events.on(n,function(data){
 
-        var job = n.slice(self.name.length+1);
-        self.start(job,null,data);
+        var jobName = n.slice(self.name.length+1);
+        self.agenda.now(jobName,data);
       });
     }
+    
     this.agenda.define(name,result);
+    if (this.exists.indexOf(name)===-1) this.exists.push(name);
   },
 
-  start: function(name,interval,data,result) {
+  start: function(name,interval,data,result,done) {
 
     var ret = false;
     var log = this.log;
 
     try {
-
-      var dataIsFunc = Utils.isFunction(data);
-      var needDefine = (result || dataIsFunc);
-
-      if (needDefine) {      
-
-        this.stop(name);
-
-        this.agenda.define(name,function(job,done){
-          if (dataIsFunc) {
-            data(job,done);
-          } else result(job,done);
-        });
+      
+      var exists = this.exists.indexOf(name)!==-1;
+      
+      if (!exists && Utils.isFunction(result)) {
+        this.define(name,result);
       }
+      
+      if (exists) {
+        
+        if (interval) {
 
-      var flag = true;
-      var file = this.files[name];
-      if (!interval && file) {
-        interval = file.interval;
-        flag = (!interval);
+          this.agenda.every(interval,name,data);
+
+        } else this.agenda.now(name,data);
       }
-      if (interval) {
-        this.agenda.every(interval,name,(!dataIsFunc)?data:null);
-        if (flag && file) {
-          file.interval = interval;
+      
+      if (exists) {
+        
+        if (Utils.isFunction(done)) {
+          if (!this.dones[name]) this.dones[name] = [];
+          this.dones[name].push(done);
         }
       }
-
-      ret = true;
-
+      
+      ret = exists;
+      
+      if (!ret && Utils.isFunction(done)) {
+        done(null,null);
+      }
+      
     } catch(e) {
       log.exception(e);
     } finally {
@@ -190,5 +207,5 @@ module.exports = function() {
   var need = Config.jobs || (!Config.jobs && !sails.config.jobs.disabled);
   if (need) registerJobs(jobs,sails.config.jobs.directory);
   
-  return events;
+  return jobs;
 }

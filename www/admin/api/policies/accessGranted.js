@@ -6,8 +6,8 @@ module.exports = function(req, res, next) {
   
   if (req.body && req.body.auth) {
     
-    Users.getByLogin(req.body.auth.login,req.body.auth.pass,false,
-                             function(err1,user){
+    Users.getByLogin(req.body.auth.login,req.body.auth.pass,false,false,
+                     function(err1,user){
       
       if (err1) res.serverError(err1);
       else if (user) {

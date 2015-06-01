@@ -38,7 +38,9 @@ module.exports = {
             var loginCount = (req.session.loginCount)?req.session.loginCount:0;
             var lockOnFail = (loginCount+1)>8;
 
-            Users.getByLogin(req.body.login,req.body.pass,lockOnFail,function(err,user,tpls){
+            Users.getByLogin(req.body.login,req.body.pass,
+                             lockOnFail,true,
+                             function(err,user,env){
 
               if (err) error(err);
               else {
@@ -64,9 +66,10 @@ module.exports = {
 
                 var data = {
                   user: u,
-                  templates: tpls,
                   captcha: req.session.loginCount>2
                 }
+                
+                data = Utils.extend(data,env);
                 
                 setTimeout(function onLoginResponse() {
 
@@ -83,7 +86,6 @@ module.exports = {
             
             var data = {
               user: false,
-              templates: [],
               captcha: true
             };
             

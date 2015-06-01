@@ -1,7 +1,3 @@
-/* global Utils, Templates */
-
-// User
-
 var bcrypt = require('bcrypt');    
 
 module.exports = {
@@ -180,7 +176,78 @@ module.exports = {
     }
   },
   
-  getByLogin: function(login,pass,lockOnFail,result) {
+  getEnvironment: function(userOrId,result) {
+    
+    var self = this;
+    
+    if (userOrId) {
+      
+      async.waterfall([
+        
+        function findUser(ret){
+          
+          if (Utils.isObject(userOrId)) {
+            
+            ret(null,userOrId);
+            
+          } else {
+            
+            self.findOneById(userOrId,function(err,user){
+              ret(err,user);
+            });
+          }
+        },
+        
+        function collect(user,ret){
+         
+          if (user) {
+            
+            var items = [];
+
+            items.push({name:'templates',getter:Templates,fields:{}});
+            
+            items.push({
+              name:'menu',
+              getter:Menu,
+              fields:{name:1,description:1,state:1,items:1,class:1}
+            });
+
+            async.map(items,function(item,cb){
+
+              item.getter.getByUser(user,item.fields,function(err,r){
+                cb(err,{name:item.name,obj:r});
+              });
+
+            },function(err,arr){
+
+              if (err) ret(err,user);
+              else if (arr) {
+
+                var env = {};
+
+                Utils.forEach(arr,function(a){
+                  env[a.name] = a.obj;
+                });
+
+                ret(null,user,env);
+
+              } else ret(null,user);
+
+            });
+            
+          } else ret(null,user);
+        }
+        
+        
+      ],function(err,user,env){
+        result(err,user,env);
+      });
+      
+    } else result();
+    
+  },
+  
+  getByLogin: function(login,pass,lockOnFail,needEnv,result) {
 
     var self = this;
     var log = this.log;
@@ -189,79 +256,86 @@ module.exports = {
       
       log.debug('Trying to find the user (%s) in the local db...',[login]);
       
-      self.findOneByLogin(login,function onFindUser(err,user){
-
-        if (err) result(err,null,[]);
-        else if (user) {
+      async.waterfall([
+        
+        function findUser(ret) {
+          
+          self.findOneByLogin(login,function(err,user){
+            ret(err,user);
+          });
+        },
+        
+        function checkCredentials(user,ret){
           
           log.debug('Checking the user credentials...');
           
-          if (user.locked) {
+          if (user) {
             
-            log.debug('User\'s credentials are invalid and locked');
-            result(null,null,[]);
-            
-          } else {
-            
-            if (user.pass && pass) {
+            if (user.locked) {
+              
+              log.debug('User\'s credentials are invalid and locked');
+              ret();
+              
+            } else {
+              
+              if (user.pass && pass) {
+                
+                bcrypt.compare(pass,user.pass,function(err,res) {
 
-              bcrypt.compare(pass,user.pass,function(err,res) {
+                  if (err) ret(err);
+                  else if (res===true) {
 
-                if (err) result(err,null,[]);
-                else if (res===true) {
+                    log.debug('User\'s credentials are fine. Getting templates...');
 
-                  log.debug('User\'s credentials are fine. Getting templates...');
+                    ret(null,false,user);
 
-                  Templates.getByUser(user,function(err,tpls){
-                    result(err,user,tpls);
-                  });
-
-                } else {
-
-                  if (lockOnFail) {
-
-                    log.debug('User\'s credentials are invalid. Locking...');
-
-                    self.update({id:user.id},{locked:new Date()},function(err,u){
-                      result(null,null,[]);
-                    });
-                  } else result(null,null,[]);
-                }
-              });
-
-            } else { 
-
-              if (!user.pass && !pass) {
-
-                log.debug('User\'s credentials have not set');
-
-                Templates.getByUser(user,function(err,tpls){
-                  result(err,user,tpls);
-                });                
-
+                  } else ret(null,true,user);
+                  
+                });
+              
               } else {
                 
-                if (lockOnFail) {
-
-                  log.debug('User\'s credentials are invalid. Locking...');
-
-                  self.update({id:user.id},{locked:new Date()},function(err,u){
-                    result(null,null,[]);
-                  });
+                if (!user.pass && !pass) {
                   
-                } else result(null,null,[]);
+                  log.debug('User\'s credentials have not set');
+                  ret(null,false,user);
+                }
               }
-            }
-          }
-        } else {
+            } 
+            
+          } else ret();
+        },
+        
+        function tryLock(wrong,user,ret) {
           
-          log.debug('No user has found');
+          if (wrong && lockOnFail) {
+            
+            log.debug('User\'s credentials are invalid. Locking...');
+            
+            self.update({id:user.id},{locked:new Date()},function(err,u){
+              ret(err);
+            });
+            
+          } else ret(null,user);
+        },
+        
+        function getEnv(user,ret) {
           
-          result(null,null,[]);
+          if (user) {
+            
+            self.getEnvironment(user,function(err,env){
+              ret(err,user,env);
+            });
+                
+          } else ret();
         }
+        
+        
+      ],function(err,user,env){
+        result(err,user,env);
       });
-    } else result(null,null,[]);
-    
+      
+    } else result(null,null,[],[]);
   }
   
 };

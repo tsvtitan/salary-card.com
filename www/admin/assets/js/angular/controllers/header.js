@@ -3,9 +3,8 @@ app.controller('header',['$scope','$state','$element','$timeout',
                          'Auth','Dictionary','Const','Alert','Init',
                          function($scope,$state,$element,$timeout,
                                   Auth,Dictionary,Const,Alert,Init) {
-  function init() {
-    $scope.dic = Dictionary.dic($element);
-  }
+  
+  $scope.dic = Dictionary.dic($element);
   
   $scope.logout = function() {
 
@@ -29,19 +28,12 @@ app.controller('header',['$scope','$state','$element','$timeout',
       }
     });
   }
-  
+
   Init.once('header',function(){
-    
-    Auth.onLogin(function(){
-      init();
-    });
     
     Auth.onLogout(function(){
       Auth.logouting = true;
     });
-    
-    init();
-    
   });
   
 }]);
