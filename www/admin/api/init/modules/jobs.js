@@ -68,7 +68,7 @@ Jobs.prototype = {
       Events.on(n,function(data){
 
         var jobName = n.slice(self.name.length+1);
-        self.agenda.now(jobName,data);
+        self.start(jobName,f.interval,data);
       });
     }
     
