@@ -209,7 +209,7 @@ module.exports = {
             items.push({
               name: 'pages',
               getter: Pages,
-              fields: {name:1,title:1,description:1,url:1,template:1,navigation:1}
+              fields: {name:1,title:1,description:1,url:1,template:1,breadcrumbs:1}
             });
             
             items.push({

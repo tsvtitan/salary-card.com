@@ -1,10 +1,12 @@
 
-var body = document.getElementsByTagName('body')[0];
-if (body) {
+var html = document.getElementsByTagName('html')[0];
+var title = document.getElementsByTagName('title')[0];
+if (html && title) {
   
-  angular.element(body).ready(function() {
-    body.setAttribute('data-ng-app',app.name);
-    angular.bootstrap(body,[app.name]);
+  angular.element(html).ready(function() {
+    html.setAttribute('data-ng-app',app.name);
+    title.setAttribute('data-ng-bind','title');
+    angular.bootstrap(html,[app.name]);
   });
 }
 

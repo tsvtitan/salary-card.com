@@ -1,6 +1,6 @@
 
-app.controller('footer',['$rootScope','$scope','$state','$element','Auth','Dictionary',
-                         function($rootScope,$scope,$state,$element,Auth,Dictionary){
+app.controller('footer',['$scope','$element','Dictionary',
+                         function($scope,$element,Dictionary){
   
   $scope.dic = Dictionary.dic($element);
   

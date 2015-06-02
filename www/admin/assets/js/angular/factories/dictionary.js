@@ -4,17 +4,29 @@ app.factory('Dictionary',['Utils','Const',
   
   var dictionary = {};
   
-  function getV(e,name,values) {
-    if (e) {
-      if (e.hasAttribute('data-ng-controller')) {
-        var v = dictionary[e.attributes['data-ng-controller'].value];
+  function getByProp(prop,name,values) {
+    var v = dictionary[prop];
+    if (v) {
+      v = v[name];
+      if (v) {
+        return Utils.format(v,values);
+      }
+    }
+    v = (dictionary[name])?dictionary[name]:name;
+    return Utils.format(v,values);
+  }
+  
+  function getByElement(element,attr,name,values) {
+    if (element) {
+      if (element.hasAttribute(attr)) {
+        var v = dictionary[element.attributes[attr].value];
         if (v) {
           v = v[name];
           if (v) {
             return Utils.format(v,values);
-          } else return getV(e.parentElement,name,values);
-        } else return getV(e.parentElement,name,values);
-      } else return getV(e.parentElement,name,values);
+          } else return getByElement(element.parentElement,attr,name,values);
+        } else return getByElement(element.parentElement,attr,name,values);
+      } else return getByElement(element.parentElement,attr,name,values);
     } else {
       var v = (dictionary[name])?dictionary[name]:name;
       return Utils.format(v,values);
@@ -27,11 +39,14 @@ app.factory('Dictionary',['Utils','Const',
     },
     dic: function(element) {
       return function(name,values) {
-        return getV(element[0],name,values);
+        return getByElement(element[0],'data-ng-controller',name,values);
       }
     },
     get: function(s,values) {
-      return getV(null,s,values);
+      return getByProp(null,s,values);
+    },
+    getProp: function(prop,s,values) {
+      return getByProp(prop,s,values);
     },
     format: function(s,values) {
       return Utils.format(s,values);

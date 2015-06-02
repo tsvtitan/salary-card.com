@@ -31,36 +31,6 @@ app.factory('Auth',['$rootScope','$http','Route','Urls','Dictionary','Payload','
     pages: [],
     loginPage: {name:'login',url:'/login',template:'login.html'},
     
-    setTemplates: function(tpls) {
-      
-      Route.clear();
-      
-      for (var i in this.defTemplates) {
-        var t = this.defTemplates[i];
-        Route.state(t.name,{
-          url: t.url,
-          templateUrl: t.templateUrl
-        });
-      }
-        
-      if (Utils.isArray(tpls)) {
-        
-        this.templates = [];
-        
-        for (var i in tpls) {
-          var t = tpls[i];
-          
-          Route.state(t.name,{
-            url: t.url,
-            templateUrl: t.templateUrl
-          });
-          
-          this.templates.push(t);
-          
-        }
-      }
-    },
-    
     set: function(auth) {
       
       if (Utils.isObject(auth)) {
@@ -148,9 +118,14 @@ app.factory('Auth',['$rootScope','$http','Route','Urls','Dictionary','Payload','
       $rootScope.$broadcast(Const.eventLogout);
     },
     
+    getPage: function(name) {
+      
+      return Utils.findWhere(this.pages,{name:name});
+    },
+    
     pageExists: function(name) {
       
-      var obj = Utils.findWhere(this.pages,{name:name});
+      var obj = this.getPage(name);
       return (obj) || this.loginPage.name===name;
     },
     
@@ -184,7 +159,19 @@ app.factory('Auth',['$rootScope','$http','Route','Urls','Dictionary','Payload','
       } else url = this.loginPage.url;
               
       return url;
+    },
+    
+    setHtmlTitle: function(name) {
+      
+      var page = this.getPage(name);
+      if (page && page.title) {
+        $rootScope.title = Utils.format('%s - %s',[Dictionary.getProp(page.name,'Title'),
+                                                   Dictionary.getProp(page.name,page.title)]);
+      } else {
+        $rootScope.title = Dictionary.get('Title');
+      }
     }
+    
   }
   
   return auth;

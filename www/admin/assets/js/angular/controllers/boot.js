@@ -1,11 +1,12 @@
 
-app.controller('boot',['$rootScope','$scope','$state','$element','$location','$q','$timeout',
-                       'Init','Auth','Route','Dictionary','Const','Utils','Alert',
-                       function($rootScope,$scope,$state,$element,$location,$q,$timeout,
-                                Init,Auth,Route,Dictionary,Const,Utils,Alert) {
+app.controller('boot',['$rootScope','$scope','$state','$element','$timeout',
+                       'Init','Auth','Route','Dictionary','Const','Utils','Alert','Page',
+                       function($rootScope,$scope,$state,$element,$timeout,
+                                Init,Auth,Route,Dictionary,Const,Utils,Alert,Page) {
   
   $scope.auth = Auth;
   $scope.dic = Dictionary.dic($element);
+  $scope.page = Page;
   $scope.visible = false;
   $scope.spinner = false;
   $scope.changing = false;
@@ -13,7 +14,6 @@ app.controller('boot',['$rootScope','$scope','$state','$element','$location','$q
   Route.clear();
   
   function defaultUrl() {
-    //Route.defaultUrl((Auth.user)?'/home':'/login');
     Route.defaultUrl(Auth.getDefaultUrl());
   }
   
@@ -78,7 +78,10 @@ app.controller('boot',['$rootScope','$scope','$state','$element','$location','$q
         if (r) {
           
           Route.setLastState(toState.name);
+          Auth.setHtmlTitle(toState.name);
           if (r.spinner) $scope.showSpinner();
+          
+          Page.set(Auth.getPage(toState.name));
           
         } else {
           event.preventDefault();
