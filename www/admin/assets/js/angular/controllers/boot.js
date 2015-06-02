@@ -34,7 +34,10 @@ app.controller('boot',['$rootScope','$scope','$state','$element','$timeout',
     }
     
     if (Auth.pageExists(name)) {
+      
       $state.transitionTo(name,{},{reload:true,inherit:false,notify:true});
+      return true;
+      
     } else Alert.error(Const.pageNotAvailable);
   }
   
@@ -84,6 +87,7 @@ app.controller('boot',['$rootScope','$scope','$state','$element','$timeout',
           Page.set(Auth.getPage(toState.name));
           
         } else {
+          $scope.hideSpinner();
           event.preventDefault();
         }
       }
