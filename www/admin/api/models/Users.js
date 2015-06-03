@@ -28,14 +28,8 @@ module.exports = {
     access: {
       type: 'json'
     },
-    templates: {
-      type: 'json'
-    },
-    state: {
+    page: {
       type: 'string'
-    },
-    remote: {
-      type: 'boolean'  
     },
     locked: {
       type: 'datetime'
@@ -204,23 +198,24 @@ module.exports = {
             
             var items = [];
 
-            //items.push({name:'templates',getter:Templates,fields:{}});
-            
             items.push({
               name: 'pages',
               getter: Pages,
-              fields: {name:1,title:1,description:1,url:1,template:1,breadcrumbs:1}
+              where: {},
+              fields: {id:1,name:1,title:1,description:1,url:1,template:1,
+                      breadcrumbs:1}
             });
             
             items.push({
               name: 'menu',
               getter: Menu,
+              where: {},
               fields: {title:1,description:1,page:1,items:1,class:1}
             });
 
             async.map(items,function(item,cb){
 
-              item.getter.getByUser(user,item.fields,function(err,r){
+              item.getter.getByUser(user,item.where,item.fields,function(err,r){
                 cb(err,{name:item.name,obj:r});
               });
 
@@ -291,7 +286,7 @@ module.exports = {
                   if (err) ret(err);
                   else if (res===true) {
 
-                    log.debug('User\'s credentials are fine. Getting templates...');
+                    log.debug('User\'s credentials are fine.');
 
                     ret(null,false,user);
 

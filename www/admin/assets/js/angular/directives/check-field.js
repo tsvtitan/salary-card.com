@@ -14,10 +14,6 @@ app.directive('checkField',['Utils','Alert','Const','Dictionary',
       if (model) {
         var fmEl = formCtrl[element.attr('name')];
         
-        /*scope.$watch(model,function() {
-         // el.toggleClass('has-error',(fmEl.$invalid && fmEl.$dirty) || (Utils.isDefined(fmEl.hasError) && fmEl.hasError));
-        });*/
-        
         scope.$on('show-errors',function(event,flag,fields) {
           
           var enabled = flag;

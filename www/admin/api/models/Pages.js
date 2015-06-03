@@ -2,7 +2,7 @@
 module.exports = {
 
   migrate: 'safe',
-  autoPK: false,
+  autoPK: true, // need for id
   autoCreatedAt: false,
   autoUpdatedAt: false,
   
@@ -26,7 +26,7 @@ module.exports = {
     }
   },
   
-  getByUser: function (userOrId,fields,result) {
+  getByUser: function (userOrId,where,fields,result) {
     
     var log = this.log;
     var self = this;
@@ -41,7 +41,7 @@ module.exports = {
             ret(null,userOrId);
           } else {
             
-            self.findOneById(userOrId,function(err,user){
+            Users.findOneById(userOrId,function(err,user){
               
               ret(err,user);
             });
@@ -62,14 +62,19 @@ module.exports = {
         
         function getPages(access,ret) {
           
-          var where = {locked:[null,undefined,false]};
-          
-          where = Utils.extend(where,access);
-          
-          self.find({where:where,sort:{priority:1}},{fields:fields},
-                    function(err,pages){
-            ret(err,pages);          
-          });
+          if (access) {
+            
+            var w = {locked:[null,false]};
+            w = Utils.extend(w,where);
+            w = Utils.extend(w,access);
+            
+            self.find({where:w,sort:{priority:1}},{fields:fields},
+                      function(err,pages){
+              
+              ret(err,pages);          
+            });
+            
+          } else ret(null,[]);
         }
         
       ],function(err,pages){
@@ -77,6 +82,18 @@ module.exports = {
       });
       
     } else result(null,[]);
+  },
+  
+  getByUserOne: function (userOrId,where,fields,result) {
+    
+    this.getByUser(userOrId,where,fields,function(err,pages){
+      
+      var page = null;
+      if (Utils.isArray(pages) && pages.length>0) {
+        page = pages[0];
+      }
+      result(err,page);
+    });
   }
   
 }

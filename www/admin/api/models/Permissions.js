@@ -32,11 +32,15 @@ module.exports = {
   forFind: function (userOrLogin,entity,action,result) {
     
     var self = this;
+    var log = this.log;
     
-    function get(login) {
+    function get(user) {
       
       var where = {
-        login: login,
+        or: [
+          { user: user.login },
+          { role: user.roles }
+        ],
         entity: entity,
         locked: [null,undefined,false]
       }
@@ -50,15 +54,17 @@ module.exports = {
         if (err) result(err);
         else if (Utils.isArray(permissions)) {
       
-          var access = {};
+          var or = [];
           
           Utils.forEach(permissions,function(p){
             
             var a = p[action];
             if (Utils.isObject(a)) {
-              access = Utils.extend(access,Utils.makeFilter(a));
+              or.push(Utils.makeFilter(a));
             }
           });
+          
+          var access = Utils.isEmpty(or)?false:{or:or};
           
           result(null,access);
           
@@ -66,8 +72,17 @@ module.exports = {
       });
     }
     
-    if (Utils.isObject(userOrLogin))
-      get(userOrLogin.login);
-    else get(userOrLogin);
+    if (Utils.isObject(userOrLogin)) {
+      
+      get(userOrLogin);
+      
+    } else {
+      
+      Users.findOneByLogin(userOrLogin,function(err,user){
+        
+        if (err) result(err);
+        else get(user);
+      });
+    }
   }
 };

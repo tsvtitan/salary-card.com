@@ -41,9 +41,13 @@ app.controller('boot',['$rootScope','$scope','$state','$element','$timeout',
     } else Alert.error(Const.pageNotAvailable);
   }
   
-  $scope.ready = function() {
+  $scope.ready = function(error,result) {
+    
+    if (Utils.isString(error)) Alert.error(error);
     $timeout(function(){
       $scope.hideSpinner();
+      if (Utils.isFunction(error)) error();
+      else if (Utils.isFunction(result)) result();
     },500);
   }
   

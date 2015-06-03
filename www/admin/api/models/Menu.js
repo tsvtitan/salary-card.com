@@ -2,7 +2,7 @@
 module.exports = {
 
   migrate: 'safe',
-  autoPK: false,
+  autoPK: true, //need for id
   autoCreatedAt: false,
   autoUpdatedAt: false,
   
@@ -25,7 +25,7 @@ module.exports = {
     }
   },
   
-  getByUser: function (userOrId,fields,result) {
+  getByUser: function (userOrId,where,fields,result) {
     
     var log = this.log;
     var self = this;
@@ -40,7 +40,7 @@ module.exports = {
             ret(null,userOrId);
           } else {
             
-            self.findOneById(userOrId,function(err,user){
+            Users.findOneById(userOrId,function(err,user){
               
               ret(err,user);
             });
@@ -61,14 +61,18 @@ module.exports = {
         
         function getMenu(access,ret) {
           
-          var where = {locked:[null,undefined,false]};
+          if (access) {
+            
+            var w = {locked:[null,false]};
+            w = Utils.extend(w,where);
+            w = Utils.extend(w,access);
           
-          where = Utils.extend(where,access);
-          
-          self.find({where:where,sort:{priority:1}},{fields:fields},
-                    function(err,menu){
-            ret(err,menu);          
-          });
+            self.find({where:w,sort:{priority:1}},{fields:fields},
+                      function(err,menu){
+              ret(err,menu);          
+            });
+            
+          } else ret(null,[]);
         }
         
       ],function(err,menu){

@@ -1,7 +1,0 @@
-// TemplateController
-
-module.exports = {
-	
-}
-
-

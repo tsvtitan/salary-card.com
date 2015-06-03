@@ -69,7 +69,7 @@ module.exports.policies = {
     '*': true
   },
   
-  TemplatesController: {
+  PageController: {
     
     '*': 'accessGranted'
   },

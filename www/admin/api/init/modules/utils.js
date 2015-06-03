@@ -221,6 +221,8 @@ Utils.prototype = {
 
     if (_.isString(obj)) {
       return obj.trim()=='';
+    } else if (_.isArray(obj)) {
+      return obj.length===0;
     } else return !(obj);
   },
   
