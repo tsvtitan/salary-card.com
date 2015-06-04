@@ -8,15 +8,13 @@ module.exports = {
   
   attributes: {
     
-    
     name: {
       type: 'string',
       required: true
     },
     title: 'string',
     description: 'string',
-    columns: 'json',
-    tree: 'json',
+    
     template: 'stirng',
     locked: 'datetime',
     

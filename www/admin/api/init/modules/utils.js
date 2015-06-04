@@ -180,13 +180,17 @@ Utils.prototype = {
     
     return arr;
   },
-
+  
   reject: function(item,result) {
     return _.reject(item,result);
   },
 
   filter: function(arr,result){
     return _.filter(arr,result);
+  },
+  
+  find: function(arr,result) {
+    return _.find(arr,result);
   },
 
   forEach: function(arr,result) {

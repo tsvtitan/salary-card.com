@@ -24,7 +24,7 @@ module.exports = {
       
       return Utils.extend({},this);
     }
-  },
+  }/*,
   
   getByUser: function (userOrId,where,fields,result) {
     
@@ -94,6 +94,6 @@ module.exports = {
       }
       result(err,page);
     });
-  }
+  }*/
   
 }

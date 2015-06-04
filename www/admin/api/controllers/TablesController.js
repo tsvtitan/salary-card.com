@@ -2,12 +2,10 @@
 module.exports = {
   
   index: function(req,res) {
-
-    
     res.jsonSuccess();
   },
   
-  frames: function(req,res) {
+  get: function(req,res) {
     
     var log = this.log;
     
@@ -24,7 +22,7 @@ module.exports = {
       
       if (req.session && req.session.userId) {
         
-        async.waterfall([
+        /*async.waterfall([
           
           function getPage(ret){
             
@@ -145,7 +143,12 @@ module.exports = {
           else {
             res.jsonSuccess({frames:Utils.isArray(frames)?frames:[]});
           }
-        });
+        });*/
+        
+        setTimeout(function(){
+          res.jsonSuccess({data:[]});
+        },2000);
+        
 
       } else userNotFound();
       

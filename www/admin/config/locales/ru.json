@@ -22,6 +22,10 @@
       "Logout error": "Ошибка выхода из системы",
       "Login error": "Ошибка входа в систему",
       "Code is invalid": "Неправильный код"
+    },
+    
+    "page": {
+      "tableTemplate": "tables/default.html"
     }
     
   },

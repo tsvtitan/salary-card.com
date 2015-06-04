@@ -1,6 +1,6 @@
 
-app.factory('Page',['$http','Urls','Utils','Dictionary','Auth','Payload','Const',
-                    function($http,Urls,Utils,Dictionary,Auth,Payload,Const) {
+app.factory('Page',['$http','Urls','Utils','Dictionary','Auth','Payload','Const','Tables',
+                    function($http,Urls,Utils,Dictionary,Auth,Payload,Const,Tables) {
   
   function getTitle(p,def) {
     return Utils.isObject(p)?Dictionary.getProp(p.name,p.title):def;
@@ -27,30 +27,73 @@ app.factory('Page',['$http','Urls','Utils','Dictionary','Auth','Payload','Const'
     } else return def;
   }
   
-  var page = {
+  function processTable(table) {
+  
+    if (!Utils.isFunction(table.load)) {
+      
+      table.load = function(options,result) {
+        
+        table.loading = true;
+        table.data = [];
+        
+        Tables.get({name:table.name,options:options},function(d){
+          
+          table.data = Utils.isArray(d.data)?d.data:[];
+          table.loading = false;
+          
+          if (Utils.isFunction(result)) result(d);
+        });
+      }
+    }
+  }
+  
+  function processFrames(frames) {
     
-    id: null,
+    if (Utils.isArray(frames)) {
+      
+      Utils.forEach(frames,function(cols){
+        
+        Utils.forEach(cols,function(frame){
+          
+          switch (frame.type) {
+            case 'table': processTable(frame); break;
+          }
+          
+          console.log(frame);
+        });
+      });
+      
+      return {frames:frames};
+      
+    } else return {frames:[]};
+  }
+  
+  var factory = {
+    
+    name: '',
     title: '',
     breadcrumbs: [],
     
     set: function(page) {
-      this.id = Utils.isObject(page)?page.id:null;
+      this.name = Utils.isObject(page)?page.name:'';
       this.title = getTitle(page,'');
       this.breadcrumbs = getBreadcrums(page,[]);
     },
     
     frames: function(result) {
       
-      if (this.id) {
+      if (this.name) {
         
-        $http.post(Urls.pageFrames,Payload.get({id:this.id}))
-             .success(result)
+        $http.post(Urls.pageFrames,Payload.get({name:this.name}))
+             .success(function(d){
+               result(Utils.extend(d,processFrames(d.frames)));
+             })
              .error(function(d){ result({error:Dictionary.connectionFailed(d)}); });  
      
       } else result(Const.pageNotAvailable);
     }
   }
   
-  return page;
+  return factory;
   
 }]);

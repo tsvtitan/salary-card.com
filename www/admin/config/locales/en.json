@@ -30,6 +30,11 @@
     "captcha": {
       "bgColor": "#f3f3f4",
       "strokeStyle": "#1ab394"
+    },
+    
+    "page": {
+      "tableTemplate": "tables/default.html"
+      
     }
   },
   

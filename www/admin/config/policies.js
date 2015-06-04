@@ -74,6 +74,11 @@ module.exports.policies = {
     '*': 'accessGranted'
   },
   
+  TablesController: {
+    
+    '*': 'accessGranted'
+  },
+  
   TestController: {
     
     '*': true

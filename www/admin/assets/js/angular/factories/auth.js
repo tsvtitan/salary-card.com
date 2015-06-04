@@ -19,7 +19,7 @@ app.factory('Auth',['$rootScope','$http','Route','Urls','Dictionary','Payload','
     });
   }
   
-  var auth = {
+  var factory = {
     
     user: false,
     ready: false,
@@ -174,5 +174,5 @@ app.factory('Auth',['$rootScope','$http','Route','Urls','Dictionary','Payload','
     
   }
   
-  return auth;
+  return factory;
 }]);

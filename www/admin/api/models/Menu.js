@@ -23,7 +23,7 @@ module.exports = {
       
       return Utils.extend({},this);
     }
-  },
+  }/*,
   
   getByUser: function (userOrId,where,fields,result) {
     
@@ -81,5 +81,5 @@ module.exports = {
       
     } else result(null,[]);
   }
-  
+  */
 }

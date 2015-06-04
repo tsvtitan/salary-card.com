@@ -4,6 +4,7 @@ app.constant('Const',{
   checkFields: 'Проверьте поля',
   connectionFailed: 'Соединение разорвано',
   pageNotAvailable: 'Страница не найдена',
+  tableNotAvailable: 'Таблица не найдена',
   
   alertError: 'Ошибка',
   alertInfo: 'Информация',

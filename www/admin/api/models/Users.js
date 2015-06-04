@@ -170,7 +170,86 @@ module.exports = {
     }
   },
   
-  getEnvironment: function(userOrId,result) {
+  getModelTable: function (userOrId,model,where,fields,def,result) {
+    
+    var log = this.log;
+    var self = this;
+    
+    if (userOrId && Utils.isObject(model)) {
+
+      async.waterfall([
+        
+        function getUser(ret) {
+          
+          if (Utils.isObject(userOrId)) {
+            ret(null,userOrId);
+          } else {
+            
+            self.findOneById(userOrId,function(err,user){
+              
+              ret(err,user);
+            });
+          }
+        },
+        
+        function getAccess(user,ret) {
+          
+          if (user) {
+            
+            Permissions.forView(user,model.tableName,'view',function(err,access){
+              ret(err,user,access);
+            });
+            
+          } else ret(null,null,null);
+        },
+        
+        function getTable(user,access,ret) {
+          
+          if (user) {
+            
+            if (!access) access = def;
+            
+            if (access) {
+              
+              var w = {locked:[null,false]};
+              w = Utils.extend(w,where);
+              w = Utils.extend(w,access);
+
+              //log.debug(model.tableName);
+              //log.debug(w);
+
+              model.find({where:w,sort:{priority:1}},{fields:fields},
+                         function(err,table){
+
+                ret(err,table);          
+              });
+              
+            } else ret(null,[]);  
+            
+          } else ret(null,[]);
+        }
+        
+      ],function(err,table){
+        result(err,Utils.remainKeys(table,fields));
+      });
+      
+    } else result(null,[]);
+  },
+  
+  getModelRecord: function (userOrId,model,where,fields,def,result) {
+    
+    this.getModelTable(userOrId,model,where,fields,def,
+                       function(err,table){
+      
+      var record = null;
+      if (Utils.isArray(table) && table.length>0) {
+        record = table[0];
+      }
+      result(err,record);
+    });
+  },
+  
+  getEnvironment: function (userOrId,result) {
     
     var self = this;
     
@@ -200,23 +279,22 @@ module.exports = {
 
             items.push({
               name: 'pages',
-              getter: Pages,
+              model: Pages,
               where: {},
-              fields: {id:1,name:1,title:1,description:1,url:1,template:1,
-                      breadcrumbs:1}
+              fields: {name:1,title:1,description:1,url:1,template:1,breadcrumbs:1}
             });
             
             items.push({
               name: 'menu',
-              getter: Menu,
+              model: Menu,
               where: {},
               fields: {title:1,description:1,page:1,items:1,class:1}
             });
 
-            async.map(items,function(item,cb){
+            async.map(items,function(i,cb){
 
-              item.getter.getByUser(user,item.where,item.fields,function(err,r){
-                cb(err,{name:item.name,obj:r});
+              self.getModelTable(user,i.model,i.where,i.fields,null,function(err,r){
+                cb(err,{name:i.name,obj:r});
               });
 
             },function(err,arr){

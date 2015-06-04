@@ -29,7 +29,7 @@ module.exports = {
     
   },
   
-  forFind: function (userOrLogin,entity,action,result) {
+  forView: function (userOrLogin,entity,action,result) {
     
     var self = this;
     var log = this.log;
