@@ -21,9 +21,9 @@
       <a class="dropdown-toggle" data-toggle="dropdown" data-ng-show="table.actions && table.actions.length>0">
         <i class="fa fa-wrench"></i>
       </a>
-      <ul class="dropdown-menu dropdown-user" data-ng-show="table.actions">
+      <ul class="dropdown-menu dropdown-user scrollable-menu" data-ng-show="table.actions">
         <li data-ng-repeat="a in table.actions">
-          <a data-ng-click="table.execute(a)">{{ a.title }}</a>
+          <div data-ng-include="a.template" data-ng-init="action=a"></div>
         </li>
       </ul>
     

@@ -165,8 +165,7 @@ app.factory('Auth',['$rootScope','$http','Route','Urls','Dictionary','Payload','
       
       var page = this.getPage(name);
       if (page && page.title) {
-        $rootScope.title = Utils.format('%s - %s',[Dictionary.getProp(page.name,'Title'),
-                                                   Dictionary.getProp(page.name,page.title)]);
+        $rootScope.title = Utils.format('%s - %s',[Dictionary.get('Title'),page.title]);
       } else {
         $rootScope.title = Dictionary.get('Title');
       }

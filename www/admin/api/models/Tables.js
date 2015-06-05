@@ -19,6 +19,7 @@ module.exports = {
     tree: 'json',
     template: 'stirng',
     locked: 'datetime',
+    lang: 'string',
     
     toJSON: function() {
       

@@ -14,6 +14,7 @@ module.exports = {
     },
     items: 'json',
     locked: 'datetime',
+    lang: 'string',
     
     toJSON: function() {
       

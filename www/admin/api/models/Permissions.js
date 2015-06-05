@@ -21,6 +21,7 @@ module.exports = {
     access: 'json',
     locked: 'datetime',
     priority: 'integer',
+    lang: 'string',
     
     toJSON: function() {
       
@@ -29,7 +30,7 @@ module.exports = {
     
   },
   
-  forView: function (userOrLogin,entity,action,result) {
+  getAccess: function (userOrLogin,entity,action,result) {
     
     var self = this;
     var log = this.log;
@@ -42,9 +43,10 @@ module.exports = {
           { role: user.roles }
         ],
         entity: entity,
-        locked: [null,undefined,false]
+        locked: [null,false],
+        lang: (user.lang)?user.lang:null
       }
-      where[action] = {'!':[null,undefined,false]};
+      where[action] = {'!':[null,false]};
       
       var fields = {}; fields[action] = 1;
       
@@ -54,21 +56,18 @@ module.exports = {
         if (err) result(err);
         else if (Utils.isArray(permissions)) {
       
-          var or = [];
+          var access = [];
           
           Utils.forEach(permissions,function(p){
             
             var a = p[action];
-            if (Utils.isObject(a)) {
-              or.push(Utils.makeFilter(a));
-            }
+            if (a) access.push(a);
+
           });
           
-          var access = Utils.isEmpty(or)?false:{or:or};
+          result(null,access,user);
           
-          result(null,access);
-          
-        } else result();
+        } else result(null,null,user);
       });
     }
     
@@ -84,5 +83,51 @@ module.exports = {
         else get(user);
       });
     }
+  },
+  
+  asWhere: function (userOrLogin,entity,action,def,result) {
+    
+    this.getAccess(userOrLogin,entity,action,function(err,access,user){
+      
+      if (access && Utils.isArray(access)) {
+        
+        var arr = [];
+        
+        Utils.forEach(access,function(a){
+          
+          if (Utils.isObject(a)) {
+            arr.push(Utils.makeFilter(a));
+          }
+        });
+        
+        access = Utils.isEmpty(arr)?def:{or:arr};
+      
+      } else access = def;
+      
+      result(err,access,user);
+    });
+  },
+  
+  asOr: function (userOrLogin,entity,action,def,result) {
+    
+    this.getAccess(userOrLogin,entity,action,function(err,access,user){
+      
+      if (access && Utils.isArray(access)) {
+        
+        var flag = def;
+        
+        for (var a in access) {
+          if (a) {
+            flag = true;
+            break;
+          }
+        }
+        
+        access = flag;
+        
+      } else access = def;
+      
+      result(err,access,user);
+    });
   }
 };

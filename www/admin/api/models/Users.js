@@ -28,12 +28,9 @@ module.exports = {
     access: {
       type: 'json'
     },
-    page: {
-      type: 'string'
-    },
-    locked: {
-      type: 'datetime'
-    },
+    page: 'string',
+    locked: 'datetime',
+    lang: 'string',
     
     toJSON: function() {
       
@@ -196,7 +193,7 @@ module.exports = {
           
           if (user) {
             
-            Permissions.forView(user,model.tableName,'view',function(err,access){
+            Permissions.asWhere(user,model.tableName,'view',def,function(err,access){
               ret(err,user,access);
             });
             
@@ -207,45 +204,44 @@ module.exports = {
           
           if (user) {
             
-            if (!access) access = def;
-            
             if (access) {
               
-              var w = {locked:[null,false]};
+              var w = {
+                locked: [null,false],
+                lang: (user.lang)?user.lang:null
+              };
+              
               w = Utils.extend(w,where);
               w = Utils.extend(w,access);
-
-              //log.debug(model.tableName);
-              //log.debug(w);
 
               model.find({where:w,sort:{priority:1}},{fields:fields},
                          function(err,table){
 
-                ret(err,table);          
+                ret(err,table,user);          
               });
               
-            } else ret(null,[]);  
+            } else ret(null,[],user);  
             
-          } else ret(null,[]);
+          } else ret(null,[],user);
         }
         
-      ],function(err,table){
-        result(err,Utils.remainKeys(table,fields));
+      ],function(err,table,user){
+        result(err,Utils.remainKeys(table,fields),user);
       });
       
-    } else result(null,[]);
+    } else result(null,[],null);
   },
   
   getModelRecord: function (userOrId,model,where,fields,def,result) {
     
     this.getModelTable(userOrId,model,where,fields,def,
-                       function(err,table){
+                       function(err,table,user){
       
       var record = null;
       if (Utils.isArray(table) && table.length>0) {
         record = table[0];
       }
-      result(err,record);
+      result(err,record,user);
     });
   },
   

@@ -18,6 +18,7 @@ module.exports = {
     priority: 'integer',
     page: 'string',
     locked: 'datetime',
+    lang: 'string',
     
     toJSON: function() {
       

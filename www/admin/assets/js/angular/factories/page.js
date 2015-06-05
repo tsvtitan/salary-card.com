@@ -3,7 +3,7 @@ app.factory('Page',['$http','Urls','Utils','Dictionary','Auth','Payload','Const'
                     function($http,Urls,Utils,Dictionary,Auth,Payload,Const,Tables) {
   
   function getTitle(p,def) {
-    return Utils.isObject(p)?Dictionary.getProp(p.name,p.title):def;
+    return Utils.isObject(p)?p.title:def;
   }
   
   function getBreadcrums(p,def) {
@@ -16,8 +16,6 @@ app.factory('Page',['$http','Urls','Utils','Dictionary','Auth','Payload','Const'
         if (Auth.pageExists(c.name)) {
           
           var nc = Utils.clone(c);
-          nc.title = Dictionary.getProp(nc.name,nc.title);
-          
           crumbs.push(nc);
         }
       });
@@ -29,6 +27,35 @@ app.factory('Page',['$http','Urls','Utils','Dictionary','Auth','Payload','Const'
   
   function processTable(table) {
   
+    function processAction(action) {
+      
+      action.table = table;
+      
+      if (!Utils.isFunction(action.execute)) {
+        
+        action.execute = function(params,result) {
+          
+          Tables.action({name:table.name,action:action.name,params:params},function(d){
+            
+            if (d.reload) {
+              
+              //table.reload(function(d){
+                if (Utils.isFunction(result)) result(d);
+              //});
+              
+            } else if (Utils.isFunction(result)) result(d);
+          });
+        }
+      }
+    }
+    
+    if (Utils.isArray(table.actions)) {
+    
+      Utils.forEach(table.actions,function(action){
+        processAction(action);
+      });
+    }
+    
     if (!Utils.isFunction(table.load)) {
       
       table.load = function(options,result) {
@@ -56,7 +83,6 @@ app.factory('Page',['$http','Urls','Utils','Dictionary','Auth','Payload','Const'
           if (Utils.isFunction(result)) result(d);
         });
       }
-      
     }
   }
   
@@ -68,15 +94,18 @@ app.factory('Page',['$http','Urls','Utils','Dictionary','Auth','Payload','Const'
         
         Utils.forEach(cols,function(frame){
           
-          switch (frame.type) {
-            case 'table': processTable(frame); break;
-          }
-          
-          if (!Utils.isFunction(frame.isTable)) {
-            frame.isTable = function() {
-              return frame.type==='table';
+          if (Utils.isObject(frame)) {
+            
+            switch (frame.type) {
+              case 'table': processTable(frame); break;
             }
-          }
+
+            if (!Utils.isFunction(frame.isTable)) {
+              frame.isTable = function() {
+                return frame.type==='table';
+              }
+            }
+          }  
 
         });
       });

@@ -15,7 +15,9 @@ app.constant('Urls',{
   authLogin: api.concat('/login'),
   authLogout: api.concat('/logout'),
   pageFrames: apiPage.concat('/frames'),
+  
   tablesGet: apiTables.concat('/get'),
+  tablesAction: apiTables.concat('/action'),
   
   captchaLogin: root.concat('/captcha/login'),
   

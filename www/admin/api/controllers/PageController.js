@@ -65,7 +65,7 @@ module.exports = {
                         fields = Utils.extend(fields,{icon:1,columns:1,tree:1});
                         break;
                       }
-                      case 'graphs': {
+                      case 'graph': {
                         model = Graphs;
                         break;
                       }
@@ -97,9 +97,30 @@ module.exports = {
               async.map(items,function(i,cb){
 
                 Users.getModelRecord(req.session.userId,i.model,i.where,i.fields,{},
-                                     function(err,r){
-                  cb(err,{name:i.name,record:r,fields:i.fields});
+                                     function(err,r,user){
+                                       
+                  if (!err && r && Utils.isArray(r.actions) && r.actions.length>0) {
+                    
+                    async.map(r.actions,function(a,cb1){
+                      
+                      Permissions.asOr(user,i.name,a.name,false,function(err,access){
+                        
+                        if (a && !access) {
+                          a = null;
+                        }
+                        cb1(err,a);
+                      });
+                              
+                    },function(err1,arr1){
+                      r.actions = Utils.filter(arr1,function(a){
+                        return (a);
+                      });
+                      cb(err1,{name:i.name,record:r,fields:i.fields});
+                    });
+                    
+                  } else cb(err,{name:i.name,record:r,fields:i.fields});
                 });
+
 
               },function(err,arr){
 

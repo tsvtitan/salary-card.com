@@ -63,6 +63,7 @@ module.exports.routes = {
   
   'post /admin/api/tables': {controller:'TablesController', action:'index', policy:'accessGranted'},
   'post /admin/api/tables/get': {controller:'TablesController', action:'get', policy:'accessGranted'},
+  'post /admin/api/tables/action': {controller:'TablesController', action:'action', policy:'accessGranted'},
   
   '/test': {view:'test',locals:{layout:'layouts/test'}},
   '/test/default': {view:'test',locals:{layout:'layouts/default'}},

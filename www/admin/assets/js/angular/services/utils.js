@@ -1,5 +1,6 @@
 
-app.service('Utils',['base64',function(base64) {
+app.service('Utils',['base64',
+                     function(base64) {
 
   function formatObj(s,values) {
     
@@ -101,7 +102,58 @@ app.service('Utils',['base64',function(base64) {
   
   this.findWhere = function (arr,obj) {
     return _.findWhere(arr,obj);
-  }
+  },
   
+  this.isFiles = function (obj) {
+    
+    if (_.isObject(obj)) {
+      
+      return obj instanceof FileList;
+      
+    } return false;
+  },
+  
+  this.makeFormData = function (data) {
+    
+    var form = new FormData();
+    
+    if (_.isObject(data)) {
+      
+      var files = [];
+      var names = [];
+      
+      for (var v in data) {
+        
+        var r = data[v];
+        
+        if (this.isFiles(r)) {
+
+          for (var i=0; i<r.length; i++) {
+
+            files.push({name:v,file:r[i]});
+            names.push(v);
+          }
+
+        } else {
+
+          if (angular.isObject(r)) {
+            form.append(v,JSON.stringify(r));
+          } else {
+            form.append(v,r);
+          }  
+        }
+      }
+
+      if (names.length>0) form.append('files',JSON.stringify(names));
+      
+      for (var i in files) {
+        var f = files[i];
+        form.append(f.name,f.file); 
+      }
+      
+    }
+      
+    return form;  
+  }
   
 }]);

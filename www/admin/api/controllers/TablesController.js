@@ -155,6 +155,12 @@ module.exports = {
     } catch (e) {
       error(e.message);
     }
+  },
+  
+  action: function(req,res) {
+    
+    console.log(req.body);
+    res.jsonSuccess({reload:true});
   }
   
 }

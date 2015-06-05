@@ -19,6 +19,7 @@ module.exports = {
     template: 'string',
     priority: 'integer',
     locked: 'datetime',
+    lang: 'string',
     
     toJSON: function() {
       

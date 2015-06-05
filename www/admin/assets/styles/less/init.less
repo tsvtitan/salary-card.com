@@ -26,7 +26,7 @@
   vertical-align: middle;
 }
 
-.hide-overflow {
+.ellipse-overflow {
   overflow: hidden;
   white-space: nowrap;
   -ms-text-overflow: ellipsis;
@@ -35,27 +35,38 @@
   width:100%;
   display:block;
 }
-/* inspinia */
 
-.middle-box {
-  padding-top: 0px;
-  
-  h1 {
-    margin-top: -20px;
-  }
+.btn-file,
+.link-file {
+  position: relative;
+  overflow: hidden;
 }
 
-.logout-spinner {
-  padding: 14px 10px;
-  min-height: 60px;
-  margin-right: 40px;
-  text-align: left;
+.btn-file input[type=file],
+.link-file input[type=file] {
+  position: absolute;
+  top: 0;
+  right: 0;
+  min-width: 100%;
+  min-height: 100%;
+  font-size: 100px;
+  text-align: right;
+  filter: alpha(opacity=0);
+  opacity: 0;
+  background: red;
+  cursor: inherit;
+  display: block;
 }
 
-.img-profile-small {
-  max-height: 48px;
-  max-width: 48px;
-  height: 48px;
-  width: 48px;
+.scrollable-menu {
+  height: auto;
+  max-height: 300px;
+  overflow-x: hidden;
 }
+
+.dropdown-menu {
+  max-width:300px;
+}
+
+
 
