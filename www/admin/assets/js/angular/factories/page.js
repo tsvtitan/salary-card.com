@@ -39,11 +39,24 @@ app.factory('Page',['$http','Urls','Utils','Dictionary','Auth','Payload','Const'
         Tables.get({name:table.name,options:options},function(d){
           
           table.data = Utils.isArray(d.data)?d.data:[];
+          table.options = options;
           table.loading = false;
           
           if (Utils.isFunction(result)) result(d);
         });
       }
+    }
+    
+    if (!Utils.isFunction(table.reload)) {
+      
+      table.reload = function(result) {
+        
+        table.load(table.options,function(d){
+          
+          if (Utils.isFunction(result)) result(d);
+        });
+      }
+      
     }
   }
   
@@ -59,7 +72,12 @@ app.factory('Page',['$http','Urls','Utils','Dictionary','Auth','Payload','Const'
             case 'table': processTable(frame); break;
           }
           
-          console.log(frame);
+          if (!Utils.isFunction(frame.isTable)) {
+            frame.isTable = function() {
+              return frame.type==='table';
+            }
+          }
+
         });
       });
       
