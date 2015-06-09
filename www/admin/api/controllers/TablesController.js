@@ -5,6 +5,140 @@ module.exports = {
     res.jsonSuccess();
   },
   
+  action: function(req,res) {
+    
+    var log = this.log;
+    
+    function error(s) {
+      log.error(s,null,1);
+      res.jsonError('Action error');
+    }
+    
+    if (req.session && req.session.userId) {
+      
+      async.waterfall([
+        
+        function getTable(ret) {
+          
+          console.log(req.body);
+          if (req.body && req.body.name && req.body.action) {
+            
+            Tables.findOneByName(req.body.name,function(err,table){
+              
+              ret(null,table,req.body.action);
+            });
+            
+          } else ret('Body is not found');
+        },
+        
+        function getAccess(table,action,ret) {
+          
+          if (table) {
+            
+            Permissions.asOr(req.session.userId,table.name,action,false,
+                             function(err,access,user){
+
+              ret(err,access,table.model,action,user);
+            });
+                    
+          } else ret('Table is not found');
+        },
+        
+        function findModel(access,model,action,user,ret) {
+          
+          if (access) {
+            
+            var obj = Utils.find(sails.models,function(m){
+              return m.globalId === model;
+            });
+
+            if (obj) {
+
+              if (Utils.isFunction(obj[action])) {
+
+                ret(null,obj[action],user);
+
+              } else ret('Action is not found');
+
+            } else ret('Model is not found');
+            
+          } else ret('Access denied');
+        },
+        
+        function parseParams(action,user,ret) {
+        
+          if (req.body.params) {
+            
+            try {
+              
+              var params = JSON.parse(req.body.params);
+              ret(null,action,user,params);
+              
+            } catch (e) {
+              ret(e.message);
+            }
+            
+          } else ret(null,action,user,{});
+        },
+        
+        function parseFiles(action,user,params,ret) {
+        
+          if (req.body.files) {
+            
+            try {
+              
+              var files = JSON.parse(req.body.files);
+              ret(null,action,user,params,files);
+              
+            } catch (e) {
+              ret(e.message);
+            }
+            
+          } else ret(null,action,user,params,[]);
+        },
+        
+        function uploadFiles(action,user,params,files,ret) {
+          
+          if (Utils.isArray(files) && !Utils.isEmpty(files)) {
+            
+            async.map(files,function(name,cb){
+              
+              req.file(name).upload(function(err1,files){
+                cb(err1,files);
+              });
+
+            },function(err,results){
+              
+              if (err) ret(err);
+              else {
+                var files = [];
+                for (var i in results) {
+                  files = files.concat(results[i]);
+                }
+                ret(err,action,user,params,files);
+              }
+            });
+            
+          } else ret(null,action,user,params,null);
+        },
+        
+        function executeAction(action,user,params,files,ret) {
+          
+          action(user,params,files,function(err,result){
+            ret(err,result);
+          });
+        }
+        
+      ],function(err,result){
+        if (err) error(err);
+        else {
+          res.jsonSuccess({result:result});
+        }
+      });
+      
+    } else res.userNotFound();
+  },
+  
   get: function(req,res) {
     
     var log = this.log;
@@ -155,12 +289,6 @@ module.exports = {
     } catch (e) {
       error(e.message);
     }
-  },
-  
-  action: function(req,res) {
-    
-    console.log(req.body);
-    res.jsonSuccess({reload:true});
   }
   
 }

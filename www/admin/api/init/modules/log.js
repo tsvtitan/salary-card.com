@@ -25,76 +25,137 @@ Log.prototype = {
     sails.log.error(e.message);
   },
   
-  extend: function(obj,prefix,name,suffix,method) {
-  
-    if (obj.log) {
-      return obj;
-    }
-
-    var n = (name)?name:obj.constructor.name;
-
+  trace: function(name,offset,extra) {
+    
+    var offset = (offset)?offset+1:1;
+    
     function removePhrase(s,phrase) {
       var s1 = s.substring(0,phrase.length);
       if (s1===phrase) {
         return s.substring(s1.length);
       } else return s;
     }
+    
+    function getTrace(traces,extra) {
 
-    function getTrace(traces,index,module) {
-
-      var ret = '';
+      var trace = null;
+      
       var exp1 = new RegExp('^'+sails.config.appPath+'+');
       var exp2 = new RegExp('^'+sails.config.appPath+'/node_modules+');
-      for (var i=index; i<traces.length; i++) {
+      
+      var temp = []
+      for (var i=0; i<traces.length; i++) {
         var t = traces[i];
         if (t) {
           var f = (t.methodName)?t.methodName:t.functionName;
           if (exp1.test(t.fileName) && !exp2.test(t.fileName) && f) {
-            f = removePhrase(f,'module.exports.');
-            ret = (!module)?Utils.format('.%s',[f]):Utils.format('.%s (%s, %d)',[f,t.fileName,t.lineNumber]);
-            break;
+            t.phrase = removePhrase(f,'module.exports.');
+            temp.push(t);
           }
         }
       } 
-      return ret;
-    }
+      
+      //console.log(temp,offset);
+      
+      if (!Utils.isEmpty(temp)) {
+        
+        var apiPath = sails.config.appPath+'/api/';
+        var exp3 = new RegExp('^'+apiPath+'+');
+        
+        if (temp.length>offset) {
 
-    function prepare(s,values,module,offset) {
-      var pr = (prefix)?prefix+'/':'';
-      var sf = (suffix)?suffix:'';
-      var t = '';
-      var traces = stackTrace.parse(new Error());
-      if (method && traces && traces.length>(2+offset)) {
-        offset = (offset)?offset:0;
-        t = getTrace(traces,2+offset,module);
+          var t = temp[offset];
+          trace = (!extra)?Utils.format('.%s',[t.phrase]):Utils.format('.%s (%s, %d)',[t.phrase,t.fileName,t.lineNumber]);
+          
+          if (!name && exp3.test(t.fileName)) {
+            
+            name = removePhrase(t.fileName,apiPath);
+            name = name.substr(0,name.lastIndexOf('.')) || name;
+          }
+
+        }
       }
-      return Utils.format('[%s%s%s%s] => %s',[pr,n,sf,t,Utils.format(s,values)]);
+      
+      return (trace)?{name:name,trace:trace}:null;
+    }
+    
+    var traces = stackTrace.parse(new Error());
+    if (traces && traces.length>0) {
+      
+      return getTrace(traces,extra);
+      
+    } return null;
+  },
+  
+  prepare: function(prefix,name,suffix,s,values,trace,offset,extra) {
+    
+    var pr = (prefix)?prefix+'/':'';
+    var sf = (suffix)?suffix:'';
+    var t = {name:name,trace:''};
+    if (trace) {
+      t = this.trace(name,(offset)?offset+1:1,extra) || t;
+    }
+    
+    return Utils.format('[%s%s%s%s] => %s',[pr,t.name,sf,t.trace,Utils.format(s,values)]);
+  },
+  
+  infoTrace: function(s,values,offset,extra) {
+    
+    this.info(this.prepare(null,null,null,s,values,true,(offset)?offset+1:1,extra));
+  },
+  
+  debugTrace: function(s,values,offset,extra) {
+    
+    this.debug(this.prepare(null,null,null,s,values,true,(offset)?offset+1:1,(extra)?extra:true));
+  },
+  
+  errorTrace: function(s,values,offset,extra) {
+    
+    this.error(this.prepare(null,null,null,s,values,true,(offset)?offset+1:1,(extra)?extra:true));
+  },
+  
+  warnTrace: function(s,values,offset,extra) {
+    
+    this.warn(this.prepare(null,null,null,s,values,true,(offset)?offset+1:1,extra));
+  },
+  
+  exceptionTrace: function(e,offset) {
+    
+    this.warn(this.prepare(null,null,null,e.message,null,true,(offset)?offset+1:1,true));
+  },
+  
+  extend: function(obj,prefix,name,suffix,method) {
+  
+    if (obj.log) {
+      return obj;
     }
 
+    var name = (name)?name:obj.constructor.name;
     var self = this;
+    var def = 1;
     
     var ext = {
 
       log: {
 
         debug: function(s,values,offset) {
-          self.debug(prepare(s,values,false,offset));
+          self.debug(self.prepare(prefix,name,suffix,s,values,true,(offset)?offset+def:def,true));
         },
 
         error: function(s,values,offset) {
-          self.error(prepare(s,values,false,offset));
+          self.error(self.prepare(prefix,name,suffix,s,values,true,(offset)?offset+def:def,true));
         },
 
         info: function(s,values,offset) {
-          self.info(prepare(s,values,false,offset));
+          self.info(self.prepare(prefix,name,suffix,s,values,true,(offset)?offset+def:def,false));
         },
 
         warn: function(s,values,offset) {
-          self.warn(prepare(s,values,false,offset));
+          self.warn(self.prepare(prefix,name,suffix,s,values,true,(offset)?offset+def:def,false));
         },
 
-        exception: function(e) {
-          self.warn(prepare(e.message,null,true));
+        exception: function(e,offset) {
+          self.warn(self.prepare(prefix,name,suffix,e.message,null,true,(offset)?offset+def:def,true));
         }
       }
     }

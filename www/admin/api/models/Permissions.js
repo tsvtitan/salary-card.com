@@ -30,7 +30,7 @@ module.exports = {
     
   },
   
-  getAccess: function (userOrLogin,entity,action,result) {
+  getAccess: function (userOrIdOrLogin,entity,action,result) {
     
     var self = this;
     var log = this.log;
@@ -71,23 +71,44 @@ module.exports = {
       });
     }
     
-    if (Utils.isObject(userOrLogin)) {
+    if (Utils.isObject(userOrIdOrLogin)) {
       
-      get(userOrLogin);
+      get(userOrIdOrLogin);
       
     } else {
       
-      Users.findOneByLogin(userOrLogin,function(err,user){
+      async.waterfall([
         
+        function findById(ret){
+          
+          Users.findOneById(userOrIdOrLogin,function(err,user){
+            ret(err,user);
+          });
+        },
+        
+        function findByLogin(user,ret) {
+         
+          if (!user) {
+            
+            Users.findOneByLogin(userOrIdOrLogin,function(err,user){
+              ret(err,user);
+            });
+            
+          } else ret(null,user);
+        }
+        
+      ],function(err,user){
+      
         if (err) result(err);
         else get(user);
       });
+
     }
   },
   
-  asWhere: function (userOrLogin,entity,action,def,result) {
+  asWhere: function (userOrIdOrLogin,entity,action,def,result) {
     
-    this.getAccess(userOrLogin,entity,action,function(err,access,user){
+    this.getAccess(userOrIdOrLogin,entity,action,function(err,access,user){
       
       if (access && Utils.isArray(access)) {
         
@@ -108,9 +129,9 @@ module.exports = {
     });
   },
   
-  asOr: function (userOrLogin,entity,action,def,result) {
+  asOr: function (userOrIdOrLogin,entity,action,def,result) {
     
-    this.getAccess(userOrLogin,entity,action,function(err,access,user){
+    this.getAccess(userOrIdOrLogin,entity,action,function(err,access,user){
       
       if (access && Utils.isArray(access)) {
         

@@ -33,9 +33,9 @@ app.factory('Page',['$http','Urls','Utils','Dictionary','Auth','Payload','Const'
       
       if (!Utils.isFunction(action.execute)) {
         
-        action.execute = function(params,result) {
+        action.execute = function(params,files,result) {
           
-          Tables.action({name:table.name,action:action.name,params:params},function(d){
+          Tables.action({name:table.name,action:action.name,params:params,files:files},function(d){
             
             if (d.reload) {
               

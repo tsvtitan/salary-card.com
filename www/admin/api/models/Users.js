@@ -176,31 +176,14 @@ module.exports = {
 
       async.waterfall([
         
-        function getUser(ret) {
+        function getAccess(ret) {
           
-          if (Utils.isObject(userOrId)) {
-            ret(null,userOrId);
-          } else {
-            
-            self.findOneById(userOrId,function(err,user){
-              
-              ret(err,user);
-            });
-          }
+          Permissions.asWhere(userOrId,model.tableName,'view',def,function(err,access,user){
+            ret(err,access,user);
+          });
         },
         
-        function getAccess(user,ret) {
-          
-          if (user) {
-            
-            Permissions.asWhere(user,model.tableName,'view',def,function(err,access){
-              ret(err,user,access);
-            });
-            
-          } else ret(null,null,null);
-        },
-        
-        function getTable(user,access,ret) {
+        function getTable(access,user,ret) {
           
           if (user) {
             

@@ -121,13 +121,16 @@ app.service('Utils',['base64',
       
       var files = [];
       var names = [];
+      var name = '';
       
       for (var v in data) {
         
         var r = data[v];
         
         if (this.isFiles(r)) {
-
+          
+          name = v;
+          
           for (var i=0; i<r.length; i++) {
 
             files.push({name:v,file:r[i]});
@@ -144,7 +147,7 @@ app.service('Utils',['base64',
         }
       }
 
-      if (names.length>0) form.append('files',JSON.stringify(names));
+      if (names.length>0) form.append(name,JSON.stringify(names));
       
       for (var i in files) {
         var f = files[i];

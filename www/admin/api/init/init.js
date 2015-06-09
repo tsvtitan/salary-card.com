@@ -31,9 +31,13 @@ module.exports = function() {
   });
 
   utils.forEach(sails.controllers,function(controller){
-    controller = log.extend(controller,'controllers',controller.globalId,null,true);
+    controller = log.extend(controller,'controllers',controller.globalId+'Controller',null,true);
   });
-
+  
+  /*utils.forEach(sails.hooks.responses.middleware,function(response){
+    response = log.extend(response,'responses',response.globalId,null,true);
+  });*/
+  
   global['Jobs'] = jobs = Jobs();
   
   function processStop() {

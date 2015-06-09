@@ -1,4 +1,3 @@
-// jsonSuccess
 
 module.exports = function jsonError (data) {
   
