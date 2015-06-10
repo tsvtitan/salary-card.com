@@ -1,6 +1,8 @@
 
-app.factory('Page',['$http','Urls','Utils','Dictionary','Auth','Payload','Const','Tables',
-                    function($http,Urls,Utils,Dictionary,Auth,Payload,Const,Tables) {
+app.factory('Page',['$http','$q',
+                    'Urls','Utils','Dictionary','Auth','Payload','Const','Tables','Alert',
+                    function($http,$q,
+                             Urls,Utils,Dictionary,Auth,Payload,Const,Tables,Alert) {
   
   function getTitle(p,def) {
     return Utils.isObject(p)?p.title:def;
@@ -35,15 +37,42 @@ app.factory('Page',['$http','Urls','Utils','Dictionary','Auth','Payload','Const'
         
         action.execute = function(params,files,result) {
           
-          Tables.action({name:table.name,action:action.name,params:params,files:files},function(d){
+          function execute() {
             
-            if (d.reload) {
+            var deferred = $q.defer();
+            var data = {
+              name: table.name,
+              action: action.name,
+              params: params,
+              files: files
+            };
+            
+            Tables.action(data,function(d){
+              deferred.resolve(d);
+            });
+            
+            return deferred.promise;
+          }
+          
+          table.processing = true;
+          
+          execute().then(function(d){
+            
+            table.processing = false;
+            
+            if (d.error) {
               
-              //table.reload(function(d){
+              if (Utils.isFunction(result)) result(d);
+              else Alert.error(d.error);
+              
+            } else if (d.reload) {
+              
+              table.reload(function(){
                 if (Utils.isFunction(result)) result(d);
-              //});
+              });
               
             } else if (Utils.isFunction(result)) result(d);
+            
           });
         }
       }

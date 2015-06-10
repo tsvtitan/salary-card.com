@@ -136,8 +136,6 @@ module.exports = {
             
             async.each(files,function(f,cb){
               
-              console.log(f);
-              
               if (f && !f.keep && fs.existsSync(f.fd)) {
                 
                 fs.unlink(f.fd,function(err){

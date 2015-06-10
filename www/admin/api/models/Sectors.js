@@ -64,7 +64,7 @@ module.exports = {
             Imports.create(imp,function(err,i){
               
               if (i) {
-                l.need = true;
+                l.keep = true;
               }
               cb(err,i);
             });
