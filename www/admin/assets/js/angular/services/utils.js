@@ -134,7 +134,7 @@ app.service('Utils',['base64',
           for (var i=0; i<r.length; i++) {
 
             files.push({name:v,file:r[i]});
-            names.push(v);
+            if (names.indexOf(v)===-1) names.push(v);
           }
 
         } else {

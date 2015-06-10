@@ -1,4 +1,6 @@
 
+var fs = require('fs');
+
 module.exports = {
   
   index: function(req,res) {
@@ -20,7 +22,6 @@ module.exports = {
         
         function getTable(ret) {
           
-          console.log(req.body);
           if (req.body && req.body.name && req.body.action) {
             
             Tables.findOneByName(req.body.name,function(err,table){
@@ -103,19 +104,19 @@ module.exports = {
             
             async.map(files,function(name,cb){
               
-              req.file(name).upload(function(err1,files){
-                cb(err1,files);
+              req.file(name).upload(function(err1,list){
+                cb(err1,list);
               });
 
             },function(err,results){
               
               if (err) ret(err);
               else {
-                var files = [];
+                var list = [];
                 for (var i in results) {
-                  files = files.concat(results[i]);
+                  list = list.concat(results[i]);
                 }
-                ret(err,action,user,params,files);
+                ret(err,action,user,params,list);
               }
             });
             
@@ -125,14 +126,38 @@ module.exports = {
         function executeAction(action,user,params,files,ret) {
           
           action(user,params,files,function(err,result){
-            ret(err,result);
+            ret(err,files,result);
           });
-        }
+        },
         
+        function deleteFiles(files,result,ret) {
+          
+          if (!Utils.isEmpty(files)) {
+            
+            async.each(files,function(f,cb){
+              
+              console.log(f);
+              
+              if (f && !f.keep && fs.existsSync(f.fd)) {
+                
+                fs.unlink(f.fd,function(err){
+                  cb(err);
+                });
+                
+              } else cb(null);
+              
+            },function(err){
+              if (err) log.error(err);
+              ret(null,result);
+            });
+            
+          } else ret(null,result);
+        }  
+
       ],function(err,result){
         if (err) error(err);
         else {
-          res.jsonSuccess({result:result});
+          res.jsonSuccess(result);
         }
       });
       

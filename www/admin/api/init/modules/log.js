@@ -55,8 +55,6 @@ Log.prototype = {
         }
       } 
       
-      //console.log(temp,offset);
-      
       if (!Utils.isEmpty(temp)) {
         
         var apiPath = sails.config.appPath+'/api/';
@@ -70,7 +68,7 @@ Log.prototype = {
           if (!name && exp3.test(t.fileName)) {
             
             name = removePhrase(t.fileName,apiPath);
-            name = name.substr(0,name.lastIndexOf('.')) || name;
+            name = Utils.fileName(name);
           }
 
         }

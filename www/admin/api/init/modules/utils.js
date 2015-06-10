@@ -232,6 +232,24 @@ Utils.prototype = {
   
   isBoolean: function(obj) {
     return !_.isBoolean(obj);
+  },
+  
+  fileName: function(fullName) {
+    
+    if (_.isString(fullName)) {
+      
+      return fullName.substr(0,fullName.lastIndexOf('.')) || fullName;
+      
+    } else return fullName;
+  },
+  
+  fileExtension: function(fullName) {
+    
+    if (_.isString(fullName)) {
+      
+      return fullName.substr((~-fullName.lastIndexOf('.') >>> 0) + 2);
+      
+    } else return fullName;
   }
 
 }
