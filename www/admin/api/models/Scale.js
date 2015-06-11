@@ -14,8 +14,7 @@ module.exports = {
       type: 'string',
       required: true
     },
-    items: 'json',
-    ratio: 'float',
+    assortment: 'json',
     priority: 'integer',
     locked: 'datetime',
     lang: 'string',
@@ -63,9 +62,9 @@ module.exports = {
         });
       },
       
-      function importSectors(data,ret) {
+      function importScale(data,ret) {
         
-        var lastSector = null;
+        var lastScale = null;
         var priority = 0;
         
         async.eachSeries(data,function(d,cb){
@@ -74,91 +73,81 @@ module.exports = {
             
             async.waterfall([
 
-              function findSector(cb1) {
+              function findScale(cb1) {
 
-                if (lastSector && lastSector.title===d.sector) {
+                if (lastScale && lastScale.title===d.scale) {
 
-                  cb1(null,lastSector);
+                  cb1(null,lastScale);
 
                 } else {
 
-                  lastSector = null;
+                  lastScale = null;
 
                   var where = {
                     locked: [null,false],
                     lang: Utils.isObject(user)?user.lang:null,
-                    title: d.sector
+                    title: d.scale
                   };
 
-                  self.find({where:where},{fields:{id:1,title:1,items:1,ratio:1}},
-                            function(err,sectors){
-                    cb1(err,Utils.isEmpty(sectors)?null:sectors[0]);          
+                  self.find({where:where},{fields:{id:1,title:1,assortment:1}},
+                            function(err,scales){
+                    cb1(err,Utils.isEmpty(scales)?null:scales[0]);          
                   });
                 }
               },
 
-              function tryCreateSector(sector,cb1) {
+              function tryCreateScale(scale,cb1) {
 
-                if (!sector) {
+                if (!scale) {
 
-                  var sector = {
-                    title: d.sector,
-                    items: [],
-                    ratio: 1.0,
+                  var scale = {
+                    title: d.scale,
+                    assortment: [],
                     priority: priority++,
                     lang: Utils.isObject(user)?user.lang:null 
                   };
 
-                  self.create(sector,function(err,s){
+                  self.create(scale,function(err,s){
                     cb1(err,s);
                   });
 
-                } else cb1(null,sector);
+                } else cb1(null,scale);
               },
 
-              function addItems(sector,cb1) {
+              function addAssortment(scale,cb1) {
 
-                if (sector) {
+                if (scale) {
 
-                  var items = Utils.isArray(sector.items)?sector.items:[];
+                  var assortment = Utils.isArray(scale.assortment)?scale.assortment:[];
 
-                  if (d.subsector) {
+                  if (d.assortment) {
 
-                    var subsector = Utils.find(items,function(i){
-                      return i.title === d.subsector;
+                    var item = Utils.find(assortment,function(i){
+                      return i.title === d.assortment;
                     });
 
-                    if (!subsector) {
-                      items.push({
-                        title: d.subsector,
-                        ratio: (d.ratio)?parseFloat(d.ratio):1.0
+                    if (!item) {
+                      assortment.push({
+                        title: d.assortment,
+                        grade: parseInt(d.grade)
                       });
-                    } else if (!subsector.ratio) {
-                      subsector.ratio = (d.ratio)?parseFloat(d.ratio):1.0;
+                    } else if (!item.grade) {
+                      item.grade = parseInt(d.grade);
                     }
                   }
 
                   var ratio = 0.0;
 
-                  Utils.forEach(items,function(i){
-                    ratio = ratio + i.ratio;
-                  });
-
-                  if (items.length>0) 
-                    ratio = parseFloat((ratio/items.length).toFixed(2));
-                  else ratio = 1.0;
-
-                  self.update({id:sector.id},{items:items,ratio:ratio},function(err,u){
+                  self.update({id:scale.id},{assortment:assortment},function(err,u){
 
                     if (u) {
-                      sector.items = items;
-                      sector.ratio = ratio;
-                      lastSector = sector;
+                      scale.assortment = assortment;
+                      lastScale = scale;
                     }
                     cb1(err);
                   });
 
-                } else cb1('Sector is not found');
+                } else cb1('Scale is not found');
               }
 
             ],function(err1){
@@ -170,6 +159,8 @@ module.exports = {
         },function(err){
           ret(err);
         });
+        
+       
       }
       
     ],function(err){
