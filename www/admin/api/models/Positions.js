@@ -10,12 +10,12 @@ module.exports = {
   
   attributes: {
     
+    code: 'string',
     title: {
       type: 'string',
       required: true
     },
     items: 'json',
-    ratio: 'float',
     priority: 'integer',
     locked: 'datetime',
     lang: 'string',
@@ -65,7 +65,7 @@ module.exports = {
       
       function importData(data,ret) {
         
-        var lastSector = null;
+        var lastPosition = null;
         var priority = 0;
         
         async.eachSeries(data,function(d,cb){
@@ -74,93 +74,94 @@ module.exports = {
             
             async.waterfall([
 
-              function findSector(cb1) {
+              function findPosition(cb1) {
 
-                if (lastSector && lastSector.title===d.sector) {
+                if (lastPosition && lastPosition.title===d.specialization) {
 
-                  cb1(null,lastSector);
+                  cb1(null,lastPosition);
 
                 } else {
 
-                  lastSector = null;
+                  lastPosition = null;
 
                   var where = {
                     locked: [null,false],
                     lang: Utils.isObject(user)?user.lang:null,
-                    title: d.sector
+                    title: d.specialization
                   };
 
-                  self.find({where:where},{fields:{id:1,title:1,items:1,ratio:1}},
-                            function(err,sectors){
-                    cb1(err,Utils.isEmpty(sectors)?null:sectors[0]);          
+                  self.find({where:where},{fields:{id:1,code:1,title:1,items:1}},
+                            function(err,positions){
+                    cb1(err,Utils.isEmpty(positions)?null:positions[0]);          
                   });
                 }
               },
 
-              function tryCreateSector(sector,cb1) {
+              function tryCreatePosition(position,cb1) {
 
-                if (!sector) {
+                if (!position) {
 
-                  var sector = {
-                    title: d.sector,
+                  var position = {
+                    code: d.code,
+                    title: d.specialization,
                     items: [],
-                    ratio: 1.0,
                     priority: priority++,
                     lang: Utils.isObject(user)?user.lang:null 
                   };
 
-                  self.create(sector,function(err,s){
+                  self.create(position,function(err,s){
                     cb1(err,s);
                   });
 
-                } else cb1(null,sector);
+                } else cb1(null,position);
               },
 
-              function addItems(sector,cb1) {
+              function addItems(position,cb1) {
 
-                if (sector) {
+                if (position) {
 
-                  var items = Utils.isArray(sector.items)?sector.items:[];
+                  var items = Utils.isObject(position.items)?position.items:[];
 
-                  if (d.subsector) {
+                  if (d.position) {
 
-                    var subsector = Utils.find(items,function(i){
-                      return i.title === d.subsector;
+                    var item = Utils.find(items,function(i){
+                      return i.title === d.position;
                     });
 
-                    if (!subsector) {
+                    if (!item) {
                       
                       items.push({
-                        title: d.subsector,
-                        ratio: (d.ratio)?parseFloat(d.ratio):1.0
+                        title: d.position,
+                        category: (d.category)?d.category:null,
+                        family: (d.family)?d.family:null,
+                        subfamily: (d.subfamily)?d.subfamily:null,
+                        min: (d.min)?parseInt(d.min):null,
+                        max: (d.max)?parseInt(d.max):null,
+                        weight: (d.weight)?parseInt(d.weight):null
                       });
                       
-                    } else if (!subsector.ratio) {
-                      subsector.ratio = (d.ratio)?parseFloat(d.ratio):1.0;
+                    } else {
+                      
+                      item.title = d.position;
+                      item.category = (d.category)?d.category:null;
+                      item.family = (d.family)?d.family:null;
+                      item.subfamily = (d.subfamily)?d.subfamily:null;
+                      item.min = (d.min)?parseInt(d.min):null;
+                      item.max = (d.max)?parseInt(d.max):null;
+                      item.weight = (d.weight)?parseInt(d.weight):null;
                     }
                   }
 
-                  var ratio = 0.0;
-
-                  Utils.forEach(items,function(i){
-                    ratio = ratio + i.ratio;
-                  });
-
-                  if (items.length>0) 
-                    ratio = parseFloat((ratio/items.length).toFixed(2));
-                  else ratio = 1.0;
-
-                  self.update({id:sector.id},{items:items,ratio:ratio},function(err,u){
+                  self.update({id:position.id},{items:items},function(err,u){
 
                     if (u) {
-                      sector.items = items;
-                      sector.ratio = ratio;
-                      lastSector = sector;
+                      position.items = items;
+                      lastPosition = position;
                     }
                     cb1(err);
                   });
 
-                } else cb1('Sector is not found');
+                } else cb1('Position is not found');
               }
 
             ],function(err1){
