@@ -15,7 +15,7 @@ module.exports = {
       required: true
     },
     items: 'json',
-    ratio: 'float',
+    code: 'string',
     priority: 'integer',
     locked: 'datetime',
     lang: 'string',
@@ -65,7 +65,7 @@ module.exports = {
       
       function importData(data,ret) {
         
-        var lastSector = null;
+        var lastSpec = null;
         var priority = 0;
         
         async.eachSeries(data,function(d,cb){
@@ -74,91 +74,79 @@ module.exports = {
             
             async.waterfall([
 
-              function findSector(cb1) {
+              function findSpec(cb1) {
 
-                if (lastSector && lastSector.title===d.sector) {
+                if (lastSpec && lastSpec.title===d.area) {
 
-                  cb1(null,lastSector);
+                  cb1(null,lastSpec);
 
                 } else {
 
-                  lastSector = null;
+                  lastSpec = null;
 
                   var where = {
                     locked: [null,false],
                     lang: Utils.isObject(user)?user.lang:null,
-                    title: d.sector
+                    title: d.area
                   };
 
-                  self.find({where:where},{fields:{id:1,title:1,items:1,ratio:1}},
-                            function(err,sectors){
-                    cb1(err,Utils.isEmpty(sectors)?null:sectors[0]);          
+                  self.find({where:where},{fields:{id:1,title:1,items:1}},
+                            function(err,specializations){
+                    cb1(err,Utils.isEmpty(specializations)?null:specializations[0]);          
                   });
                 }
               },
 
-              function tryCreateSector(sector,cb1) {
+              function tryCreateSpec(specialization,cb1) {
 
-                if (!sector) {
+                if (!specialization) {
 
-                  var sector = {
-                    title: d.sector,
+                  var specialization = {
+                    title: d.area,
                     items: [],
-                    ratio: 1.0,
                     priority: priority++,
                     lang: Utils.isObject(user)?user.lang:null 
                   };
 
-                  self.create(sector,function(err,s){
+                  self.create(specialization,function(err,s){
                     cb1(err,s);
                   });
 
-                } else cb1(null,sector);
+                } else cb1(null,specialization);
               },
 
-              function addItems(sector,cb1) {
+              function addItems(specialization,cb1) {
 
-                if (sector) {
+                if (specialization) {
 
-                  var items = Utils.isArray(sector.items)?sector.items:[];
+                  var items = Utils.isArray(specialization.items)?specialization.items:[];
 
-                  if (d.subsector) {
+                  if (d.specialization) {
 
-                    var subsector = Utils.find(items,function(i){
-                      return i.title === d.subsector;
+                    var item = Utils.find(items,function(i){
+                      return i.title === d.specialization;
                     });
 
-                    if (!subsector) {
+                    if (!item) {
                       items.push({
-                        title: d.subsector,
-                        ratio: (d.ratio)?parseFloat(d.ratio):1.0
+                        title: d.specialization,
+                        code: d.code
                       });
-                    } else if (!subsector.ratio) {
-                      subsector.ratio = (d.ratio)?parseFloat(d.ratio):1.0;
+                    } else if (!item.code) {
+                      item.code = d.code;
                     }
                   }
 
-                  var ratio = 0.0;
-
-                  Utils.forEach(items,function(i){
-                    ratio = ratio + i.ratio;
-                  });
-
-                  if (items.length>0) 
-                    ratio = parseFloat((ratio/items.length).toFixed(2));
-                  else ratio = 1.0;
-
-                  self.update({id:sector.id},{items:items,ratio:ratio},function(err,u){
+                  self.update({id:specialization.id},{items:items},function(err,u){
 
                     if (u) {
-                      sector.items = items;
-                      sector.ratio = ratio;
-                      lastSector = sector;
+                      specialization.items = items;
+                      lastSpec = specialization;
                     }
                     cb1(err);
                   });
 
-                } else cb1('Sector is not found');
+                } else cb1('Specialization is not found');
               }
 
             ],function(err1){

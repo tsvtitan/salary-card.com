@@ -62,7 +62,7 @@ module.exports = {
         });
       },
       
-      function importScale(data,ret) {
+      function importData(data,ret) {
         
         var lastScale = null;
         var priority = 0;

@@ -62,7 +62,7 @@ module.exports = {
         });
       },
       
-      function importRegions(data,ret) {
+      function importData(data,ret) {
         
         var lastRegion = null;
         var priority = 0;

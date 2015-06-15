@@ -62,7 +62,7 @@ module.exports = {
         });
       },
       
-      function importStrength(data,ret) {
+      function importData(data,ret) {
         
         var priority = 0;
         
