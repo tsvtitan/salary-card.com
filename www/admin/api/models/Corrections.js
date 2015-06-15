@@ -127,16 +127,16 @@ module.exports = {
                     if (!grade) {
                       
                       grades[d.grade] = {
-                        ratio_75: (d.ratio_75)?parseFloat(d.ratio_75):null,
-                        ratio_50: (d.ratio_50)?parseFloat(d.ratio_50):null,
-                        ratio_25: (d.ratio_25)?parseFloat(d.ratio_25):null
+                        75: (d['75'])?parseFloat(d['75']):null,
+                        50: (d['50'])?parseFloat(d['50']):null,
+                        25: (d['25'])?parseFloat(d['25']):null,
                       };
                       
                     } else {
                       
-                      grade.ratio_75 = (d.ratio_75)?parseFloat(d.ratio_75):null;
-                      grade.ratio_50 = (d.ratio_50)?parseFloat(d.ratio_50):null;
-                      grade.ratio_25 = (d.ratio_25)?parseFloat(d.ratio_25):null;
+                      grade['75'] = (d['75'])?parseFloat(d['75']):null;
+                      grade['50'] = (d['50'])?parseFloat(d['50']):null;
+                      grade['25'] = (d['25'])?parseFloat(d['25']):null;
                     }
                   }
 
