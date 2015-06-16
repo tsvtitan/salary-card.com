@@ -1,3 +1,3 @@
 <b>remount.sh</b>  - mount VM volume<br>
-<b>admin-start.sh</b> - start admin application<br>
-<b>admin-stop.sh</b> - stop admin application<br>
+<b>www-start.sh</b> - www startup<br>
+<b>www-stop.sh</b> - www shutdown<br>
