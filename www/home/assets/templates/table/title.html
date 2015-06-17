@@ -1,0 +1,27 @@
+<h5>
+  <span data-ng-show="table.icon"><i class="fa" data-ng-class="table.icon"></i>&nbsp;&nbsp;</span>
+  <span>{{ table.title }}</span>
+</h5>
+
+<div class="ibox-tools">
+
+  <a data-ng-click="table.reload()">
+    <i class="fa fa-refresh" data-ng-class="(table.loading || table.processing)?'fa-spin':''"></i>
+  </a>
+
+  <a data-ng-click="table.collapsed=!table.collapsed" data-ng-show="table.canCollapse">
+    <i class="fa" data-ng-class="(table.collapsed)?'fa-chevron-down':'fa-chevron-up'"></i>
+  </a>
+
+  <a class="dropdown-toggle" data-toggle="dropdown" data-ng-show="table.actions && table.actions.length>0">
+    <i class="fa fa-wrench"></i>
+  </a>
+  <ul class="dropdown-menu dropdown-user scrollable-menu" data-ng-show="table.actions">
+    <li data-ng-repeat="a in table.actions" data-ng-include="a.template" data-ng-init="action=a"></li>
+  </ul>
+
+  <a data-ng-click="table.closed=!table.closed" data-ng-show="table.canClose">
+    <i class="fa fa-times"></i>
+  </a>
+
+</div>

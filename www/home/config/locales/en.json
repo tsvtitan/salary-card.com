@@ -1,0 +1,93 @@
+{
+  "Lang": "en-EN",
+  "Title": "Salary Card: Admin panel",
+  "Version": "0.0.3",
+  "Logo": "SC",
+  "Copyright": "© 2015 Salary Card",
+  "UrlHomePage": "/admin",
+  
+  "back": {
+    
+    "404": {
+      "Страница не найдена": "Page is not found",
+      "Извините, но страница которую вы ищите не найдена.": "Sorry, but the page is not found.",
+      "Поиск страницы": "Find page",
+      "Найти": "Search"
+    },
+    
+    "403": {
+      "Доступ запрещен": "Forbidden",
+      "Извините, но доступ к странице ограничен": "Sorry, but the access is restricted",
+      "На главную": "Home page"
+    },
+    
+    "500": {
+      "Ошибка сервера": "Server Error",
+      "Сервер столкнулся с непредвиденной ошибкой": "The server encountered an unexpected error",
+      "На главную": "Home page"
+    },
+    
+    "captcha": {
+      "bgColor": "#f3f3f4",
+      "strokeStyle": "#1ab394"
+    },
+    
+    "page": {
+      "tableTemplate": "tables/default.html"
+      
+    }
+  },
+  
+  "front": {
+    
+    "Ошибка": "Error",
+    "Информация": "Information",
+    "Предупреждение": "Warning",
+    "Успех": "Success",
+  
+    "Проверьте поля": "Check fields",
+    "Соединение разорвано": "Connection failed",
+    
+    "header": {
+      "Выйти": "Log out",
+      "Поиск...": "Search..."
+    },
+    
+    "footer": {
+      
+    },
+    
+    "menu": {
+      "Главная": "Home",
+      "Импорт": "Import",
+      "Профиль": "Profile",
+      "Выйти": "Log out"
+    },
+    
+    "login": {
+      "Логин": "Login",
+      "Укажите логин": "Input login",
+      "Пароль": "Password",
+      "Код": "Code",
+      "Введите код": "Input code",
+      "Нажмите чтобы обновить": "Click to refresh",
+      "Укажите пароль": "Input password",
+      "Войти": "Login",
+      "Забыли пароль?": "Forgot password?"
+    },
+    
+    "home": {
+      "Главная": "Home"
+    },
+    
+    "profile": {
+      "Профиль": "Profile"
+    },
+
+    "Check fields": "Проверьте поля",
+    "Connection failed": "Соединение разорвано",
+    "Could not subscribe on event": "Не могу подписаться на событие",
+    "Could not unsubscribe from event": "Не могу отписаться от события"
+    
+  }
+}
