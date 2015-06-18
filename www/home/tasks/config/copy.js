@@ -21,13 +21,13 @@ module.exports = function(grunt) {
 				expand: true,
 				cwd: './assets',
 				src: ['**/*.!(coffee|less)'],
-				dest: '.tmp/public/admin'
+				dest: '.tmp/public'
 			}]
 		},
 		build: {
 			files: [{
 				expand: true,
-				cwd: '.tmp/public/admin',
+				cwd: '.tmp/public',
 				src: ['**/*'],
 				dest: 'www'
 			}]

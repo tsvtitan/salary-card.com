@@ -32,14 +32,12 @@ module.exports.routes = {
   *                                                                          *
   ***************************************************************************/
 
-  'get /': '/admin',
-  
-  'get /admin/403': {view:'403',locals:{layout:'layouts/stylesOnly'}},
-  'get /admin/404': {view:'404',locals:{layout:'layouts/stylesOnly'}},
-  'get /admin/500': {view:'500',locals:{layout:'layouts/stylesOnly'}},
-  
-  'get /admin':  {view:'index'},
+  'get /':  {view:'index'},
 
+  'get /403': {view:'403',locals:{layout:'layouts/stylesOnly'}},
+  'get /404': {view:'404',locals:{layout:'layouts/stylesOnly'}},
+  'get /500': {view:'500',locals:{layout:'layouts/stylesOnly'}},
+  
   /***************************************************************************
   *                                                                          *
   * Custom routes here...                                                    *
@@ -50,20 +48,13 @@ module.exports.routes = {
   *                                                                          *
   ***************************************************************************/
 
-  'get /admin/cookie': 'CookieController.get', 
-  'get /admin/captcha/login': 'CaptchaController.login',
+  'get /cookie': 'CookieController.get', 
+  'get /captcha/login': 'CaptchaController.login',
   
-  'post /admin/api/init': 'InitController.get',
+  'post /api/init': 'InitController.get',
  
-  'post /admin/api/login': 'AuthController.login',
-  'post /admin/api/logout': {controller:'AuthController', action:'logout', policy:'sessionAuth'},
-  
-  //'post /admin/api/page': {controller:'PageController', action:'index', policy:'accessGranted'},
-  //'post /admin/api/page/frames': {controller:'PageController', action:'frames', policy:'accessGranted'},
-  
-  //'post /admin/api/tables': {controller:'TablesController', action:'index', policy:'accessGranted'},
-  //'post /admin/api/tables/get': {controller:'TablesController', action:'get', policy:'accessGranted'},
-  //'post /admin/api/tables/action': {controller:'TablesController', action:'action', policy:'accessGranted'},
+  'post /api/login': 'AuthController.login',
+  'post /api/logout': {controller:'AuthController', action:'logout', policy:'sessionAuth'},
   
   '/test': {view:'test',locals:{layout:'layouts/test'}},
   '/test/default': {view:'test',locals:{layout:'layouts/default'}},

@@ -1,10 +1,10 @@
 {
   "Lang": "en-EN",
-  "Title": "Salary Card: Admin panel",
+  "Title": "Salary Card: Home",
   "Version": "0.0.3",
   "Logo": "SC",
   "Copyright": "© 2015 Salary Card",
-  "UrlHomePage": "/admin",
+  "UrlHomePage": "",
   
   "back": {
     

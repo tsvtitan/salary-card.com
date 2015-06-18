@@ -43,7 +43,7 @@ module.exports = function(grunt) {
 
 			files: {
 				// e.g.
-				'.tmp/public/admin/templates/jst.js': require('../pipeline').templateFilesToInject
+				'.tmp/public/templates/jst.js': require('../pipeline').templateFilesToInject
 			}
 		}
 	});
