@@ -54,7 +54,7 @@ module.exports = {
               }
               
               var u = false;
-              if (user && !user.locked) {
+              /*if (user && !user.locked) {
                 u = {
                   id: user.id,
                   login: user.login,
@@ -64,7 +64,7 @@ module.exports = {
                   images: user.images,
                   page: user.page
                 }
-              }
+              }*/
               
               var loginCount = (req.session.loginCount)?req.session.loginCount:0;
               

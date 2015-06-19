@@ -15,13 +15,21 @@
 // (if you're using LESS with the built-in default config, you'll want
 //  to change `assets/styles/importer.less` instead.)
 var cssFilesToInject = [
-  'styles/animate.css',
+  'styles/fonts.css',
   'styles/bootstrap.css',
+  'styles/unify/ie8.css',
+  'styles/unify/blocks.css',
+  'styles/unify/plugins.css',
+  'styles/unify/app.css',
+  'styles/unify/styles.css',
+  'styles/unify/header-default.css',
+  'styles/unify/footer-v1.css',
+  'styles/unify/red.css',
+  'styles/animate.css',
   'styles/font-awesome.min.css',
+  'styles/owl.carousel.css',
   'styles/ladda-themeless.min.css',
-  'styles/angular-grid.css',
   'styles/toastr.css',
-  'styles/inspinia.css',
   'styles/**/*.css'
 ];
 
@@ -30,28 +38,38 @@ var cssFilesToInject = [
 // (uses Grunt-style wildcard/glob/splat expressions)
 var jsFilesToInject = [
 
-  'js/dependencies/underscore.js',
-  'js/dependencies/_.escape.js',
-  'js/dependencies/sprintf.js',
+  'js/dependencies/plugins/underscore.js',
+  'js/dependencies/plugins/_.escape.js',
+  'js/dependencies/plugins/sprintf.js',
   
   // Load sails.io before everything else
   'js/dependencies/sails.io.js',
 
-  'js/dependencies/jquery.js',
-  'js/dependencies/jquery.metisMenu.js',
-  'js/dependencies/jquery.slimscroll.js',
+  'js/dependencies/plugins/jquery.js',
   
-  'js/dependencies/moment.js',
-  'js/dependencies/moment-duration-format.js',
+  'js/dependencies/plugins/moment.js',
+  'js/dependencies/plugins/moment-duration-format.js',
   
-  'js/dependencies/angular.js',
+  'js/dependencies/plugins/angular.js',
   
-  'js/dependencies/bootstrap.js',
+  'js/dependencies/plugins/bootstrap.js',
   
-  'js/dependencies/spin.min.js',
-  'js/dependencies/ladda.min.js',
-  'js/dependencies/inspinia.js',
+  'js/dependencies/plugins/back-to-top.js',
+  'js/dependencies/plugins/smoothScroll.js',
+  'js/dependencies/plugins/owl.carousel.js',
+  'js/dependencies/plugins/layerslider/greensock.js',
+  'js/dependencies/plugins/layerslider/layerslider.transitions.js',
+  'js/dependencies/plugins/layerslider/layerslider.kreaturamedia.jquery.js',
+  'js/dependencies/plugins/spin.min.js',
+  'js/dependencies/plugins/ladda.min.js',
   
+  'js/dependencies/app.js',
+  'js/dependencies/layer-slider.js',
+  'js/dependencies/owl-carousel.js',
+  'js/dependencies/owl-recent-works.js',
+   
+  'js/dependencies/ready.js', 
+
   'js/angular/modules/ui-bootstrap-tpls.js',
   'js/angular/modules/*.js',
   'js/angular/app.js',

@@ -6,7 +6,7 @@ app.controller('header',['$scope','$element','$timeout',
   
   $scope.dic = Dictionary.dic($element);
   
-  $scope.logout = function() {
+  /*$scope.logout = function() {
 
     Auth.logout(function(d) {
 
@@ -34,6 +34,6 @@ app.controller('header',['$scope','$element','$timeout',
     Auth.onLogout(function(){
       Auth.logouting = true;
     });
-  });
+  });*/
   
 }]);

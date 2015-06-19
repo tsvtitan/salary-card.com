@@ -1,49 +1,21 @@
-<div class="fadeInDown-fadeOutUp" data-ng-controller="header" data-ng-show="auth.ready">
+<div class="header header-sticky" data-ng-controller="header">
+  
+    <div class="container">
+        <!-- Logo -->
+        <a class="logo" href="index.html">
+            <img src="/images/logo1-default.png" alt="Logo">
+        </a>
+        <!-- End Logo -->
 
-  <div class="row border-bottom">
-    <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
-      <div class="navbar-header">
-        <a class="navbar-minimalize minimalize-styl-2 btn btn-primary"><i class="fa fa-bars"></i> </a>
-        <form role="search" class="navbar-form-custom ng-pristine ng-valid" method="post" action="#">
-          <div class="form-group">
-            <input type="text" placeholder="{{ dic('Поиск...') }}" class="form-control" name="top-search" id="top-search">
-          </div>
-        </form>
-      </div>
-      <ul class="nav navbar-top-links navbar-right">
-        <li data-ng-show="auth.logouting">
-          <div class="logout-spinner">
-            <div class="sk-spinner sk-spinner-wave">
-              <div class="sk-rect1"></div>
-              <div class="sk-rect2"></div>
-              <div class="sk-rect3"></div>
-              <div class="sk-rect4"></div>
-              <div class="sk-rect5"></div>
-            </div>
-          </div>  
-        </li>
-        <li data-ng-hide="auth.logouting || !auth.user">
-          <a data-ng-click="logout()">
-            {{ dic('Выйти') }}&nbsp;&nbsp;<i class="fa fa-sign-out"></i>
-          </a>
-        </li>
-      </ul>
-    </nav>
-  </div>  
-  
-  <div class="row wrapper border-bottom white-bg page-heading" data-ng-show="page">
-    <div class="col-lg-10">
-      <h2>{{ page.title }}</h2>
-      <ol class="breadcrumb" data-ng-show="page.breadcrumbs && page.breadcrumbs.length>0">
-        <li data-ng-repeat="(k,v) in page.breadcrumbs">
-          <a data-ng-click="reload(v.name)">{{ v.title }}</a>
-        </li>
-        <li class="active">
-          <strong>{{ page.title }}</strong>
-        </li>
-      </ol>
-    </div>
-    <div class="col-lg-2"></div>
-  </div>
-  
+        <div data-ng-include="'topbar.html'"></div>
+
+        <!-- Toggle get grouped for better mobile display -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="fa fa-bars"></span>
+        </button>
+        <!-- End Toggle -->
+    </div><!--/end container-->
+
+    <div data-ng-include="'menu.html'"></div>
 </div>

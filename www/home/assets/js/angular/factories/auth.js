@@ -5,9 +5,9 @@ app.factory('Auth',['$rootScope','$http','Route','Urls','Dictionary','Payload','
   function updateStates(auth) {
     
     Route.clear();
-    Route.state(auth.loginPage.name,{
-      url: auth.loginPage.url,
-      templateUrl: auth.loginPage.template
+    Route.state(auth.defaultPage.name,{
+      url: auth.defaultPage.url,
+      templateUrl: auth.defaultPage.template
     });
     
     Utils.forEach(auth.pages,function(page){
@@ -29,7 +29,7 @@ app.factory('Auth',['$rootScope','$http','Route','Urls','Dictionary','Payload','
     templates: [],
     menu: [],
     pages: [],
-    loginPage: {name:'login',url:'/login',template:'login.html'},
+    defaultPage: {name:'home',url:'',template:'home.html'},
     
     set: function(auth) {
       
@@ -126,7 +126,7 @@ app.factory('Auth',['$rootScope','$http','Route','Urls','Dictionary','Payload','
     pageExists: function(name) {
       
       var obj = this.getPage(name);
-      return (obj) || this.loginPage.name===name;
+      return (obj) || this.defaultPage.name===name;
     },
     
     getDefaultPageName: function() {
@@ -139,7 +139,7 @@ app.factory('Auth',['$rootScope','$http','Route','Urls','Dictionary','Payload','
           name = this.pages[0].name;
         }
       } else {
-        name = this.loginPage.name;
+        name = this.defaultPage.name;
       }
       return name;
     },
@@ -156,7 +156,7 @@ app.factory('Auth',['$rootScope','$http','Route','Urls','Dictionary','Payload','
           url = this.pages[0].url;
         }
                 
-      } else url = this.loginPage.url;
+      } else url = this.defaultPage.url;
               
       return url;
     },

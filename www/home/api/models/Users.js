@@ -256,7 +256,7 @@ module.exports = {
             
             var items = [];
 
-            items.push({
+            /*items.push({
               name: 'pages',
               model: Pages,
               where: {},
@@ -268,7 +268,7 @@ module.exports = {
               model: Menu,
               where: {},
               fields: {title:1,description:1,page:1,items:1,class:1}
-            });
+            });*/
 
             async.map(items,function(i,cb){
 

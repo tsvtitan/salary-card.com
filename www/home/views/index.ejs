@@ -22,10 +22,10 @@
 
   .splash div {
 
-    border-radius: 50px;
+    border-radius: 50px !important;
     border-style: solid;
-    border-bottom-color: #1ab394;
-    border-top-color: #1ab394;
+    border-bottom-color: #e74c3c;
+    border-top-color: #e74c3c;
     border-left-color: #bbb;
     border-right-color: #bbb;
     animation: rotate360 1s linear infinite;
@@ -51,13 +51,11 @@
   <div class="splash" data-ng-hide="visible">
     <div></div>
   </div>
-  <!--div id="wrapper" class="controller" data-ng-show="visible" data-ng-cloak="">
-    <%- partial ('../.tmp/public/partials/menu.html') %>
-    <div id="page-wrapper"data-ng-class="auth.ready?'gray-bg':'no-margin gray-bg'">
+  <div id="wrapper" class="controller" data-ng-show="visible" data-ng-cloak=""> 
+    <div class="wrapper">
       <%- partial ('../.tmp/public/partials/header.html') %>
       <div ui-view></div>
-      <%- partial ('../.tmp/public/partials/spinner.html') %>
       <%- partial ('../.tmp/public/partials/footer.html') %>
     </div>
-  </div-->
+  </div>
 </div>
