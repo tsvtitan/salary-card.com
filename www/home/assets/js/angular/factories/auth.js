@@ -1,6 +1,6 @@
 
 app.factory('Auth',['$rootScope','$http','Route','Urls','Dictionary','Payload','Utils','Const',
-                    function($rootScope,$http,Route,Urls,Dictionary,Payload,Utils,Const) {
+                       function($rootScope,$http,Route,Urls,Dictionary,Payload,Utils,Const) {
   
   function updateStates(auth) {
     
@@ -29,7 +29,8 @@ app.factory('Auth',['$rootScope','$http','Route','Urls','Dictionary','Payload','
     templates: [],
     menu: [],
     pages: [],
-    defaultPage: {name:'home',url:'',template:'home.html'},
+    //defaultPage: {name:'home',url:'',template:'home.html'},
+    defaultPage: {name:'page',url:'/page',template:'page.html'},
     
     set: function(auth) {
       

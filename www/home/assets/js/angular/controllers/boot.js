@@ -1,8 +1,8 @@
 
 app.controller('boot',['$rootScope','$scope','$state','$element','$timeout',
-                       'Init','Auth','Route','Dictionary','Const','Utils','Alert',
-                       function($rootScope,$scope,$state,$element,$timeout,
-                                Init,Auth,Route,Dictionary,Const,Utils,Alert) {
+                          'Init','Auth','Route','Dictionary','Const','Utils','Alert',
+                          function($rootScope,$scope,$state,$element,$timeout,
+                                   Init,Auth,Route,Dictionary,Const,Utils,Alert) {
   
   $scope.auth = Auth;
   $scope.dic = Dictionary.dic($element);
@@ -10,7 +10,7 @@ app.controller('boot',['$rootScope','$scope','$state','$element','$timeout',
   $scope.visible = false;
   $scope.spinner = false;
   $scope.changing = false;
-
+  
   Route.clear();
   
   function defaultUrl() {

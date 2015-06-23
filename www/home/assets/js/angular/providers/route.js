@@ -1,6 +1,6 @@
 
 app.provider('Route',['$stateProvider','$urlRouterProvider',
-                      function($stateProvider,$urlRouterProvider) {
+                         function($stateProvider,$urlRouterProvider) {
   
   var lastState = false;
   

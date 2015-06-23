@@ -1,6 +1,6 @@
 
 app.service('Payload',['$window','Utils',
-                      function($window,Utils) {
+                          function($window,Utils) {
   
   
   this.size = function() {

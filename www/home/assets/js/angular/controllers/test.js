@@ -1,6 +1,6 @@
 
 app.controller('test',['$scope','$element','Dictionary',
-                         function($scope,$element,Dictionary){
+                          function($scope,$element,Dictionary){
   
   var columnDefs = [
         {displayName: "Make", field: "make"},

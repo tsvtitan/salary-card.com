@@ -33,6 +33,7 @@ module.exports.routes = {
   ***************************************************************************/
 
   'get /':  {view:'index'},
+  //'get /': {view:'test',locals:{layout:'layouts/default'}},
 
   'get /403': {view:'403',locals:{layout:'layouts/stylesOnly'}},
   'get /404': {view:'404',locals:{layout:'layouts/stylesOnly'}},
@@ -58,6 +59,7 @@ module.exports.routes = {
   
   '/test': {view:'test',locals:{layout:'layouts/test'}},
   '/test/default': {view:'test',locals:{layout:'layouts/default'}},
+  '/test/stylesOnly': {view:'test',locals:{layout:'layouts/stylesOnly'}},
   
   '/test/req': {controller:'TestController', action:'req'/*, policy:'accessGranted'*/}
           

@@ -1,6 +1,6 @@
 
 app.config(['$provide','laddaProvider','toastrConfig','Const',
-            function($provide,laddaProvider,toastrConfig,Const) {
+             function($provide,laddaProvider,toastrConfig,Const) {
     
   $provide.decorator('$controller', ['$delegate','$injector',function ($delegate,$injector) {
 

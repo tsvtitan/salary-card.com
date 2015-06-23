@@ -1,6 +1,6 @@
 
 app.service('Utils',['base64',
-                     function(base64) {
+                        function(base64) {
 
   function formatObj(s,values) {
     

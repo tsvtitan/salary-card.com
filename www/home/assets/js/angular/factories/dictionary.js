@@ -1,6 +1,6 @@
 
 app.factory('Dictionary',['Utils','Const',
-                          function(Utils,Const){
+                             function(Utils,Const){
   
   var dictionary = {};
   

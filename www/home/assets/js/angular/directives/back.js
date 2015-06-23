@@ -1,6 +1,6 @@
 
 app.directive('back1',['$window','$state',
-                      function($window,$state) {
+                          function($window,$state) {
   return {
     restrict: 'A',
     link: function (scope, elem, attrs) {

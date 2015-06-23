@@ -1,6 +1,6 @@
 
 app.service('Init',['$http','$location','$window','Urls','Dictionary','Payload','Utils',
-                    function($http,$location,$window,Urls,Dictionary,Payload,Utils) {
+                       function($http,$location,$window,Urls,Dictionary,Payload,Utils) {
     
   var inits = [];
   

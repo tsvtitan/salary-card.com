@@ -1,8 +1,8 @@
 
 app.controller('profile',['$scope','$element',
-                          'Dictionary','Auth','Init',
-                          function($scope,$element,
-                                   Dictionary,Auth,Init) {
+                             'Dictionary','Auth','Init',
+                             function($scope,$element,
+                                       Dictionary,Auth,Init) {
   
   $scope.dic = Dictionary.dic($element);
 

@@ -1,8 +1,8 @@
 
 app.controller('login',['$scope','$element','$timeout',
-                        'Auth','Dictionary','Const','Regexp','Urls','Utils',
-                        function($scope,$element,$timeout,
-                                 Auth,Dictionary,Const,Regexp,Urls,Utils) {
+                           'Auth','Dictionary','Const','Regexp','Urls','Utils',
+                           function($scope,$element,$timeout,
+                                    Auth,Dictionary,Const,Regexp,Urls,Utils) {
   $scope.dic = Dictionary.dic($element);
 
   $scope.captchaUrl = '';

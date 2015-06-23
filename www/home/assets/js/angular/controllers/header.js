@@ -1,8 +1,8 @@
 
 app.controller('header',['$scope','$element','$timeout',
-                         'Auth','Dictionary','Const','Alert','Init',
-                         function($scope,$element,$timeout,
-                                  Auth,Dictionary,Const,Alert,Init) {
+                            'Auth','Dictionary','Const','Alert','Init',
+                            function($scope,$element,$timeout,
+                                     Auth,Dictionary,Const,Alert,Init) {
   
   $scope.dic = Dictionary.dic($element);
   

@@ -1,6 +1,6 @@
 
 app.directive('checkField',['Utils','Alert','Const','Dictionary',
-                            function(Utils,Alert,Const,Dictionary) {
+                               function(Utils,Alert,Const,Dictionary) {
   
   return {
     restrict: 'A',

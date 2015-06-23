@@ -21,73 +21,36 @@
     <link rel="stylesheet" href="/styles/ladda-themeless.min.css">
     <link rel="stylesheet" href="/styles/toastr.css">
     <link rel="stylesheet" href="/styles/importer.css">
-    <link rel="stylesheet" href="/styles/unify/header-v1.css">
+    <link rel="stylesheet" href="/styles/layerslider.css">
     <!--STYLES END-->
   </head>
   <body> 
     <%- body %>
-    <!--TEMPLATES-->
-    <script type="text/javascript" src="/templates/jst.js"></script>
-    <!--TEMPLATES END-->
-    <!--SCRIPTS-->
-    <script src="/js/dependencies/plugins/underscore.js"></script>
-    <script src="/js/dependencies/plugins/_.escape.js"></script>
-    <script src="/js/dependencies/plugins/sprintf.js"></script>
-    <script src="/js/dependencies/sails.io.js"></script>
-    <script src="/js/dependencies/plugins/jquery.js"></script>
-    <script src="/js/dependencies/plugins/moment.js"></script>
-    <script src="/js/dependencies/plugins/moment-duration-format.js"></script>
-    <script src="/js/dependencies/plugins/angular.js"></script>
-    <script src="/js/dependencies/plugins/bootstrap.js"></script>
-    <script src="/js/dependencies/plugins/back-to-top.js"></script>
-    <script src="/js/dependencies/plugins/smoothScroll.js"></script>
-    <script src="/js/dependencies/plugins/owl.carousel.js"></script>
-    <script src="/js/dependencies/plugins/layerslider/greensock.js"></script>
-    <script src="/js/dependencies/plugins/layerslider/layerslider.transitions.js"></script>
-    <script src="/js/dependencies/plugins/layerslider/layerslider.kreaturamedia.jquery.js"></script>
-    <script src="/js/dependencies/plugins/spin.min.js"></script>
-    <script src="/js/dependencies/plugins/ladda.min.js"></script>
-    <script src="/js/dependencies/app.js"></script>
-    <script src="/js/dependencies/layer-slider.js"></script>
-    <script src="/js/dependencies/owl-carousel.js"></script>
-    <script src="/js/dependencies/owl-recent-works.js"></script>
-    <script src="/js/dependencies/ready.js"></script>
-    <script src="/js/angular/modules/ui-bootstrap-tpls.js"></script>
-    <script src="/js/angular/modules/angular-animate.js"></script>
-    <script src="/js/angular/modules/angular-ladda.js"></script>
-    <script src="/js/angular/modules/angular-sanitize.js"></script>
-    <script src="/js/angular/modules/angular-sprintf.js"></script>
-    <script src="/js/angular/modules/angular-toastr.tpls.js"></script>
-    <script src="/js/angular/modules/angular-ui-router.js"></script>
-    <script src="/js/angular/modules/angular-utf8-base64.js"></script>
-    <script src="/js/angular/app.js"></script>
-    <script src="/js/angular/providers/route.js"></script>
-    <script src="/js/angular/constants/const.js"></script>
-    <script src="/js/angular/constants/regexp.js"></script>
-    <script src="/js/angular/constants/urls.js"></script>
-    <script src="/js/angular/constants/value.js"></script>
-    <script src="/js/angular/configs/general.js"></script>
-    <script src="/js/angular/services/alert.js"></script>
-    <script src="/js/angular/services/event.js"></script>
-    <script src="/js/angular/services/init.js"></script>
-    <script src="/js/angular/services/log.js"></script>
-    <script src="/js/angular/services/payload.js"></script>
-    <script src="/js/angular/services/utils.js"></script>
-    <script src="/js/angular/factories/auth.js"></script>
-    <script src="/js/angular/factories/dictionary.js"></script>
-    <script src="/js/angular/directives/after-load.js"></script>
-    <script src="/js/angular/directives/back.js"></script>
-    <script src="/js/angular/directives/check-field.js"></script>
-    <script src="/js/angular/directives/file-change.js"></script>
-    <script src="/js/angular/directives/navbar.js"></script>
-    <script src="/js/angular/controllers/boot.js"></script>
-    <script src="/js/angular/controllers/footer.js"></script>
-    <script src="/js/angular/controllers/header.js"></script>
-    <script src="/js/angular/controllers/home.js"></script>
-    <script src="/js/angular/controllers/login.js"></script>
-    <script src="/js/angular/controllers/test.js"></script>
-    <script src="/js/angular/controllers/user/profile.js"></script>
-    <script src="/js/angular/ready.js"></script>
-    <!--SCRIPTS END-->
+    
+    
+    <script type="text/javascript" src="/js/dependencies/jquery.js"></script>
+    <script type="text/javascript" src="/js/dependencies/bootstrap.js"></script> 
+
+    <script type="text/javascript" src="/js/dependencies/back-to-top.js"></script>
+    <script type="text/javascript" src="/js/dependencies/smoothScroll.js"></script>
+    <script type="text/javascript" src="/js/dependencies/owl.carousel.js"></script>
+    <script type="text/javascript" src="/js/dependencies/layerslider/greensock.js"></script>
+    <script type="text/javascript" src="/js/dependencies/layerslider/layerslider.transitions.js"></script>
+    <script type="text/javascript" src="/js/dependencies/layerslider/layerslider.kreaturamedia.jquery.js"></script>
+
+    
+    <script type="text/javascript" src="/js/app.js"></script>
+    <script type="text/javascript" src="/js/layer-slider.js"></script>
+    <!--script type="text/javascript" src="/js/owl-carousel.js"></script>
+    <script type="text/javascript" src="/js/owl-recent-works.js"></script-->
+    <script type="text/javascript">
+        jQuery(document).ready(function() {
+            App.init();
+            LayerSlider.initLayerSlider();  
+            //OwlCarousel.initOwlCarousel();    
+            //OwlRecentWorks.initOwlRecentWorksV2();
+        });
+    </script>
+
   </body>
 </html>

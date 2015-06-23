@@ -1,4 +1,19 @@
+<div data-ng-controller="boot">
+  <div id="wrapper" class="controller" data-ng-show="visible" data-ng-cloak=""> 
+    <div class="wrapper">
+      <%- partial ('../.tmp/public/partials/header.html') %>
+      <div ui-view></div>
+      <!--div>
+        <div data-ng-controller="home">
 
-<div class="bg-white" data-ng-controller="test">
-  <div angular-grid="gridOptions" class="ag-fresh"></div>
+          <div data-ng-include="'slider.html'"></div>
+          <div data-ng-include="'purchase.html'"></div>
+          <div data-ng-include="'content.html'"></div>
+
+        </div>
+      </div-->
+
+      <%- partial ('../.tmp/public/partials/footer.html') %>
+    </div>
+  </div>
 </div>

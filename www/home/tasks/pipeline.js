@@ -28,6 +28,7 @@ var cssFilesToInject = [
   'styles/animate.css',
   'styles/font-awesome.min.css',
   'styles/owl.carousel.css',
+  'styles/layersilder.css',
   'styles/ladda-themeless.min.css',
   'styles/toastr.css',
   'styles/**/*.css'
@@ -38,38 +39,31 @@ var cssFilesToInject = [
 // (uses Grunt-style wildcard/glob/splat expressions)
 var jsFilesToInject = [
 
-  'js/dependencies/plugins/underscore.js',
-  'js/dependencies/plugins/_.escape.js',
-  'js/dependencies/plugins/sprintf.js',
+  'js/dependencies/underscore.js',
+  'js/dependencies/_.escape.js',
+  'js/dependencies/sprintf.js',
   
   // Load sails.io before everything else
   'js/dependencies/sails.io.js',
 
-  'js/dependencies/plugins/jquery.js',
+  'js/dependencies/jquery.js',
   
-  'js/dependencies/plugins/moment.js',
-  'js/dependencies/plugins/moment-duration-format.js',
+  'js/dependencies/moment.js',
+  'js/dependencies/moment-duration-format.js',
   
-  'js/dependencies/plugins/angular.js',
+  'js/dependencies/angular.js',
   
-  'js/dependencies/plugins/bootstrap.js',
+  'js/dependencies/bootstrap.js',
   
-  'js/dependencies/plugins/back-to-top.js',
-  'js/dependencies/plugins/smoothScroll.js',
-  'js/dependencies/plugins/owl.carousel.js',
-  'js/dependencies/plugins/layerslider/greensock.js',
-  'js/dependencies/plugins/layerslider/layerslider.transitions.js',
-  'js/dependencies/plugins/layerslider/layerslider.kreaturamedia.jquery.js',
-  'js/dependencies/plugins/spin.min.js',
-  'js/dependencies/plugins/ladda.min.js',
+  'js/dependencies/back-to-top.js',
+  'js/dependencies/smoothScroll.js',
+  'js/dependencies/owl.carousel.js',
+  'js/dependencies/layerslider/greensock.js',
+  'js/dependencies/layerslider/layerslider.transitions.js',
+  'js/dependencies/layerslider/layerslider.kreaturamedia.jquery.js',
+  'js/dependencies/spin.min.js',
+  'js/dependencies/ladda.min.js',
   
-  'js/dependencies/app.js',
-  'js/dependencies/layer-slider.js',
-  'js/dependencies/owl-carousel.js',
-  'js/dependencies/owl-recent-works.js',
-   
-  'js/dependencies/ready.js', 
-
   'js/angular/modules/ui-bootstrap-tpls.js',
   'js/angular/modules/*.js',
   'js/angular/app.js',
@@ -80,7 +74,12 @@ var jsFilesToInject = [
   'js/angular/factories/*.js',
   'js/angular/directives/*.js',
   'js/angular/controllers/**/*.js',
-  'js/angular/ready.js',
+  
+  'js/app.js',
+  'js/layer-slider.js',
+  'js/owl-carousel.js',
+  'js/owl-recent-works.js',
+  'js/ready.js',
   
   // All of the rest of your client-side js files
   // will be injected here in no particular order.

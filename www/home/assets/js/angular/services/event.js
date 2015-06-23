@@ -1,6 +1,6 @@
 
 app.service('Event',['Dictionary','Log',
-                     function(Dictionary,Log) {
+                        function(Dictionary,Log) {
   
   
   var events = {};
