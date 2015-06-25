@@ -25,10 +25,6 @@ module.exports = {
     pass: {
       type: 'string'
     },
-    access: {
-      type: 'json'
-    },
-    page: 'string',
     locked: 'datetime',
     lang: 'string',
     
@@ -67,241 +63,84 @@ module.exports = {
     this.setPassHash(user,result);
   },
   
-  isGranted: function (userOrId,url,params,result) {
-
-    function granted(user) {
-
-      function exists(props) {
-
-        function check(v1,v2) {
-
-          var r = false;
-          if (Utils.isString(v2)) {
-
-            r = v1==='*';
-            if (!r) {
-              r = v2.search(v1)!==-1;
-            }
-
-          } else if (Utils.isObject(v2)) {
-
-            for (var k in v2) {
-
-              var v = v2[k];
-              if (Utils.isString(v)) {
-
-                r = v1==='*';
-                if (!r) {
-                  r = v.search(v1)!==-1;
-                }
-                if (r) break;
-              }
-            }
-          }
-          return r;
-        }
-
-        var ret = true;
-        for (var prop in props) {
-
-          var v1 = props[prop];
-          var v2 = params[prop];
-
-          if (v2) {
-
-            if (Utils.isString(v1)) {
-
-              ret = ret && check(v1,v2);
-
-            } else if (Utils.isObject(v1)) {
-
-              var r = true;
-              for (var k in v1) {
-
-                var v = v1[k];
-                if (Utils.isString(v)) {
-                  r = check(v,v2);
-                  if (r) break;
-                } 
-              }
-              ret = ret && r;
-            }
-          }
-        }
-        return ret;
-      } 
-
-      if (user) {
-
-        if (user.access) {
-
-          if (Utils.isObject(user.access) && url) {
-
-            for (var prop in user.access) {
-
-              if (url.search(prop)!==-1) {
-                var p = user.access[prop];
-                if (Utils.isString(p)) {
-                  return p==='*';
-                } else if (Utils.isObject(p)) {
-                  return exists(p);
-                }
-              }
-            }
-          } else return (Utils.isObject(user.access) && user.access==='*');
-
-        } else return false;
-      }
-      return false;
-    }
-    
-    if (Utils.isObject(userOrId)) {
-      
-      result(null,granted(userOrId));
-      
-    } else {
-      
-      this.findOneById(userOrId,function(err,user){
-        result(err,granted(user));
-      });
-    }
-  },
-  
-  getModelTable: function (userOrId,model,where,fields,def,result) {
-    
-    var log = this.log;
-    var self = this;
-    
-    if (userOrId && Utils.isObject(model)) {
-
-      async.waterfall([
-        
-        function getAccess(ret) {
-          
-          Permissions.asWhere(userOrId,model.tableName,'view',def,function(err,access,user){
-            ret(err,access,user);
-          });
-        },
-        
-        function getTable(access,user,ret) {
-          
-          if (user) {
-            
-            if (access) {
-              
-              var w = {
-                locked: [null,false],
-                lang: (user.lang)?user.lang:null
-              };
-              
-              w = Utils.extend(w,where);
-              w = Utils.extend(w,access);
-
-              model.find({where:w,sort:{priority:1}},{fields:fields},
-                         function(err,table){
-
-                ret(err,table,user);          
-              });
-              
-            } else ret(null,[],user);  
-            
-          } else ret(null,[],user);
-        }
-        
-      ],function(err,table,user){
-        result(err,Utils.remainKeys(table,fields),user);
-      });
-      
-    } else result(null,[],null);
-  },
-  
-  getModelRecord: function (userOrId,model,where,fields,def,result) {
-    
-    this.getModelTable(userOrId,model,where,fields,def,
-                       function(err,table,user){
-      
-      var record = null;
-      if (Utils.isArray(table) && table.length>0) {
-        record = table[0];
-      }
-      result(err,record,user);
-    });
-  },
-  
   getEnvironment: function (userOrId,result) {
     
     var self = this;
     
-    if (userOrId) {
-      
-      async.waterfall([
-        
-        function findUser(ret){
+    async.waterfall([
+
+      function findUser(ret){
+
+        if (userOrId) {
           
           if (Utils.isObject(userOrId)) {
-            
+
             ret(null,userOrId);
-            
+
           } else {
-            
+
             self.findOneById(userOrId,function(err,user){
               ret(err,user);
             });
           }
-        },
-        
-        function collect(user,ret){
-         
-          if (user) {
-            
-            var items = [];
+          
+        } else ret(null,null);
+      },
 
-            /*items.push({
-              name: 'pages',
-              model: Pages,
-              where: {},
-              fields: {name:1,title:1,description:1,url:1,template:1,breadcrumbs:1}
+      function collect(user,ret){
+
+        var items = [];
+
+        items.push({
+          name: 'pages',
+          model: Pages,
+          where: {},
+          fields: {name:1,title:1,description:1,url:1,template:1,breadcrumbs:1,auth:1}
+        });
+
+        /*items.push({
+          name: 'menu',
+          model: Menu,
+          where: {},
+          fields: {title:1,description:1,page:1,items:1,class:1}
+        });*/
+
+        async.map(items,function(i,cb){
+
+          var w = {
+            locked: [null,false],
+            lang: (user && user.lang)?user.lang:null
+          };
+
+          w = Utils.extend(w,i.where);
+
+          i.model.find({where:w,sort:{priority:1}},{fields:i.fields},
+                       function(err,table){
+
+            cb(err,{name:i.name,obj:table});         
+          });
+
+        },function(err,arr){
+
+          if (err) ret(err,user);
+          else if (arr) {
+
+            var env = {};
+
+            Utils.forEach(arr,function(a){
+              env[a.name] = a.obj;
             });
-            
-            items.push({
-              name: 'menu',
-              model: Menu,
-              where: {},
-              fields: {title:1,description:1,page:1,items:1,class:1}
-            });*/
 
-            async.map(items,function(i,cb){
+            ret(null,user,env);
 
-              self.getModelTable(user,i.model,i.where,i.fields,null,function(err,r){
-                cb(err,{name:i.name,obj:r});
-              });
-
-            },function(err,arr){
-
-              if (err) ret(err,user);
-              else if (arr) {
-
-                var env = {};
-
-                Utils.forEach(arr,function(a){
-                  env[a.name] = a.obj;
-                });
-
-                ret(null,user,env);
-
-              } else ret(null,user);
-
-            });
-            
           } else ret(null,user);
-        }
-        
-        
-      ],function(err,user,env){
-        result(err,user,env);
-      });
-      
-    } else result();
+
+        });
+      }
+
+    ],function(err,user,env){
+      result(err,user,env);
+    });
     
   },
   

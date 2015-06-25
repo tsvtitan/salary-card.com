@@ -13,7 +13,7 @@
   overflow: hidden;
   padding: 10px 0 6px;
   border-bottom: solid 1px #eee;
-  background: url(../images/patterns/breadcrumbs.png) repeat;
+  background: url(../patterns/breadcrumbs.png) repeat;
 }
 
 .breadcrumbs h1 {

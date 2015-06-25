@@ -1,12 +1,12 @@
 
 app.controller('boot',['$rootScope','$scope','$state','$element','$timeout',
-                          'Init','Auth','Route','Dictionary','Const','Utils','Alert',
+                          'Init','Auth','Route','Dictionary','Const','Utils','Alert','Page',
                           function($rootScope,$scope,$state,$element,$timeout,
-                                   Init,Auth,Route,Dictionary,Const,Utils,Alert) {
+                                   Init,Auth,Route,Dictionary,Const,Utils,Alert,Page) {
   
   $scope.auth = Auth;
   $scope.dic = Dictionary.dic($element);
-  //$scope.page = Page;
+  $scope.page = Page;
   $scope.visible = false;
   $scope.spinner = false;
   $scope.changing = false;
@@ -55,22 +55,12 @@ app.controller('boot',['$rootScope','$scope','$state','$element','$timeout',
     
     if ($scope.visible) {
       
-      if (Auth.user && state!==Auth.defaultPage.name) {
-        
-        var s = (state)?state:Auth.getDefaultPageName();
-        if ($state.current.name!==s) {
-          
-          $state.go(s);
-          return {spinner:true};
-        } 
+      var s = (state)?state:Auth.getDefaultPageName();
+      if ($state.current.name!==s) {
 
-        return false;
-        
-      } else if (!Auth.user) {
-        
-        $state.go(Auth.defaultPage.name);
-        return {spinner:false};
-      }
+        $state.go(s);
+        return {spinner:true};
+      } 
     }
     return false;
   }
@@ -88,7 +78,7 @@ app.controller('boot',['$rootScope','$scope','$state','$element','$timeout',
           Auth.setHtmlTitle(toState.name);
           if (r.spinner) $scope.showSpinner();
           
-          //Page.set(Auth.getPage(toState.name));
+          Page.set(Auth.getPage(toState.name));
           
         } else {
           $scope.hideSpinner();

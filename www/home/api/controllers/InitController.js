@@ -13,11 +13,11 @@ module.exports = {
     
     function getEnvironment(result) {
       
-      if (req.session && req.session.userId) {
+      if (req.session) {
         
         Users.getEnvironment(req.session.userId,function(err,user,env){
         
-          result(err,user,env,!(user));
+          result(err,user,env,req.session.userId && !user);
         });
         
       } else result();
@@ -54,17 +54,16 @@ module.exports = {
               }
               
               var u = false;
-              /*if (user && !user.locked) {
+              if (user && !user.locked) {
                 u = {
                   id: user.id,
                   login: user.login,
                   email: user.email,
                   name: user.name,
                   firstName: user.firstName,
-                  images: user.images,
-                  page: user.page
+                  images: user.images
                 }
-              }*/
+              }
               
               var loginCount = (req.session.loginCount)?req.session.loginCount:0;
               

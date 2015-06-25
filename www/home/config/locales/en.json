@@ -4,7 +4,7 @@
   "Version": "0.0.3",
   "Logo": "SC",
   "Copyright": "© 2015 Salary Card",
-  "UrlHomePage": "",
+  "UrlHomePage": "/",
   
   "back": {
     
@@ -55,6 +55,13 @@
     
     "footer": {
       
+    },
+    
+    "404": {
+      "Страница не найдена": "Page is not found",
+      "Извините, но страница которую вы ищите не найдена.": "Sorry, but the page is not found.",
+      "Поиск страницы": "Find page",
+      "Найти": "Search"
     },
     
     "menu": {

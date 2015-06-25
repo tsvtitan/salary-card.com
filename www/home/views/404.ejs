@@ -1,14 +1,14 @@
-<div class="middle-box text-center animated fadeInDown">
-    
-  <h1>404</h1>
-  <h3 class="font-bold"><%= dic('Страница не найдена') %></h3>
-  <div class="error-desc">
-    <%= dic('Извините, но страница которую вы ищите не найдена') %>.
-    <form class="form-inline m-t" role="form">
-      <div class="form-group">
-        <input type="text" class="form-control" placeholder="<%= dic('Поиск страницы') %>">
+<div class="wrapper">
+  <div class="container content">		
+    <div class="row">
+      <div class="col-md-8 col-md-offset-2">
+        <div class="error-v1">
+          <span class="error-v1-title">404</span>
+          <span><%= dic('Страница не найдена') %></span>
+          <p><%= dic('Извините, но страница которую вы ищите не найдена') %>.</p>
+          <a class="btn-u btn-bordered" href="<%= dic('UrlHomePage') %>"><%= dic('На главную') %></a>
+        </div>
       </div>
-      <button type="submit" class="btn btn-primary"><%= dic('Найти') %></button>
-    </form>
+    </div>
   </div>
 </div>

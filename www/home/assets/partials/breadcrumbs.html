@@ -1,0 +1,13 @@
+<div class="breadcrumbs" data-ng-show="page && page.breadcrumbs.length>0">
+  <div class="container">
+    <h1 class="pull-left">{{ page.title }}</h1>
+    <ul class="pull-right breadcrumb">
+      <li data-ng-repeat="(k,v) in page.breadcrumbs">
+        <a data-ng-click="reload(v.name)">{{ v.title }}</a>
+      </li>
+      <li class="active">
+        <strong>{{ page.title }}</strong>
+      </li>
+    </ul>
+  </div>
+</div>

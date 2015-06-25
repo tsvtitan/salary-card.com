@@ -5,10 +5,14 @@ app.factory('Auth',['$rootScope','$http','Route','Urls','Dictionary','Payload','
   function updateStates(auth) {
     
     Route.clear();
-    Route.state(auth.defaultPage.name,{
-      url: auth.defaultPage.url,
-      templateUrl: auth.defaultPage.template
-    });
+    
+    var def = Utils.findWhere(auth.pages,{name:auth.defaultPage.name});
+    if (!def) {
+      Route.state(auth.defaultPage.name,{
+        url: auth.defaultPage.url,
+        templateUrl: auth.defaultPage.template
+      });
+    }
     
     Utils.forEach(auth.pages,function(page){
       
@@ -29,8 +33,8 @@ app.factory('Auth',['$rootScope','$http','Route','Urls','Dictionary','Payload','
     templates: [],
     menu: [],
     pages: [],
-    //defaultPage: {name:'home',url:'',template:'home.html'},
-    defaultPage: {name:'page',url:'/page',template:'page.html'},
+    defaultPage: {name:'home',url:'',template:'home.html'},
+    //defaultPage: {name:'404',url:'/404',template:'404.html'},
     
     set: function(auth) {
       

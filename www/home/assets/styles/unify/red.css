@@ -8,6 +8,7 @@
 
 a {
   color: #e74c3c;
+  cursor: pointer;
 }
 a:focus, 
 a:hover, 
