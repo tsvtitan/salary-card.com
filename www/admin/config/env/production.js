@@ -25,7 +25,7 @@ module.exports = {
     workConnection: {
       adapter: 'sails-mongo',
       host: 'localhost',
-      database: 'salary-card'
+      database: 'admin'
     }
   },
   
@@ -53,7 +53,7 @@ module.exports = {
     disabled: true,
     
     db: {
-      address: 'localhost:27017/salary-card',
+      address: 'localhost:27017/admin',
       collection: 'jobs'
     }
   },
@@ -63,7 +63,7 @@ module.exports = {
     disable: false,
     
     host: 'localhost',
-    scope: 'salary-card'
+    scope: 'admin'
   }
   
 };
