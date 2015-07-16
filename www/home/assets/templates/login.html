@@ -1,34 +1,54 @@
-<div class="container content">		
-    <div class="row">
-        <div class="col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3">
-            <form class="reg-page">
-                <div class="reg-header">            
-                    <h2>Login to your account</h2>
-                </div>
-
-                <div class="input-group margin-bottom-20">
-                    <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                    <input type="text" placeholder="Username" class="form-control">
-                </div>                    
-                <div class="input-group margin-bottom-20">
-                    <span class="input-group-addon"><i class="fa fa-lock"></i></span>
-                    <input type="password" placeholder="Password" class="form-control">
-                </div>                    
-
-                <div class="row">
-                    <div class="col-md-6 checkbox">
-                        <label><input type="checkbox"> Stay signed in</label>                        
-                    </div>
-                    <div class="col-md-6">
-                        <button class="btn-u pull-right" type="submit">Login</button>                        
-                    </div>
-                </div>
-
-                <hr>
-
-                <h4>Forget your Password ?</h4>
-                <p>no worries, <a class="color-green" href="#">click here</a> to reset your password.</p>
-            </form>            
+<div class="container content" data-ng-controller="login">		
+  <div class="row">
+    <div class="col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3">
+      
+      <form class="reg-page" name="form" role="form" novalidate data-ng-submit="submit()">
+        
+        <div class="reg-header">            
+          <h2>{{ dic('Авторизация') }}</h2>
         </div>
-    </div><!--/row-->
+
+        <div class="input-group margin-bottom-20" check-field>
+          <span class="input-group-addon"><i class="fa fa-user"></i></span>
+          <input type="text" class="form-control" placeholder="{{ dic('Укажите логин') }}" name="login" required data-ng-model="data.login" data-ng-disabled="state.login">
+        </div>
+        
+        <div class="input-group margin-bottom-20" check-field>
+          <span class="input-group-addon"><i class="fa fa-lock"></i></span>
+          <input type="password" class="form-control" placeholder="{{ dic('Укажите пароль') }}" name="pass" data-ng-model="data.pass" data-ng-disabled="state.login">
+        </div>
+        
+        <div class="input-group margin-bottom-20" check-field data-ng-show="auth.captcha">
+          <span class="input-group-addon half-width no-padding" id="captcha">
+            <div class="text-center" data-ng-hide="state.spinner">
+              <a tabindex="-1" data-ng-click="captchaRefresh()">
+                <img class="fadeIn-fadeOut" alt="{{ dic('Нажмите чтобы обновить') }}" after-load="captchaAfterLoad()" data-ng-src="{{ captchaUrl }}">
+              </a>
+            </div>
+            <div class="text-center" data-ng-show="state.spinner">
+              <i class="fa fa-spinner fa-pulse fa-lg fa-fw"></i>
+            </div>
+          </span>
+          <input type="text" class="form-control" placeholder="{{ dic('Введите код') }}" name="captcha" 
+                 data-ng-model="data.captcha" data-ng-disabled="state.login" data-ng-pattern="captchaPattern"
+                 data-ng-change="captchaChange()">
+        </div>
+
+        <div class="row">
+          <div class="col-md-6 checkbox">
+            <label><input type="checkbox"> Stay signed in</label>                        
+          </div>
+          <div class="col-md-6">
+            <button class="btn-u pull-right" type="submit" ladda="state.login">{{ dic('Войти') }}</button>                        
+          </div>
+        </div>
+
+        <hr>
+
+        <h4>Forget your Password ?</h4>
+        <p>no worries, <a class="color-green" href="#">click here</a> to reset your password.</p>
+        
+      </form>            
+    </div>
+  </div>
 </div>

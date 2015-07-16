@@ -63,7 +63,7 @@ module.exports = {
                   delete req.session.loginCount;
                   delete req.session.loginCaptcha;
                 }
-
+                
                 var data = {
                   user: u,
                   captcha: req.session.loginCount>2
