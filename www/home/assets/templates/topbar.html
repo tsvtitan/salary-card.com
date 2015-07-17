@@ -1,20 +1,21 @@
-<div class="topbar">
-    <ul class="loginbar pull-right">
-        <li class="hoverSelector">
-            <i class="fa fa-globe"></i>
-            <a>Languages</a>
-            <ul class="languages hoverSelectorBlock">
-                <li class="active">
-                    <a href="#">English <i class="fa fa-check"></i></a> 
-                </li>
-                <li><a href="#">Spanish</a></li>
-                <li><a href="#">Russian</a></li>
-                <li><a href="#">German</a></li>
-            </ul>
+<div class="topbar" data-ng-controller="topbar">
+  <ul class="loginbar pull-right">
+    <li class="hoverSelector">
+      <i class="fa fa-globe"></i>
+      <a>Languages</a>
+      <ul class="languages hoverSelectorBlock">
+        <li class="active">
+          <a href="#">English <i class="fa fa-check"></i></a> 
         </li>
-        <li class="topbar-devider"></li>   
-        <li><a href="page_faq.html">Help</a></li>  
-        <li class="topbar-devider"></li>   
-        <li><a ui-sref="login">Login</a></li>   
-    </ul>
+        <li><a href="#">Russian</a></li>
+      </ul>
+    </li>
+    <li class="topbar-devider"></li>   
+    <li><a href="page_faq.html">Help</a></li>  
+    <li class="topbar-devider"></li>   
+    <li data-ng-hide="auth.user"><a ui-sref="login">{{ dic('Войти') }}</a></li>
+    <li data-ng-show="auth.user"><a ui-sref="profile">{{ auth.user.login }}</a></li>
+    <li class="topbar-devider"></li>
+    <li data-ng-show="auth.user"><a data-ng-click="logout()">{{ dic('Выйти') }}</a></li>   
+  </ul>
 </div>

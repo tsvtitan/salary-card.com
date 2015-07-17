@@ -14,7 +14,7 @@ app.controller('boot',['$rootScope','$scope','$state','$element','$timeout',
   Route.clear();
   
   function defaultUrl() {
-    Route.defaultUrl(Auth.getDefaultUrl());
+    //Route.defaultUrl(Auth.getDefaultUrl());
   }
   
   defaultUrl();
@@ -57,9 +57,21 @@ app.controller('boot',['$rootScope','$scope','$state','$element','$timeout',
       
       var s = (state)?state:Auth.getDefaultPageName();
       if ($state.current.name!==s) {
-
-        $state.go(s);
-        return {spinner:true};
+        
+        var page = Auth.getPage(s);
+        
+        if (page) {
+          
+          s = (page.auth && !Auth.user)?Const.stateLogin:s;
+          
+          $state.go(s);
+          
+          return {
+            spinner: true,
+            page: Auth.getPage(s),
+            state: s
+          };
+        }
       } 
     }
     return false;
@@ -74,11 +86,14 @@ app.controller('boot',['$rootScope','$scope','$state','$element','$timeout',
         var r = tryState(toState.name);
         if (r) {
           
-          Route.setLastState(toState.name);
-          Auth.setHtmlTitle(toState.name);
+          Route.setLastState(r.state);
+          Auth.setHtmlTitle(r.state);
           if (r.spinner) $scope.showSpinner();
           
-          Page.set(Auth.getPage(toState.name));
+          Page.set(r.page);
+          
+          if (toState.name!==r.state)
+            event.preventDefault();
           
         } else {
           $scope.hideSpinner();

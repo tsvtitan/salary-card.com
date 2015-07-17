@@ -20,6 +20,9 @@ app.constant('Const',{
   eventLogin: 'login',
   eventLogout: 'logout',
   
+  stateProfile: 'profile',
+  stateLogin: 'login',
+  
   couldNotSubscribeOnEvent: 'Could not subscribe on event',
   couldNotUnsubscribeFromEvent: 'Could not unsubscribe from event',
   

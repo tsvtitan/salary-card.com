@@ -65,7 +65,7 @@ app.controller('login',['$scope','$element','$timeout',
           
           $timeout(function(){
             $scope.state.login = false;
-            $scope.reload((d.user.page)?d.user.page:'profile');
+            $scope.reload((d.user.page)?d.user.page:Const.stateProfile);
           },Const.timeoutHide);
         }
       });
@@ -74,7 +74,12 @@ app.controller('login',['$scope','$element','$timeout',
   }
 
   function init() {
-    $scope.captchaRefresh();
+    
+    if (Auth.user) {
+      $scope.reload((Auth.user.page)?Auth.user.page:Const.stateProfile);
+    } else
+      $scope.captchaRefresh();
+    
     $scope.ready(); 
   }
                           

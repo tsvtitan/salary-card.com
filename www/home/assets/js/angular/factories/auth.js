@@ -47,7 +47,7 @@ app.factory('Auth',['$rootScope','$http','Route','Urls','Dictionary','Payload','
         this.user = false;
         this.captcha = false;
         this.menu = [];
-        this.pages = [];
+        //this.pages = [];
       }
       updateStates(this);
     },
