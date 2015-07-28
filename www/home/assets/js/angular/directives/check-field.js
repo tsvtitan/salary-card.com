@@ -1,6 +1,6 @@
 
 app.directive('checkField',['Utils','Alert','Const','Dictionary',
-                               function(Utils,Alert,Const,Dictionary) {
+                            function(Utils,Alert,Const,Dictionary) {
   
   return {
     restrict: 'A',
@@ -12,6 +12,7 @@ app.directive('checkField',['Utils','Alert','Const','Dictionary',
       var model = element.attr('data-ng-model');
       
       if (model) {
+        
         var fmEl = formCtrl[element.attr('name')];
         
         scope.$on('show-errors',function(event,flag,fields) {

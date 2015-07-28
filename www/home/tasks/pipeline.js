@@ -26,6 +26,8 @@ var cssFilesToInject = [
   'styles/unify/footer-v1.css',
   'styles/unify/page_404_error.css',
   'styles/unify/page_log_reg_v1.css',
+  'styles/unify/sky-forms.css',
+  'styles/unify/custom-sky-forms.css',
   'styles/unify/red.css',
   'styles/animate.css',
   'styles/font-awesome.min.css',

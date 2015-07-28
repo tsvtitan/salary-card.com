@@ -1,0 +1,233 @@
+<div class="container content zoomIn-zoomOut" data-ng-controller="signon">
+  
+  <div class="row">
+    
+    <div class="col-lg-10 col-lg-offset-1 col-md-8 col-md-offset-2">
+      <div class="tag-box tag-box-v2 margin-bottom-40">
+        <p>Пожалуйста, заполните регистрационную форму. Эти данные будут вашим профилем и позволят измерить стоимость вашей должности. Результат Вам будет выдан сразу. Изменять профиль можно не чаще одного раза в месяц, но статистические результаты о рынке зарплат обновляются ежедневно и будут всегда доступны Вам в личном кабинете.</p>
+      </div>
+    </div>
+
+    <div class="col-md-8 col-md-offset-2">
+      
+      <form class="sky-form" name="form" role="form" novalidate data-ng-submit="submit()">
+        
+        <fieldset data-ng-show="state.step==0">
+          
+          <section>
+            <label class="label">{{ dic('Должность') }}</label>
+            <label class="input">
+                <input list="list" type="text">
+                <datalist id="list">
+                    <option value="Alexandra"></option>
+                    <option value="Alice"></option>
+                    <option value="Anastasia"></option>
+                    <option value="Avelina"></option>
+                    <option value="Basilia"></option>
+                    <option value="Beatrice"></option>
+                    <option value="Cassandra"></option>
+                    <option value="Cecil"></option>
+                    <option value="Clemencia"></option>
+                    <option value="Desiderata"></option>
+                    <option value="Dionisia"></option>
+                    <option value="Edith"></option>
+                    <option value="Eleanora"></option>
+                    <option value="Elizabeth"></option>
+                    <option value="Emma"></option>
+                    <option value="Felicia"></option>
+                    <option value="Florence"></option>
+                    <option value="Galiana"></option>
+                    <option value="Grecia"></option>
+                    <option value="Helen"></option>
+                    <option value="Helewisa"></option>
+                    <option value="Idonea"></option>
+                    <option value="Isabel"></option>
+                    <option value="Joan"></option>
+                    <option value="Juliana"></option>
+                    <option value="Karla"></option>
+                    <option value="Karyn"></option>
+                    <option value="Kate"></option>
+                    <option value="Lakisha"></option>
+                    <option value="Lana"></option>
+                    <option value="Laura"></option>
+                    <option value="Leona"></option>
+                    <option value="Mandy"></option>
+                    <option value="Margaret"></option>
+                    <option value="Maria"></option>
+                    <option value="Nanacy"></option>
+                    <option value="Nicole"></option>
+                    <option value="Olga"></option>
+                    <option value="Pamela"></option>
+                    <option value="Patricia"></option>
+                    <option value="Qiana"></option>
+                    <option value="Rachel"></option>
+                    <option value="Ramona"></option>
+                    <option value="Samantha"></option>
+                    <option value="Sandra"></option>
+                    <option value="Tanya"></option>
+                    <option value="Teresa"></option>
+                    <option value="Ursula"></option>
+                    <option value="Valerie"></option>
+                    <option value="Veronica"></option>
+                    <option value="Wilma"></option>
+                    <option value="Yasmin"></option>
+                    <option value="Zelma"></option>
+                </datalist>
+            </label>
+          </section>
+          
+          <section>
+            <label class="label">{{ dic('Численность работников в компании, не более чел.') }}</label>
+            <label class="select">
+              <select>
+                <option value="0">Choose name</option>
+                <option value="1">Alexandra</option>
+                <option value="2">Alice</option>
+                <option value="3">Anastasia</option>
+                <option value="4">Avelina</option>
+              </select>
+            </label>
+          </section>
+          
+          <section>
+            <label class="label">{{ dic('Масштаб географического присутствия') }}</label>
+            <label class="select">
+              <select>
+                <option value="0">Choose name</option>
+                <option value="1">Alexandra</option>
+                <option value="2">Alice</option>
+                <option value="3">Anastasia</option>
+                <option value="4">Avelina</option>
+              </select>
+            </label>
+          </section>
+          
+          <section>
+            <label class="label">{{ dic('Широта ассортимента компании') }}</label>
+            <label class="select">
+              <select>
+                <option value="0">Choose name</option>
+                <option value="1">Alexandra</option>
+                <option value="2">Alice</option>
+                <option value="3">Anastasia</option>
+                <option value="4">Avelina</option>
+              </select>
+            </label>
+          </section>
+          
+          <section>
+            <label class="label">{{ dic('Отрасль') }}</label>
+            <label class="select">
+              <select>
+                <option value="0">Choose name</option>
+                <option value="1">Alexandra</option>
+                <option value="2">Alice</option>
+                <option value="3">Anastasia</option>
+                <option value="4">Avelina</option>
+              </select>
+            </label>
+          </section>
+          
+          <section>
+            <label class="label">{{ dic('Федеральный округ') }}</label>
+            <label class="select">
+              <select>
+                <option value="0">Choose name</option>
+                <option value="1">Alexandra</option>
+                <option value="2">Alice</option>
+                <option value="3">Anastasia</option>
+                <option value="4">Avelina</option>
+              </select>
+            </label>
+          </section>
+          
+          <section>
+            <label class="label">{{ dic('Область') }}</label>
+            <label class="select">
+              <select>
+                <option value="0">Choose name</option>
+                <option value="1">Alexandra</option>
+                <option value="2">Alice</option>
+                <option value="3">Anastasia</option>
+                <option value="4">Avelina</option>
+              </select>
+            </label>
+          </section>
+          
+          <section>
+            <label class="label">{{ dic('Город') }}</label>
+            <label class="select">
+              <select>
+                <option value="0">Choose name</option>
+                <option value="1">Alexandra</option>
+                <option value="2">Alice</option>
+                <option value="3">Anastasia</option>
+                <option value="4">Avelina</option>
+              </select>
+            </label>
+          </section>
+          
+          <section>
+            <label class="label">{{ dic('Функциональная область') }}</label>
+            <label class="select">
+              <select>
+                <option value="0">Choose name</option>
+                <option value="1">Alexandra</option>
+                <option value="2">Alice</option>
+                <option value="3">Anastasia</option>
+                <option value="4">Avelina</option>
+              </select>
+            </label>
+          </section>
+          
+          <section>
+            <label class="label">{{ dic('Специализация') }}</label>
+            <label class="select">
+              <select>
+                <option value="0">Choose name</option>
+                <option value="1">Alexandra</option>
+                <option value="2">Alice</option>
+                <option value="3">Anastasia</option>
+                <option value="4">Avelina</option>
+              </select>
+            </label>
+          </section>
+
+          <section>
+            <label class="label">{{ dic('E-mail') }}</label>
+            <label class="input">
+              <input type="text">
+            </label>
+          </section>
+          
+          <div class="input-group margin-bottom-20" check-field>
+            <label class="label">{{ dic('Пароль') }}</label>
+            <input type="password" class="form-control" placeholder="{{ dic('Укажите пароль') }}" name="pass" required data-ng-model="data.pass">
+          </div>
+          
+          <section>
+            <label class="label">{{ dic('Повтор пароля') }}</label>
+            <label class="input">
+              <input type="password">
+            </label>
+          </section>
+          
+        </fieldset>
+        
+        <fieldset data-ng-show="state.step==1">
+          <h1>Step 1</h1>
+        </fieldset>
+        
+        <fieldset data-ng-show="state.step==2">
+          <h1>Step 2</h1>
+        </fieldset>
+
+        <footer class="text-center">
+          <button type="button" class="btn-u btn-u-default" data-ng-show="state.step>0" data-ng-click="back()">{{ dic('Назад') }}</button>
+          <button type="submit" class="btn-u">{{ dic('Далее') }}</button>
+        </footer>
+        
+      </form>
+    </div>
+  </div>
+</div>
