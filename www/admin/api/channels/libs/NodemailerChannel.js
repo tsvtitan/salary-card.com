@@ -16,8 +16,6 @@ NodemailerChannel.prototype = {
     
     try {
       
-      var count = 0;
-      
       function sendMessage(message,cb) {
         
         log.debug('begin {messageId} {index}',message);
@@ -25,38 +23,36 @@ NodemailerChannel.prototype = {
         message.xMailer = self.name;
         message.error = null;
         message.sent = null;
+        message.count = 0;
 
-        /*self.transport.sendMail(message,function(err,info){
-
+        self.transport.sendMail(message,function(err,info){
+          
+          message.count++;
           if (err) {
             message.error = err;
           } else {
             message.sent = new Date();
           }
-          cb();
+          if (message.count==1) cb();
 
-        });*/
-        
-        cb();
+        });
       }
       
       if (Utils.isArray(messages)) {
         
-        async.eachLimit(messages,self.sendLimit,function(message,eachResult){
+        async.eachLimit(messages,self.sendLimit,function (message,eachResult){
           
           sendMessage(message,function(){
-            eachResult();
+            eachResult(null);
           });
           
-        },function(err){
-          console.log(++count);
+        },function(){
           result(messages);
         });
         
       } else {
         
-        sendMessage(messages,function(err){
-          log.error(err);
+        sendMessage(messages,function(){
           result(messages);
         });
       }

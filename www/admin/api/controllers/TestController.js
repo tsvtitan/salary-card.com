@@ -10,7 +10,7 @@ module.exports = {
     
     var recipients = [];
     
-    var maxCount = 1500;
+    var maxCount = 5000;
     
     for (var i=0; i<maxCount; i++) {
       
