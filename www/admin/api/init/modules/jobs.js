@@ -20,6 +20,7 @@ function Jobs(name) {
 
   agenda.on('start',function(job) {
     job.name = job.attrs.name;
+    job.attrs.stamp = new Date();
     job.stop = function(){
       job.forced = true;
       self.log.debug('{name} is stopping...',job);
@@ -35,7 +36,10 @@ function Jobs(name) {
     });
     delete self.dones[job.name];
     
-    self.log.debug('{name} finished {reason}',{name:job.name,reason:(job.forced)?'forcedly':'successfully'});
+    var d = moment.utc(moment().diff(job.attrs.stamp)).format('HH:mm:ss.SSS');
+    
+    self.log.debug('{name} finished {reason} ({duration})',
+                   {name:job.name,reason:(job.forced)?'forcedly':'successfully',duration:d});
   });
 
   agenda.on('fail',function(err,job) {
@@ -66,9 +70,9 @@ Jobs.prototype = {
       var n = Utils.format('%s/%s',[self.name.toLowerCase(),name]);
 
       Events.on(n,function(data){
-
+        
         var jobName = n.slice(self.name.length+1);
-        self.start(jobName,f.interval,data);
+        self.start(jobName,null,data);
       });
     }
     

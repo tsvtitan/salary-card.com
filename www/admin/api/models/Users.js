@@ -1,3 +1,5 @@
+// Users
+
 var bcrypt = require('bcrypt');    
 
 module.exports = {
@@ -339,8 +341,8 @@ module.exports = {
               if (user.pass && pass) {
                 
                 bcrypt.compare(pass,user.pass,function(err,res) {
-
-                  if (err) ret(err);
+                  
+                  if (err) ret(err,true,user);
                   else if (res===true) {
 
                     log.debug('User\'s credentials are fine.');
@@ -351,13 +353,15 @@ module.exports = {
                   
                 });
               
+              } else if (!user.pass && !pass) {
+                
+                log.debug('User\'s credentials have not set');
+                ret(null,null,user);
+                
               } else {
                 
-                if (!user.pass && !pass) {
-                  
-                  log.debug('User\'s credentials have not set');
-                  ret(null,null,user);
-                }
+                log.debug('User\'s credentials are invalid');
+                ret(null,null,null);
               }
             } 
             
@@ -394,6 +398,26 @@ module.exports = {
       });
       
     } else result(null,null,null);
+  },
+  
+  getByRequest: function(req,result) {
+    
+    if (req && req.body && req.body.auth) {
+            
+      Users.getByLogin(req.body.auth.login,req.body.auth.pass,false,false,
+                       function(err,user){
+        result(err,user);
+      });
+
+    } else if (req.session && req.session.userId) {
+
+      Users.findOneById(req.session.userId,function(err,user){
+        
+        if (err) result(err,null);
+        else result(null,user);
+      });
+
+    } else result(null,null);
   }
   
 };

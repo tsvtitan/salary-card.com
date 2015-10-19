@@ -5,7 +5,8 @@ var util = require('util'),
     Utils = require('./modules/utils.js'),
     Log = require('./modules/log.js'),
     Events = require('./modules/events.js'),
-    Jobs = require('./modules/jobs.js');
+    Jobs = require('./modules/jobs.js'),
+    Channels = require('./modules/channels.js');
     
 
 module.exports = function() {
@@ -34,11 +35,8 @@ module.exports = function() {
     controller = log.extend(controller,'controllers',controller.globalId+'Controller',null,true);
   });
   
-  /*utils.forEach(sails.hooks.responses.middleware,function(response){
-    response = log.extend(response,'responses',response.globalId,null,true);
-  });*/
-  
   global['Jobs'] = jobs = Jobs();
+  global['Channels'] = channels = Channels();
   
   function processStop() {
     events.end();

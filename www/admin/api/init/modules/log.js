@@ -39,6 +39,7 @@ Log.prototype = {
     function getTrace(traces,extra) {
 
       var trace = null;
+      var prefix = true;
       
       var exp1 = new RegExp('^'+sails.config.appPath+'+');
       var exp2 = new RegExp('^'+sails.config.appPath+'/node_modules+');
@@ -65,16 +66,17 @@ Log.prototype = {
           var t = temp[offset];
           trace = (!extra)?Utils.format('.%s',[t.phrase]):Utils.format('.%s (%s, %d)',[t.phrase,t.fileName,t.lineNumber]);
           
-          if (!name && exp3.test(t.fileName)) {
+          if (exp3.test(t.fileName)) {
             
             name = removePhrase(t.fileName,apiPath);
             name = Utils.fileName(name);
+            prefix = false;
           }
 
         }
       }
       
-      return (trace)?{name:name,trace:trace}:null;
+      return (trace)?{name:name,trace:trace,prefix:prefix}:null;
     }
     
     var traces = stackTrace.parse(new Error());
@@ -89,12 +91,12 @@ Log.prototype = {
     
     var pr = (prefix)?prefix+'/':'';
     var sf = (suffix)?suffix:'';
-    var t = {name:name,trace:''};
+    var t = {name:name,trace:'',prefix:true};
     if (trace) {
       t = this.trace(name,(offset)?offset+1:1,extra) || t;
     }
     
-    return Utils.format('[%s%s%s%s] => %s',[pr,t.name,sf,t.trace,Utils.format(s,values)]);
+    return Utils.format('[%s%s%s%s] => %s',[(t.prefix)?pr:'',t.name,sf,t.trace,Utils.format(s,values)]);
   },
   
   infoTrace: function(s,values,offset,extra) {

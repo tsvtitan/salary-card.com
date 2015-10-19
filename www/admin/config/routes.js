@@ -58,13 +58,16 @@ module.exports.routes = {
   'post /admin/api/login': 'AuthController.login',
   'post /admin/api/logout': {controller:'AuthController', action:'logout', policy:'sessionAuth'},
   
-  'post /admin/api/page': {controller:'PageController', action:'index', policy:'accessGranted'},
+  '/admin/api/page': {controller:'PageController', action:'index', policy:'accessGranted'},
   'post /admin/api/page/frames': {controller:'PageController', action:'frames', policy:'accessGranted'},
   
-  'post /admin/api/tables': {controller:'TablesController', action:'index', policy:'accessGranted'},
+  '/admin/api/tables': {controller:'TablesController', action:'index', policy:'accessGranted'},
   'post /admin/api/tables/get': {controller:'TablesController', action:'get', policy:'accessGranted'},
   'post /admin/api/tables/action': {controller:'TablesController', action:'action', policy:'accessGranted'},
-  
+
+  '/admin/api/mailer': {controller:'MailerController', action:'index', policy:'accessGranted'},
+  'post /admin/api/mailer/send': {controller:'MailerController', action:'send', policy:'accessGranted'},
+ 
   '/test': {view:'test',locals:{layout:'layouts/test'}},
   '/test/default': {view:'test',locals:{layout:'layouts/default'}},
   

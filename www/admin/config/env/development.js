@@ -56,6 +56,16 @@ module.exports = {
     db: {
       address: 'localhost:27017/admin',
       collection: 'jobs'
+    },
+    
+    mailer: {
+      
+      Outgoing: {
+        disabled: false,
+        interval: '30 seconds',
+        event: true
+      }
+      
     }
   },
   
@@ -66,6 +76,35 @@ module.exports = {
     host: 'localhost',
     scope: 'admin'
     
+  },
+  
+  channels: {
+    
+    disable: false,
+    outgoingLimit: 5,
+    
+    GMailOutgoing: {
+      disabled: false
+    },
+    
+    MailgunOutgoing: {
+      disabled: false
+    },
+    
+    SendGridOutgoing: {
+      disabled: true
+    },
+    
+    ExchangeOutgoing: {
+      disabled: false
+    }
+  },
+  
+  mailerService: {
+    url: 'http://localhost:1337/admin/api/mailer',
+    auth: {
+      login: 'tsv'
+    }
   }
   
 };

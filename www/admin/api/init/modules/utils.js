@@ -1,5 +1,7 @@
 "use strict";
 
+var randomstring = require('randomstring');
+
 function Utils() {}
 
 Utils.prototype = {
@@ -109,6 +111,19 @@ Utils.prototype = {
 
   clone: function(obj) {
     return _.clone(obj);
+  },
+  
+  concat: function(obj) {
+    
+    if (_.isArray(obj)) {
+      
+      var ret = [];
+      for (var i in obj) {
+        ret = ret.concat(obj[i]);
+      }
+      return ret;
+      
+    } else return obj;
   },
 
   extend: function(obj1,obj2) {
@@ -250,6 +265,16 @@ Utils.prototype = {
       return fullName.substr((~-fullName.lastIndexOf('.') >>> 0) + 2);
       
     } else return fullName;
+  },
+  
+  random: function(obj) {
+    
+    if (_.isObject(obj) || _.isNumber(obj)) {
+      
+      return randomstring.generate(obj);
+      
+    } else return obj;
+ 
   }
 
 }

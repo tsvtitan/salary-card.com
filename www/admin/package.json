@@ -26,14 +26,20 @@
     "ejs" : "~0.8.8",
     "include-all" : "~0.1.6",
     "node-redis-pubsub" : "~0.5.0",
+    "nodemailer" : "~1.8.0",
+    "nodemailer-smtp-pool": "~1.1.2",
+    "nodemailer-mailgun-transport": "~1.0.1",
     "moment" : "~2.10.2",
+    "randomstring" : "~1.1.0",
     "rc" : "~0.5.5",
+    "request" : "~2.64.0",
     "sails-mongo" : "~0.10.8",
     "socket.io-redis" : "~0.1.4",
     "stack-trace" : "~0.0.9",
     "ua-parser-js" : "~0.7.7",
     "winston" : "~1.0.0",
-    "xlsx" : "~0.8.0"
+    "xlsx" : "~0.8.0",
+    "xoauth2": "~1.1.0"
   },
   "scripts" : {
     "start" : "node app.js",
