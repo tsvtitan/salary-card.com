@@ -34,8 +34,21 @@ Channels.prototype = {
      
       var locals = {
         title: Utils.format(message.subject,recipient),
-        recipient: recipient
+        id: message.id,
+        created: message.created,
+        sender: message.sender,
+        recipient: recipient,
+        text: (message.text)?Utils.format(message.text,recipient):''
       };
+      
+      var attachments = Utils.isArray(message.attachments)?Utils.clone(message.attachments):[];
+      
+      Utils.forEach(attachments,function(attachment){
+        
+        if (Utils.isDefined(attachment.filename)) {
+          attachment.filename = Utils.format(attachment.filename,recipient);
+        }
+      });
       
       sails.renderView(message.view,locals,function(err,html){
         
@@ -49,6 +62,7 @@ Channels.prototype = {
           subject: Utils.format(message.subject,recipient),
           html: html,
           headers: Utils.isObject(message.headers)?message.headers:{},
+          attachments: attachments,
           messageId: Utils.format('{id}:{contact}:{rnd}',{id:message.id,rnd:rnd,contact:recipient.contact}),
           index: index
         };
@@ -59,10 +73,17 @@ Channels.prototype = {
       });
     }
     
-    if (Utils.isArray(message.recipients)) {
+    if (Utils.isObject(message.recipient)) {
+      
+      index++;
+      make(message.recipient,function(err,m){
+        result(m);
+      });
+      
+    } else if (Utils.isArray(message.recipients) && message.recipients.length>0) {
       
       async.mapLimit(message.recipients,self.parseMessageLimit,function(recipient,ret){
-      //async.mapSeries(message.recipients,function(recipient,ret){
+      
         index++;
         make(recipient,function(err,m){
           ret(err,m);
@@ -77,11 +98,6 @@ Channels.prototype = {
         result(childs);
       });
       
-    } else {
-      index++;
-      make(message.recipient,function(err,m){
-        result(m);
-      });
     }
   },
   

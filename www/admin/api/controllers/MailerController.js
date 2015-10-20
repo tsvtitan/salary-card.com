@@ -35,32 +35,9 @@ module.exports = {
             delay = (input.test)?0:delay;
            
             var duration = Utils.isNumber(input.duration)?input.duration:60;
-
-            var begin = moment().add({seconds:delay});
-            var end = moment().add({seconds:delay}).add({minutes:duration});
             
-            /*var body = null;
-            if (input.bodyEncoding) {
-              switch (input.bodyEncoding) {
-                case 'base64': body = input.body; break;
-              }
-            } else body = new Buffer(input.body).toString('base64');
-            
-            if (input.attachments && Utils.isArray(input.attachments)) {
-              
-              Utils.forEach(input.attachments,function(attachment){
-                
-                if (attachment.data) {
-                  if (!attachment.size) {
-                    
-                    var buf = new Buffer(attachment.data);
-                    attachment.size = buf.length;
-                    attachment.data = buf.toString('base64');
-                    
-                  }
-                }
-              });
-            }*/
+            var begin = (input.begin)?moment(input.begin):moment().add({seconds:delay});
+            var end = (input.end)?moment(input.end):moment().add({seconds:delay}).add({minutes:duration});
             
             var priority = Utils.isNumber(input.priority)?input.priority:999;
 
@@ -75,6 +52,7 @@ module.exports = {
               recipients: input.recipients,
               headers: input.headers,
               attachments: input.attachments,
+              text: input.text,
               view: input.view,
               channel: input.channel,
               priority: priority

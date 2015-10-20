@@ -19,7 +19,7 @@ NodemailerChannel.prototype = {
       function sendMessage(message,cb) {
         
         log.debug('begin {messageId} {index}',message);
-
+        
         message.xMailer = self.name;
         message.error = null;
         message.sent = null;

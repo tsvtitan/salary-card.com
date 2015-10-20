@@ -23,7 +23,7 @@ module.exports = {
     recipients: 'json',
     parameters: 'json',
     subject: 'string',
-    body: 'text',
+    text: 'text',
     headers: 'json',
     keywords: 'json',
     attachments: 'json',

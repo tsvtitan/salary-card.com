@@ -10,13 +10,15 @@ module.exports = {
     
     var recipients = [];
     
-    var maxCount = 5000;
+    var maxCount = 1;
     
     for (var i=0; i<maxCount; i++) {
       
       recipients.push({
         name: Utils.format('имя #%s',[i+1]),
-        contact: 'test7@ufs-gold.com'
+        contact: 'test7@ufs-gold.com',
+        fio: 'Some Name',
+        param: 'Параметр'
       });
     }
     
@@ -29,24 +31,35 @@ module.exports = {
         //contact: 'tsv@salary-card.com'
         contact: 'mailer@lists.ufs-financial.ch'
       },
+      //begin: moment().toDate(),
+      //end: moment().add({minutes:10}).toDate(),
+      delay: 1,
+      duration: 15,
       recipients: recipients,
       /*recipients: [
         { name: 'Name1', contact: 'tsv@ufsic.com', fio: 'Some Name' },
         { name: 'Сергей', contact: 'tsv.titan@gmail.com', surname: 'Томилов', patronymic: 'Вячеславович' }
       ],*/
-      //recipient: { name: 'Name1', contact: 'tsv@ufsic.com', fio: 'Some Name' },
+      //recipient: { name: 'Name1', contact: 'tsv@ufsic.com', fio: 'Some Name', param: 'Параметр' },
       subject: '!!! Тема письма: {name}, {contact}',
       headers: {'QQQ-WWW-EEE':'RRR-TTT-YYY'},
       attachments: [
-        
+        {
+          filename: '{name}_{fio}_{contact}_license.txt',
+          content: 'aGVsbG8gd29ybGQh',
+          encoding: 'base64'
+        },
+        {
+          filename: '{param}_{fio}_{contact}_license.txt',
+          path: 'https://raw.github.com/andris9/Nodemailer/master/LICENSE'
+        }
       ],
+      text: '<h3>{fio}</h3>',
       view: 'mailer/test',
       //channel: 'MailgunOutgoing',
       //channel: 'GMailOutgoing',
       channel: 'ExchangeOutgoing',
-      priority: 12,
-      delay: 10,
-      duration: 5
+      priority: 12
     };
     
     

@@ -19,6 +19,16 @@ module.exports = {
   
   send: function(messages,result) {
     
+    if (Utils.isArray(messages)) {
+      
+      Utils.forEach(messages,function(message){
+        delete message.attachments;
+      });
+      
+    } else if (Utils.isObject(messages)) {
+      delete messages.attachments;
+    }  
+    
     NodemailerChannel.send(messages,result);
   }
 }

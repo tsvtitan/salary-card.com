@@ -27,30 +27,49 @@ module.exports = {
         function find(result){
           
           var where = {
-            
-            //begin:{'>=':moment().toDate()},
-            //end:{'>=':moment().add({minutes:-5}).toDate()},
-            sent: [null,undefined,false],
-            locked: [null,undefined,false]
+            or: [
+              {
+                begin: [null,undefined,false],
+                end: [null,undefined,false],
+                sent: [null,undefined,false],
+                locked: [null,undefined,false]
+              },
+              {
+                begin:{'<=':moment().toDate()},
+                end:{'>':moment().toDate()},
+                sent: [null,undefined,false],
+                locked: [null,undefined,false]
+              }
+            ]
           };
           
           if (options.id) {
             where = Utils.extend(where,{id:options.id});
           }
           
+          var sort = {
+            created: -1,
+            priority: 1
+          };
+          
           var fields = {
             id: 1,
+            created: 1,
             sender: 1,
             recipient: 1,
             recipients: 1,
             channel: 1,
             subject: 1,
+            text: 1,
             view: 1,
-            headers: 1
+            headers: 1,
+            attachments: 1
           };
           
-          Messages.find({where:where,sort:{created:-1},limit:options.limit},{fields:fields},
+          Messages.find({where:where,sort:sort,limit:options.limit},{fields:fields},
                         function(err,msgs){
+                          
+                          console.log(msgs);
             result(err,msgs);
           });
         },
@@ -127,7 +146,7 @@ module.exports = {
               result(err,false);
             });
             
-          } else result(null,true);
+          } else result(null,false);
         }
         
 
