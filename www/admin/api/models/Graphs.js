@@ -14,8 +14,12 @@ module.exports = {
     },
     title: 'string',
     description: 'string',
-    
     template: 'stirng',
+    icon: 'string',
+    model: 'string',
+    canCollapse: 'boolean',
+    collapsed: 'boolean',
+    canClose: 'boolean',
     locked: 'datetime',
     lang: 'string',
     

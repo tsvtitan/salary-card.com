@@ -1,0 +1,27 @@
+<h5>
+  <span data-ng-show="graph.icon"><i class="fa" data-ng-class="graph.icon"></i>&nbsp;&nbsp;</span>
+  <span>{{ graph.title }}</span>
+</h5>
+
+<div class="ibox-tools">
+
+  <a data-ng-click="graph.reload()">
+    <i class="fa fa-refresh" data-ng-class="(graph.loading || graph.processing)?'fa-spin':''"></i>
+  </a>
+
+  <a data-ng-click="graph.collapsed=!graph.collapsed" data-ng-show="graph.canCollapse">
+    <i class="fa" data-ng-class="(graph.collapsed)?'fa-chevron-down':'fa-chevron-up'"></i>
+  </a>
+  
+  <a class="dropdown-toggle" data-toggle="dropdown" data-ng-show="graph.actions && graph.actions.length>0">
+    <i class="fa fa-wrench"></i>
+  </a>
+  <ul class="dropdown-menu dropdown-user scrollable-menu" data-ng-show="graph.actions">
+    <li data-ng-repeat="a in graph.actions" data-ng-include="a.template" data-ng-init="action=a"></li>
+  </ul>
+  
+  <a data-ng-click="graph.closed=!graph.closed" data-ng-show="graph.canClose">
+    <i class="fa fa-times"></i>
+  </a>
+
+</div>

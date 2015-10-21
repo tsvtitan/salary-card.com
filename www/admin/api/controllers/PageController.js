@@ -60,6 +60,7 @@ module.exports = {
                     }
                     case 'graph': {
                       model = Graphs;
+                      fields = Utils.extend(fields,{icon:1});
                       break;
                     }
                   }

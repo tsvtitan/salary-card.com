@@ -18,6 +18,11 @@ module.exports = {
     columns: 'json',
     tree: 'json',
     template: 'stirng',
+    icon: 'string',
+    model: 'string',
+    canCollapse: 'boolean',
+    collapsed: 'boolean',
+    canClose: 'boolean',
     locked: 'datetime',
     lang: 'string',
     

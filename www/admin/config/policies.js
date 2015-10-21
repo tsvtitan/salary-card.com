@@ -79,6 +79,11 @@ module.exports.policies = {
     '*': 'accessGranted'
   },
   
+  GraphsController: {
+    
+    '*': 'accessGranted'
+  },
+  
   MailerController: {
     
     '*': 'accessGranted'
