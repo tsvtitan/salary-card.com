@@ -23,7 +23,7 @@ module.exports = {
 
           var where = { name: (req.body)?req.body.name:null };
           var fields = { frames:1,name:1,type:1,class:1,collapsed:1,template:1,actions:1,
-                        canClose:1,canCollapse:1 };
+                        canClose:1,canCollapse:1,locked:1 };
 
           Users.getModelRecord(req.session.userId,Pages,where,fields,null,
                                function(err,page){
@@ -45,8 +45,8 @@ module.exports = {
                   return item.name === frame.name;
                 });
 
-                if (!item && frame.type) {
-
+                if (!item && frame.type && !frame.locked) {
+                  
                   var model = null;
                   var fields = {name:1,title:1,description:1,template:1,actions:1,
                               collapsed:1,canClose:1,canCollapse:1};

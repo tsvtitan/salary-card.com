@@ -61,7 +61,7 @@ module.exports = {
     mailer: {
       
       Outgoing: {
-        disabled: false,
+        disabled: true,
         interval: '30 seconds',
         event: true
       }

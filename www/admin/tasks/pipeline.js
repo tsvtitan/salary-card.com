@@ -19,7 +19,8 @@ var cssFilesToInject = [
   'styles/bootstrap.css',
   'styles/font-awesome.min.css',
   'styles/ladda-themeless.min.css',
-  'styles/angular-grid.css',
+  'styles/ag-grid.css',
+  'styles/theme-fresh.css',
   'styles/toastr.css',
   'styles/inspinia.css',
   'styles/**/*.css'

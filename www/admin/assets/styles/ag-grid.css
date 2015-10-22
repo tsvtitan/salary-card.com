@@ -1,9 +1,12 @@
+ag-grid-ng2 {
+  display: inline-block;
+}
 .ag-root {
   font-size: 14px;
   cursor: default;
-/* Set to relative, so absolute popups appear relative to this */
+/* set to relative, so absolute popups appear relative to this */
   position: relative;
-/*disable user mouse selection */
+/* disable user mouse selection */
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -11,6 +14,8 @@
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
+/* was getting some 'should be there' scrolls, this sorts it out */
+  overflow: hidden;
 }
 .ag-no-scrolls {
   white-space: nowrap;
@@ -114,14 +119,13 @@
 .ag-header-cell-menu-button {
   float: right;
 }
-.ag-loading-panel {
-  z-index: 1;
-  position: absolute;
+.ag-overlay-panel {
   display: table;
   width: 100%;
-/* Height is set by javascript, to cover the table */
+  height: 100%;
+  pointer-events: none;
 }
-.ag-loading-wrapper {
+.ag-overlay-wrapper {
   display: table-cell;
   vertical-align: middle;
   text-align: center;
@@ -131,6 +135,74 @@
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
+}
+.ag-floating-top {
+  position: absolute;
+  left: 0px;
+  width: 100%;
+  white-space: nowrap;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+.ag-pinned-floating-top {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  display: inline-block;
+  overflow: hidden;
+  height: 100%;
+  position: relative;
+}
+.ag-floating-top-viewport {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  display: inline-block;
+  overflow: hidden;
+  height: 100%;
+}
+.ag-floating-top-container {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  position: relative;
+  white-space: nowrap;
+}
+.ag-floating-bottom {
+  position: absolute;
+  left: 0px;
+  width: 100%;
+  white-space: nowrap;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+.ag-pinned-floating-bottom {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  display: inline-block;
+  overflow: hidden;
+  height: 100%;
+  position: relative;
+}
+.ag-floating-bottom-viewport {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  display: inline-block;
+  overflow: hidden;
+  height: 100%;
+}
+.ag-floating-bottom-container {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  position: relative;
+  white-space: nowrap;
 }
 .ag-pinned-cols-viewport {
   float: left;
@@ -170,6 +242,7 @@
   -o-text-overflow: ellipsis;
   text-overflow: ellipsis;
   overflow: hidden;
+  float: left;
 }
 .ag-group-cell-entire-row {
   width: 100%;
@@ -226,6 +299,30 @@
   width: 110px;
   margin: 4px 4px 0px 4px;
 }
-.ag-paging-panel {
-  position: absolute;
+.ag-no-vertical-scroll .ag-scrolls {
+  height: unset;
+}
+.ag-no-vertical-scroll .ag-body {
+  height: unset;
+}
+.ag-no-vertical-scroll .ag-body-viewport-wrapper {
+  height: unset;
+}
+.ag-no-vertical-scroll .ag-body-viewport {
+  height: unset;
+}
+.ag-list-selection {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  cursor: default;
+}
+.ag-tool-panel-container {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  cursor: default;
+  width: 200px;
 }

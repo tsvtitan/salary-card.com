@@ -92,11 +92,21 @@ app.factory('Page',['$http','$q',
       table.load = function(options,result) {
         
         table.loading = true;
-        table.data = [];
+        table.gridOptions = {
+          columnDefs: [],
+          rowData: []
+        };
         
         Tables.get({name:table.name,options:options},function(d){
           
-          table.data = Utils.isArray(d.data)?d.data:[];
+          if (Utils.isObject(d.table)) {
+            
+            table.gridOptions = {
+              columnDefs: Utils.isArray(d.table.columns)?d.table.columns:[],
+              rowData: Utils.isArray(d.table.rows)?d.table.rows:[]
+            };
+          }
+          
           table.options = options;
           table.loading = false;
           
