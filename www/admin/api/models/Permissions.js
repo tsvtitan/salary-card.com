@@ -108,6 +108,8 @@ module.exports = {
   
   asWhere: function (userOrIdOrLogin,entity,action,def,result) {
     
+    var log = this.log;
+    
     this.getAccess(userOrIdOrLogin,entity,action,function(err,access,user){
       
       if (access && Utils.isArray(access)) {

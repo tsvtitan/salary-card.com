@@ -180,8 +180,6 @@ module.exports = {
       
       if (req.session && req.session.userId) {
         
-        console.log(req.body);
-        
         async.waterfall([
           
           function getTable(ret) {
@@ -215,38 +213,31 @@ module.exports = {
           
           function getData(table,options,model,ret){
             
-            var where = {
-              locked: [null,undefined,false]
-            };
-            
-            var fields = {};
-            
-            var columns = Utils.isArray(table.columns)?table.columns:[];
-            
-            Utils.forEach(columns,function(column){
-              fields[column.field] = 1;
-            });
-            
-            console.log(fields);
-            
-            Users.getModelTable(req.session.userId,model,where,fields,{},function(err,data,user){
+            if (table.grid) {
               
-              var t = {
-                columns: table.columns,
-                rows: data
-              };
+              var fields = {};
+
+              var columns = Utils.isArray(table.grid.columnDefs)?table.grid.columnDefs:[];
+
+              Utils.forEach(columns,function(column){
+                fields[column.field] = 1;
+              });
+
+              var where = {};
+
+              Users.getModelTable(req.session.userId,model,fields,where,table.sort,{},
+                                  function(err,data,user){
+
+                ret(err,data);
+              });
               
-              ret(err,t);
-            }); 
-            
-            
-            //var columns = Utils.isArray(table.columns)?table.columns:[];
+            } else ret('Grid is not found');
           }
           
-        ],function(err,table){
+        ],function(err,data){
           if (err) error(err);
           else {
-            res.jsonSuccess({table:Utils.isArray(table)?table:[]});
+            res.jsonSuccess({data:data});
           }
         });
         

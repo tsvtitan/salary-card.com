@@ -169,7 +169,7 @@ module.exports = {
     }
   },
   
-  getModelTable: function (userOrId,model,where,fields,def,result) {
+  getModelTable: function (userOrId,model,fields,where,sort,def,result) {
     
     var log = this.log;
     var self = this;
@@ -181,6 +181,7 @@ module.exports = {
         function getAccess(ret) {
           
           Permissions.asWhere(userOrId,model.tableName,'view',def,function(err,access,user){
+            
             ret(err,access,user);
           });
         },
@@ -192,14 +193,19 @@ module.exports = {
             if (access) {
               
               var w = {
-                locked: [null,false],
+                locked: [null,undefined,false],
                 lang: (user.lang)?user.lang:null
               };
               
               w = Utils.extend(w,where);
               w = Utils.extend(w,access);
-
-              model.find({where:w,sort:{priority:1}},{fields:fields},
+              
+              var s = {priority:1};
+              if (Utils.isObject(sort)) {
+                s = sort;
+              }
+              
+              model.find({where:w,sort:s},{fields:fields},
                          function(err,table){
 
                 ret(err,table,user);          
@@ -217,9 +223,9 @@ module.exports = {
     } else result(null,[],null);
   },
   
-  getModelRecord: function (userOrId,model,where,fields,def,result) {
+  getModelRecord: function (userOrId,model,fields,where,sort,def,result) {
     
-    this.getModelTable(userOrId,model,where,fields,def,
+    this.getModelTable(userOrId,model,fields,where,sort,def,
                        function(err,table,user){
       
       var record = null;
@@ -274,7 +280,7 @@ module.exports = {
 
             async.map(items,function(i,cb){
 
-              self.getModelTable(user,i.model,i.where,i.fields,null,function(err,r){
+              self.getModelTable(user,i.model,i.fields,i.where,null,null,function(err,r){
                 cb(err,{name:i.name,obj:r});
               });
 

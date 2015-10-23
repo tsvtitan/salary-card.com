@@ -99,7 +99,24 @@ module.exports = {
     ],function(err){
       result(err,{reload:true});
     });
-   
+  },
+  
+  change: function(user,params,files,result) {
+    
+    var log = this.log;
+    
+    if (params && params.id) {
+      
+      log.debug(params);
+
+      this.update({id:params.id},params,function(err,updated){
+        
+        if (err) result(err)
+        else if (updated) result(null,{reload:false})
+        else result('Record is not found');
+      });
+            
+    } else result('Id is not found');    
   }
   
 }

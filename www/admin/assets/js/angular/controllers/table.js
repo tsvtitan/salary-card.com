@@ -6,14 +6,7 @@ app.controller('table',['$scope','Const','Alert','Utils',
 
   if ($scope.table) {
   
-    $scope.table.load({},function(d){
-      
-      if (d.error) {
-        Alert.error(d.error);
-      } else {
-        Alert.info(JSON.stringify(d));
-      }
-    });
+    $scope.table.load({});
     
   } else Alert.error(Const.tableNotAvailable);
   

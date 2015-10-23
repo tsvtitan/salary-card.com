@@ -31,6 +31,47 @@ app.factory('Page',['$http','$q',
   
   function processTable(table) {
   
+    function executeAction(name,params,files,result) {
+      
+      function execute() {
+
+        var deferred = $q.defer();
+        var data = {
+          name: table.name,
+          action: name,
+          params: params,
+          files: files
+        };
+
+        Tables.action(data,function(d){
+          deferred.resolve(d);
+        });
+
+        return deferred.promise;
+      }
+
+      table.processing = true;
+
+      execute().then(function(d){
+
+        table.processing = false;
+
+        if (d.error) {
+
+          if (Utils.isFunction(result)) result(d);
+          else Alert.error(d.error);
+
+        } else if (d.reload) {
+
+          table.reload(function(){
+            if (Utils.isFunction(result)) result(d);
+          });
+
+        } else if (Utils.isFunction(result)) result(d);
+
+      });
+    }
+    
     function processAction(action) {
       
       action.table = table;
@@ -38,45 +79,8 @@ app.factory('Page',['$http','$q',
       if (!Utils.isFunction(action.execute)) {
         
         action.execute = function(params,files,result) {
-          
-          function execute() {
-            
-            var deferred = $q.defer();
-            var data = {
-              name: table.name,
-              action: action.name,
-              params: params,
-              files: files
-            };
-            
-            Tables.action(data,function(d){
-              deferred.resolve(d);
-            });
-            
-            return deferred.promise;
-          }
-          
-          table.processing = true;
-          
-          execute().then(function(d){
-            
-            table.processing = false;
-            
-            if (d.error) {
-              
-              if (Utils.isFunction(result)) result(d);
-              else Alert.error(d.error);
-              
-            } else if (d.reload) {
-              
-              table.reload(function(){
-                if (Utils.isFunction(result)) result(d);
-              });
-              
-            } else if (Utils.isFunction(result)) result(d);
-            
-          });
-        }
+          executeAction(action.name,params,files,result);
+        };
       }
     }
     
@@ -87,30 +91,50 @@ app.factory('Page',['$http','$q',
       });
     }
     
+    if (Utils.isObject(table.grid)) {
+            
+      table.grid.onReady = function(event) {
+
+        event.api.sizeColumnsToFit();
+      }
+      
+      table.grid.onCellValueChanged = function(params) {
+        
+        params.data[params.colDef.field] = Utils.cast(params.oldValue,params.newValue);
+        
+        executeAction('change',params.data,null,function(d){
+          
+          if (d.error) {
+            
+            Alert.error(d.error,null,{
+              onHidden: function(){
+                params.data[params.colDef.field] = params.oldValue;
+                params.newValue = params.oldValue;
+              }
+            });
+          }
+        });
+      }
+    }
+          
     if (!Utils.isFunction(table.load)) {
       
       table.load = function(options,result) {
         
         table.loading = true;
-        table.gridOptions = {
-          columnDefs: [],
-          rowData: []
-        };
         
         Tables.get({name:table.name,options:options},function(d){
           
-          if (Utils.isObject(d.table)) {
+          if (Utils.isObject(table.grid)) {
             
-            table.gridOptions = {
-              columnDefs: Utils.isArray(d.table.columns)?d.table.columns:[],
-              rowData: Utils.isArray(d.table.rows)?d.table.rows:[]
-            };
+            table.grid.api.setRowData(Utils.isArray(d.data)?d.data:[]);
           }
           
           table.options = options;
           table.loading = false;
           
           if (Utils.isFunction(result)) result(d);
+          else if (d.error) Alert.error(d.error); 
         });
       }
     }
@@ -122,6 +146,7 @@ app.factory('Page',['$http','$q',
         table.load(table.options,function(d){
           
           if (Utils.isFunction(result)) result(d);
+          else if (d.error) Alert.error(d.error);
         });
       }
     }

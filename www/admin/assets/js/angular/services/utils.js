@@ -50,16 +50,20 @@ app.service('Utils',['base64',
     return arr;
   }
   
-  this.isArray = function(arr){
-    return _.isArray(arr);
+  this.isArray = function(obj){
+    return _.isArray(obj);
   }
   
-  this.isObject = function(arr){
-    return _.isObject(arr);
+  this.isObject = function(obj){
+    return _.isObject(obj);
   }
   
-  this.isString = function(arr){
-    return _.isString(arr);
+  this.isString = function(obj){
+    return _.isString(obj);
+  }
+  
+  this.isNumber = function(obj){
+    return _.isNumber(obj);
   }
   
   this.isDefined = function(obj) {
@@ -157,6 +161,32 @@ app.service('Utils',['base64',
     }
       
     return form;  
+  }
+  
+  this.isInteger = function(obj) {
+    
+    return _.isNumber(obj) && (obj === +obj && obj === (obj|0));
+  }
+  
+  this.isFloat = function(obj) {
+    
+    return _.isNumber(obj) && (obj === +obj && obj !== (obj|0));
+  }
+          
+  this.cast = function(pattern,string) {
+    
+    var ret = _.isString(string)?string:string.toString();
+    
+    if (this.isInteger(pattern)) {
+      var r = parseInt(ret);
+      if (this.isNumber(r)) {
+        ret = r;
+      }
+    } else if (this.isFloat(pattern)) {
+      ret = parseFloat(ret);
+    }
+    
+    return ret;
   }
   
 }]);

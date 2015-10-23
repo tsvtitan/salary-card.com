@@ -25,7 +25,7 @@ module.exports = {
           var fields = { frames:1,name:1,type:1,class:1,collapsed:1,template:1,actions:1,
                         canClose:1,canCollapse:1,locked:1 };
 
-          Users.getModelRecord(req.session.userId,Pages,where,fields,null,
+          Users.getModelRecord(req.session.userId,Pages,fields,where,null,null,
                                function(err,page){
             ret(err,page);
           });
@@ -55,7 +55,10 @@ module.exports = {
 
                     case 'table': {
                       model = Tables;
-                      fields = Utils.extend(fields,{icon:1,columns:1,tree:1});
+                      fields = Utils.extend(fields,{icon:1,grid:1,class:1});
+                      fields = Utils.extend(fields,{columnDefs:1,headerName:1,field:1,hide:1,rowSelection:1,enableSorting:1,pinnedColumnCount:1,
+                                                    rowHeight:1,enableColResize:1,showToolPanel:1,singleClickEdit:1,suppressScrollLag:1,width:1,
+                                                    editable:1,id:1});
                       break;
                     }
                     case 'graph': {
@@ -90,7 +93,7 @@ module.exports = {
 
             async.map(items,function(i,cb){
 
-              Users.getModelRecord(req.session.userId,i.model,i.where,i.fields,{},
+              Users.getModelRecord(req.session.userId,i.model,i.fields,i.where,null,{},
                                    function(err,r,user){
 
                 if (!err && r && Utils.isArray(r.actions) && r.actions.length>0) {
