@@ -41,6 +41,10 @@ app.service('Utils',['base64',
     return _.reject(item,result);
   }
   
+  this.find = function(arr,result) {
+    return _.find(arr,result);
+  }
+  
   this.filter = function(arr,result){
     return _.filter(arr,result);
   }
@@ -63,7 +67,7 @@ app.service('Utils',['base64',
   }
   
   this.isNumber = function(obj){
-    return _.isNumber(obj);
+    return _.isNumber(obj) && !_.isNaN(obj);
   }
   
   this.isDefined = function(obj) {
@@ -168,22 +172,49 @@ app.service('Utils',['base64',
     return _.isNumber(obj) && (obj === +obj && obj === (obj|0));
   }
   
+  this.toInteger = function(obj) {
+    
+    var ret = _.isString(obj)?obj:obj.toString();
+    
+    var r = parseInt(ret);
+    if (this.isInteger(r)) {
+      ret = r;
+    }
+    
+    return ret;
+  } 
+  
   this.isFloat = function(obj) {
     
     return _.isNumber(obj) && (obj === +obj && obj !== (obj|0));
   }
-          
+  
+  this.toFloat = function(obj) {
+    
+    var ret = _.isString(obj)?obj:obj.toString();
+    
+    var r = parseFloat(ret);
+    if (this.isNumber(r)) {
+      ret = r;
+    }
+    
+    return ret;
+  } 
+  
   this.cast = function(pattern,string) {
     
     var ret = _.isString(string)?string:string.toString();
     
     if (this.isInteger(pattern)) {
       var r = parseInt(ret);
-      if (this.isNumber(r)) {
+      if (this.isInteger(r)) {
         ret = r;
       }
     } else if (this.isFloat(pattern)) {
-      ret = parseFloat(ret);
+      var r = parseFloat(ret);
+      if (this.isFloat(r)) {
+        ret = r;
+      }
     }
     
     return ret;

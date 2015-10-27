@@ -93,6 +93,32 @@ app.factory('Page',['$http','$q',
     
     if (Utils.isObject(table.grid)) {
             
+      function convertTo(type,value,def) {
+        
+        var ret = def;
+        
+        switch (type) {
+          
+          case 'float': {
+            ret = Utils.toFloat(value,def);
+            break;
+          }
+          
+          case 'integer': {
+            ret = Utils.toInteger(value,def); 
+            break;
+          }
+        }
+        return ret;
+      } 
+      
+      Utils.forEach(table.grid.columnDefs,function(col){
+      
+        col.newValueHandler = function(p) {
+          p.data[col.field] = convertTo(col.type,p.newValue,p.data[col.field]);
+        }
+      });
+      
       table.grid.onReady = function(event) {
 
         event.api.sizeColumnsToFit();
@@ -100,20 +126,24 @@ app.factory('Page',['$http','$q',
       
       table.grid.onCellValueChanged = function(params) {
         
-        params.data[params.colDef.field] = Utils.cast(params.oldValue,params.newValue);
-        
-        executeAction('change',params.data,null,function(d){
+        if (params.newValue!==params.oldValue) {
           
-          if (d.error) {
-            
-            Alert.error(d.error,null,{
-              onHidden: function(){
-                params.data[params.colDef.field] = params.oldValue;
-                params.newValue = params.oldValue;
-              }
-            });
-          }
-        });
+          params.data[params.colDef.field] = params.newValue;
+        
+          executeAction('change',params.data,null,function(d){
+
+            if (d.error) {
+
+              Alert.error(d.error,null,{
+                onHidden: function(){
+                  params.data[params.colDef.field] = params.oldValue;
+                  params.newValue = params.oldValue;
+                  params.api.refreshRows([params.node]);
+                }
+              });
+            }
+          });
+        }
       }
     }
           

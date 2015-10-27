@@ -229,7 +229,7 @@ Utils.prototype = {
   },
 
   isNumber: function(obj) {
-    return _.isNumber(obj);
+    return _.isNumber(obj) && !_.isNaN(obj);
   },
 
   isString: function(obj) {

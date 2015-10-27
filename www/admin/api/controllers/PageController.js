@@ -55,7 +55,7 @@ module.exports = {
 
                     case 'table': {
                       model = Tables;
-                      fields = Utils.extend(fields,{icon:1,grid:1,class:1});
+                      fields = Utils.extend(fields,{model:1,icon:1,grid:1,class:1});
                       fields = Utils.extend(fields,{columnDefs:1,headerName:1,field:1,hide:1,rowSelection:1,enableSorting:1,pinnedColumnCount:1,
                                                     rowHeight:1,enableColResize:1,showToolPanel:1,singleClickEdit:1,suppressScrollLag:1,width:1,
                                                     editable:1,id:1});
@@ -74,7 +74,8 @@ module.exports = {
                       name: frame.name,
                       model: model,
                       where: { name: frame.name },
-                      fields: fields
+                      fields: fields,
+                      type: frame.type
                     });
                   }  
                 }
@@ -96,24 +97,53 @@ module.exports = {
               Users.getModelRecord(req.session.userId,i.model,i.fields,i.where,null,{},
                                    function(err,r,user){
 
-                if (!err && r && Utils.isArray(r.actions) && r.actions.length>0) {
+                if (!err && r) {
+                  
+                  switch (i.type) {
 
-                  async.map(r.actions,function(a,cb1){
-
-                    Permissions.asOr(user,i.name,a.name,false,function(err,access){
-
-                      if (a && !access) {
-                        a = null;
+                    case 'table': {
+                      
+                      var model = Utils.find(sails.models,function(m){
+                        return m.globalId === r.model;
+                      });
+                      
+                      if (model && r.grid && r.grid.columnDefs) {
+                        
+                        Utils.forEach(r.grid.columnDefs,function(col){
+                          
+                          var attr = model.attributes[col.field];
+                          
+                          if (Utils.isString(attr)) {
+                            col.type = attr;
+                          } else if (Utils.isObject(attr) && Utils.isString(attr.type)) {
+                            col.type = attr.type;
+                          }
+                        });
                       }
-                      cb1(err,a);
-                    });
+                      break;
+                    }
+                  }
+                  
+                  if (Utils.isArray(r.actions) && r.actions.length>0) {
+                    
+                    async.map(r.actions,function(a,cb1){
 
-                  },function(err1,arr1){
-                    r.actions = Utils.filter(arr1,function(a){
-                      return (a);
+                      Permissions.asOr(user,i.name,a.name,false,function(err,access){
+
+                        if (a && !access) {
+                          a = null;
+                        }
+                        cb1(err,a);
+                      });
+
+                    },function(err1,arr1){
+                      r.actions = Utils.filter(arr1,function(a){
+                        return (a);
+                      });
+                      cb(err1,{name:i.name,record:r,fields:i.fields});
                     });
-                    cb(err1,{name:i.name,record:r,fields:i.fields});
-                  });
+                    
+                  } else cb(err,{name:i.name,record:r,fields:i.fields});
 
                 } else cb(err,{name:i.name,record:r,fields:i.fields});
               });
