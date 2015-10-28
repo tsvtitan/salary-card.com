@@ -239,9 +239,17 @@ Utils.prototype = {
   isEmpty: function(obj) {
 
     if (_.isString(obj)) {
+      
       return obj.trim()=='';
+      
     } else if (_.isArray(obj)) {
+      
       return obj.length===0;
+      
+    } else if (_.isObject(obj)) {
+      
+      return _.isEmpty(obj);
+      
     } else return !(obj);
   },
   

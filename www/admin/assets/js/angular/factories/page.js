@@ -134,13 +134,11 @@ app.factory('Page',['$http','$q',
 
             if (d.error) {
 
-              Alert.error(d.error,null,{
-                onHidden: function(){
-                  params.data[params.colDef.field] = params.oldValue;
-                  params.newValue = params.oldValue;
-                  params.api.refreshRows([params.node]);
-                }
-              });
+              params.data[params.colDef.field] = params.oldValue;
+              params.newValue = params.oldValue;
+              params.api.refreshRows([params.node]);
+              
+              Alert.error(d.error);
             }
           });
         }

@@ -9,6 +9,45 @@ var util = require('util'),
     Channels = require('./modules/channels.js');
     
 
+function extendModel(utils,model) {
+  
+  var log = model.log;
+  
+  model.change = function(user,params,files,result) {
+    
+    var keys = model.changeKeys;
+    
+    if (utils.isArray(keys) && params) {
+      
+      var where = {};
+      
+      utils.forEach(keys,function(k){
+        
+        if (utils.isDefined(params[k])) {
+          where[k] = params[k];
+        }
+      });
+      
+      log.debug(where);
+      
+      if (!utils.isEmpty(where)) {
+        
+        model.update(where,params,function(err,updated){
+
+          if (err) result(err)
+          else if (updated) result(null,{reload:false})
+          else result('Record is not found');
+
+        });
+        
+      } else result('Where is empty');
+            
+    } else result('Change keys are not found'); 
+  }
+  
+  return model;
+}
+
 module.exports = function() {
 
   global['util'] = util;
@@ -29,6 +68,7 @@ module.exports = function() {
 
   utils.forEach(sails.models,function(model){
     model = log.extend(model,'models',model.globalId,null,true);
+    model = extendModel(utils,model);
   });
 
   utils.forEach(sails.controllers,function(controller){
