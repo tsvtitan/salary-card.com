@@ -1,13 +1,16 @@
 
-app.controller('tableSectors',['$scope','Const','Alert','Utils',
-                               function($scope,Const,Alert,Utils){
+app.controller('tableSectors',['$scope','table','Const','Alert','Utils',
+                               function ($scope,table,Const,Alert,Utils) {
   
-  $scope.table = (Utils.isObject($scope.frame) && $scope.frame.isTable())?$scope.frame:null;
-
-  if ($scope.table) {
+  if (table) {
   
-    $scope.table.load({});
+    table.load({},function(d){
+      
+      if (d.error) Alert.error(d.error);
+      else {
+        table.grid.api.setRowData(Utils.isArray(d.data)?d.data:[]);
+      }
+    });
     
   } else Alert.error(Const.tableNotAvailable);
-  
 }]);

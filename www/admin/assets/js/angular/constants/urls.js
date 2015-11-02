@@ -10,6 +10,11 @@ var userImages = images.concat('/users/{id}');
 
 app.constant('Urls',{
   
+  whiteList: [
+    'self'/*,
+    'https://salary-card.com/**'*/
+  ],
+  
   root: root,
   init: api.concat('/init'),
   

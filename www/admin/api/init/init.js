@@ -42,7 +42,7 @@ function extendModel(utils,model) {
         
       } else result('Where is empty');
             
-    } else result('Change keys are not found'); 
+    } else result('Change keys are not found');
   }
   
   return model;

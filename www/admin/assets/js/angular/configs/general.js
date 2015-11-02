@@ -1,6 +1,6 @@
 
-app.config(['$provide','laddaProvider','toastrConfig','Const',
-            function($provide,laddaProvider,toastrConfig,Const) {
+app.config(['$provide','$sceDelegateProvider','laddaProvider','toastrConfig','Const','Urls',
+            function($provide,$sceDelegateProvider,laddaProvider,toastrConfig,Const,Urls) {
     
   $provide.decorator('$controller', ['$delegate','$injector',function ($delegate,$injector) {
 
@@ -31,6 +31,8 @@ app.config(['$provide','laddaProvider','toastrConfig','Const',
 
     return $delegate;
   }]);
+
+  $sceDelegateProvider.resourceUrlWhitelist(Urls.whiteList);
 
   laddaProvider.setOption({
     style: 'expand-left',

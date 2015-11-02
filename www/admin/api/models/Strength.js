@@ -25,6 +25,8 @@ module.exports = {
     }
   },
   
+  changeKeys: ['id'],
+  
   import: function(user,params,files,result) {
     
     var self = this;

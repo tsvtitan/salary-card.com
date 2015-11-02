@@ -1,8 +1,8 @@
 
-app.factory('Page',['$http','$q',
+app.factory('Page',['$http','$q','$controller',
                     'Urls','Utils','Dictionary','Auth','Payload','Const',
                     'Tables','Graphs','Alert',
-                    function($http,$q,
+                    function($http,$q,$controller,
                              Urls,Utils,Dictionary,Auth,Payload,Const,
                              Tables,Graphs,Alert) {
   
@@ -108,6 +108,11 @@ app.factory('Page',['$http','$q',
             ret = Utils.toInteger(value,def); 
             break;
           }
+          
+          case 'string': {
+            ret = value;
+            break;
+          }
         }
         return ret;
       } 
@@ -153,16 +158,18 @@ app.factory('Page',['$http','$q',
         
         Tables.get({name:table.name,options:options},function(d){
           
-          if (Utils.isObject(table.grid)) {
-            
-            table.grid.api.setRowData(Utils.isArray(d.data)?d.data:[]);
-          }
-          
           table.options = options;
-          table.loading = false;
           
           if (Utils.isFunction(result)) result(d);
-          else if (d.error) Alert.error(d.error); 
+          else {
+            
+            if (d.error) Alert.error(d.error);
+            else {
+              table.grid.api.setRowData(Utils.isArray(d.data)?d.data:[]);
+            }
+          } 
+          
+          table.loading = false;
         });
       }
     }
@@ -282,7 +289,7 @@ app.factory('Page',['$http','$q',
               case 'table': processTable(frame); break;
               case 'graph': processGraph(frame); break;
             }
-
+            
             if (!Utils.isFunction(frame.isTable)) {
               frame.isTable = function() {
                 return frame.type==='table';
@@ -294,6 +301,19 @@ app.factory('Page',['$http','$q',
                 return frame.type==='graph';
               }
             }
+
+            if (!Utils.isFunction(frame.controller)) {
+              
+              var controller = (frame.controller)?frame.controller:frame.type
+              frame.controller = function($scope){
+                
+                $scope.table = (frame.isTable())?frame:null;
+                
+                
+                return $controller(controller,{'$scope':$scope,'table':$scope.table});
+              }
+            }
+            
           }  
 
         });
