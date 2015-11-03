@@ -55,7 +55,7 @@ module.exports = {
 
                     case 'table': {
                       model = Tables;
-                      fields = Utils.extend(fields,{model:1,icon:1,grid:1,class:1});
+                      fields = Utils.extend(fields,{model:1,icon:1,grid:1,class:1,items:1});
                       fields = Utils.extend(fields,{columnDefs:1,headerName:1,field:1,hide:1,rowSelection:1,enableSorting:1,pinnedColumnCount:1,
                                                     rowHeight:1,enableColResize:1,showToolPanel:1,singleClickEdit:1,suppressScrollLag:1,width:1,
                                                     editable:1,id:1,cellClass:1,rowsAlreadyGrouped:1});

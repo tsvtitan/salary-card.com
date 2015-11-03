@@ -17,7 +17,11 @@ app.controller('tableSectors',['$scope','Const','Alert','Utils',
           "headerName":"Наименование2",
           "field":"title",
           "editable":true,
-          "width":400
+          "width":400,
+          cellRenderer: {
+            renderer: 'group',
+            innerRenderer: function(params) {return params.data.title;}
+          }
         },
         {
           "headerName":"Коэффициент",
@@ -27,7 +31,7 @@ app.controller('tableSectors',['$scope','Const','Alert','Utils',
         }
       ],
       "rowSelection":"single",
-      //"rowsAlreadyGrouped":true,
+      "rowsAlreadyGrouped":true,
       "enableSorting":true,
       "pinnedColumnCount":0,
       "singleClickEdit":false,
@@ -42,7 +46,33 @@ app.controller('tableSectors',['$scope','Const','Alert','Utils',
       if (d.error) Alert.error(d.error);
       else {
         
-        $scope.table.grid.api.setRowData(Utils.isArray(d.data)?d.data:[]);
+        var data = Utils.isArray(d.data)?d.data:[];
+        var rowData = [];
+        
+        function makeRowData(parent,items) {
+          
+          
+          Utils.forEach(items,function(item){
+            
+            var r = {
+              group: Utils.isArray(item.items) && item.items.length>0,
+              data: {title:item.title, ratio:item.ratio}
+            };
+            
+            if (r.group) {
+              
+              r.children = [];
+              
+              makeRowData(r.children,item.items);
+            }
+            
+            parent.push(r);
+          });
+        }
+        
+        makeRowData(rowData,data);
+        
+        $scope.table.grid.api.setRowData(rowData);
         
         Alert.info('Sectors are loaded');
       }
