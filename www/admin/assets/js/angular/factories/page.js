@@ -155,13 +155,18 @@ app.factory('Page',['$http','$q','$controller',
       table.load = function(options,result) {
         
         table.loading = true;
+        table.loadCallback = undefined;
         
         Tables.get({name:table.name,options:options},function(d){
           
           table.options = options;
           
-          if (Utils.isFunction(result)) result(d);
-          else {
+          if (Utils.isFunction(result)) {
+            
+            table.loadCallback = result;
+            result(d);
+            
+          } else {
             
             if (d.error) Alert.error(d.error);
             else {
@@ -178,11 +183,7 @@ app.factory('Page',['$http','$q','$controller',
       
       table.reload = function(result) {
         
-        table.load(table.options,function(d){
-          
-          if (Utils.isFunction(result)) result(d);
-          else if (d.error) Alert.error(d.error);
-        });
+        table.load(table.options,result || table.loadCallback);
       }
     }
   }
@@ -307,10 +308,8 @@ app.factory('Page',['$http','$q','$controller',
               var controller = (frame.controller)?frame.controller:frame.type
               frame.controller = function($scope){
                 
-                $scope.table = (frame.isTable())?frame:null;
-                
-                
-                return $controller(controller,{'$scope':$scope,'table':$scope.table});
+                //$scope.table = (frame.isTable())?frame:null;
+                return $controller(controller,{'$scope':$scope/*,'table':$scope.table*/});
               }
             }
             

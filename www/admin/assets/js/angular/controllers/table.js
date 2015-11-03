@@ -1,10 +1,12 @@
 
-app.controller('table',['$scope','table','Const','Alert','Utils',
-                        function($scope,table,Const,Alert,Utils){
+app.controller('table',['$scope','Const','Alert','Utils',
+                        function($scope,Const,Alert,Utils){
   
-  if (table) {
+  $scope.table = ($scope.frame.isTable())?$scope.frame:null;
   
-    table.load({});
+  if ($scope.table) {
+  
+    $scope.table.load({});
     
   } else Alert.error(Const.tableNotAvailable);
   
