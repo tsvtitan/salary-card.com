@@ -17,6 +17,8 @@ function extendModel(utils,model) {
     
     var keys = model.changeKeys;
     
+    log.debug(params);
+    
     if (utils.isArray(keys) && params) {
       
       var where = {};

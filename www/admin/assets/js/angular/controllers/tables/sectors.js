@@ -6,7 +6,7 @@ app.controller('tableSectors',['$scope','Const','Alert','Utils',
   
   if ($scope.table) {
     
-    var grid = {
+    /*var grid = {
       "columnDefs":[
         {
           "headerName":"id",
@@ -20,7 +20,7 @@ app.controller('tableSectors',['$scope','Const','Alert','Utils',
           "width":400,
           cellRenderer: {
             renderer: 'group',
-            innerRenderer: function(params) {return params.data.title;}
+            innerRenderer: function(params) {return (params.data)?params.data.title:'';}
           }
         },
         {
@@ -37,42 +37,16 @@ app.controller('tableSectors',['$scope','Const','Alert','Utils',
       "singleClickEdit":false,
       "suppressScrollLag":true,
       "enableColResize":true
-    }
+    }*/
 
-    $scope.table.grid = grid;
+    //$scope.table.grid = grid;
         
     $scope.table.load({},function(d){
       
       if (d.error) Alert.error(d.error);
       else {
         
-        var data = Utils.isArray(d.data)?d.data:[];
-        var rowData = [];
-        
-        function makeRowData(parent,items) {
-          
-          
-          Utils.forEach(items,function(item){
-            
-            var r = {
-              group: Utils.isArray(item.items) && item.items.length>0,
-              data: {title:item.title, ratio:item.ratio}
-            };
-            
-            if (r.group) {
-              
-              r.children = [];
-              
-              makeRowData(r.children,item.items);
-            }
-            
-            parent.push(r);
-          });
-        }
-        
-        makeRowData(rowData,data);
-        
-        $scope.table.grid.api.setRowData(rowData);
+        $scope.table.setData(Utils.isArray(d.data)?d.data:[]);
         
         Alert.info('Sectors are loaded');
       }
