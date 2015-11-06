@@ -89,29 +89,28 @@ app.factory('Tables',['$http','$q','Urls','Utils','Dictionary','Payload','Const'
             
       function convertTo(type,value,def) {
         
-        var ret = def;
-        
         switch (type) {
           
-          case 'float': {
-            ret = Utils.toFloat(value,def);
-            break;
-          }
-          
-          case 'integer': {
-            ret = Utils.toInteger(value,def); 
-            break;
-          }
-          
-          case 'string': {
-            ret = value;
-            break;
-          }
+          case 'float': return Utils.toFloat(value,def);          
+          case 'integer': return Utils.toInteger(value,def); 
+          case 'string': return value;
         }
-        return ret;
+        return def;
       } 
       
-      var first = true;
+      function getCellClass(col) {
+        
+        if (col.cellClass) return col.cellClass;
+        
+        switch (col.type) {
+          case 'float':
+          case 'integer': return "text-right";
+          case 'string': return "text-left";
+        }
+      }
+      
+      var first = null;
+      var possibleFirst = null;
       
       Utils.forEach(table.grid.columnDefs,function(col){
       
@@ -119,17 +118,24 @@ app.factory('Tables',['$http','$q','Urls','Utils','Dictionary','Payload','Const'
           p.data[col.field] = convertTo(col.type,p.newValue,p.data[col.field]);
         }
         
-        if (table.children && !col.hide && col.first && first) {
+        if (table.children && !col.hide && !first) {
           
-          first = false;
-          
-          col.cellRenderer = {
-            renderer: 'group',
-            innerRenderer: function(params) {return (params.data)?params.data[col.field]:'';}
-          }
+          if (col.first) first = col;
+          if (!possibleFirst) possibleFirst = col;
         }
         
+        col.cellClass = getCellClass(col);
       });
+      
+      first = first || possibleFirst;
+      
+      if (first) {
+        
+        first.cellRenderer = {
+          renderer: 'group',
+          innerRenderer: function(params) {return (params.data)?params.data[first.field]:'';}
+        }
+      }
       
       table.grid.onReady = function(event) {
 
@@ -169,13 +175,24 @@ app.factory('Tables',['$http','$q','Urls','Utils','Dictionary','Payload','Const'
             
             Utils.forEach(items,function(item){
               
-              var children = item[table.children];
+              var name = table.children;
+              
+              var children = item[name];
+              if (!children) {
+                
+                var arr = name.split('/');
+                if (arr.length>0) {
+                   
+                  if (level<arr.length) children = item[arr[level]];
+                  else children = item[arr[arr.length-1]];
+                }
+              }
               
               var r = {
                 group: Utils.isArray(children) && children.length>0
               };
               
-              if (r.group) delete item[table.children];
+              if (r.group) delete item[name];
               
               r.data = Utils.extend(item,{level:level});
 

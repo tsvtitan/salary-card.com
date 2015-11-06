@@ -283,7 +283,41 @@ Utils.prototype = {
       
     } else return obj;
  
-  }
+  },
+  
+  isInteger: function(obj) {
+    
+    return _.isNumber(obj) && (obj === +obj && obj === (obj|0));
+  },
+  
+  toInteger: function(obj) {
+    
+    var ret = _.isString(obj)?obj:obj.toString();
+    
+    var r = parseInt(ret);
+    if (this.isInteger(r)) {
+      ret = r;
+    }
+    
+    return ret;
+  },
+  
+  isFloat: function(obj) {
+    
+    return _.isNumber(obj) && (obj === +obj && obj !== (obj|0));
+  },
+  
+  toFloat: function(obj) {
+    
+    var ret = _.isString(obj)?obj:obj.toString();
+    
+    var r = parseFloat(ret);
+    if (this.isNumber(r)) {
+      ret = r;
+    }
+    
+    return ret;
+  } 
 
 }
 

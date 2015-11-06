@@ -46,7 +46,7 @@ app.controller('tableSectors',['$scope','Const','Alert','Utils',
       if (d.error) Alert.error(d.error);
       else {
         
-        $scope.table.setData(Utils.isArray(d.data)?d.data:[]);
+        $scope.table.setData(d.data);
         
         Alert.info('Sectors are loaded');
       }

@@ -122,6 +122,7 @@ module.exports = {
                           } else if (Utils.isObject(attr) && Utils.isString(attr.type)) {
                             col.type = attr.type;
                           }
+
                         });
                       }
                       break;
