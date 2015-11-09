@@ -118,6 +118,15 @@ app.factory('Tables',['$http','$q','Urls','Utils','Dictionary','Payload','Const'
           p.data[col.field] = convertTo(col.type,p.newValue,p.data[col.field]);
         }
         
+        if (col.format) {
+          
+          col.valueGetter = function(p) {
+            
+            var v = p.data[col.field];
+            return (v)?Utils.format(col.format,[v]):v;
+          }
+        }
+        
         if (table.children && !col.hide && !first) {
           
           if (col.first) first = col;

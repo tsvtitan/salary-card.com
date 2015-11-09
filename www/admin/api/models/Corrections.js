@@ -14,7 +14,12 @@ module.exports = {
       type: 'string',
       required: true
     },
-    grades: 'json',
+    '8_25': 'float',
+    '8_50': 'float',
+    '8_75': 'float',
+    '9_25': 'float',
+    '9_50': 'float',
+    '9_75': 'float',
     priority: 'integer',
     locked: 'datetime',
     lang: 'string',

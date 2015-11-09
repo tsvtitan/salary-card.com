@@ -19,6 +19,8 @@ module.exports = {
     
     if (req.session && req.session.userId) {
       
+      var stamp = new Date();
+      
       async.waterfall([
         
         function getTable(ret) {
@@ -156,7 +158,7 @@ module.exports = {
       ],function(err,result){
         if (err) error(err);
         else {
-          res.jsonSuccess(result);
+          res.jsonSuccess(result,moment().diff(stamp));
         }
       });
       
