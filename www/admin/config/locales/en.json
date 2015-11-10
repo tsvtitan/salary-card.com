@@ -83,6 +83,14 @@
     "profile": {
       "Профиль": "Profile"
     },
+    
+    "table": {
+      "Зарплаты": "Salaries"
+    },
+    
+    "tableSectors": {
+      "Отрасли": "Sectors"
+    },
 
     "Check fields": "Проверьте поля",
     "Connection failed": "Соединение разорвано",

@@ -57,9 +57,7 @@ app.factory('Tables',['$http','$q','Urls','Utils','Dictionary','Payload','Const'
 
         } else if (d.reload) {
 
-          table.reload(function(){
-            if (Utils.isFunction(result)) result(d);
-          });
+          table.reload(result);
 
         } else if (Utils.isFunction(result)) result(d);
 
@@ -118,12 +116,11 @@ app.factory('Tables',['$http','$q','Urls','Utils','Dictionary','Payload','Const'
           p.data[col.field] = convertTo(col.type,p.newValue,p.data[col.field]);
         }
         
-        if (col.format) {
+        if (col.format && col.type!=='string') {
           
-          col.valueGetter = function(p) {
+          col.cellRenderer = function(p) {
             
-            var v = p.data[col.field];
-            return (v)?Utils.format(col.format,[v]):v;
+            return (p.value)?Utils.format(col.format,p.value):p.value;
           }
         }
         
@@ -134,6 +131,28 @@ app.factory('Tables',['$http','$q','Urls','Utils','Dictionary','Payload','Const'
         }
         
         col.cellClass = getCellClass(col);
+      });
+      
+      Utils.forEach(table.grid.columnDefs,function(col){
+        
+        if (col.format && col.type==='string') {
+          
+          col.cellRenderer = function(p) {
+            
+            var data = Utils.clone(p.data);
+            
+            for (var key in data) {
+              
+              var colDef = Utils.find(table.grid.columnDefs,function(cl){
+                return cl.field === key;
+              });
+              if (colDef && Utils.isFunction(colDef.cellRenderer)) {
+                data[key] = colDef.cellRenderer({value:data[key]});
+              }
+            }
+            return Utils.format(col.format,data);
+          }
+        }
       });
       
       first = first || possibleFirst;
@@ -153,9 +172,12 @@ app.factory('Tables',['$http','$q','Urls','Utils','Dictionary','Payload','Const'
       
       table.grid.onCellValueChanged = function(params) {
         
-        if (params.newValue!==params.oldValue) {
+        var v = convertTo(params.colDef.type,params.newValue,params.oldValue);
+        
+        if (v!==params.oldValue) {
           
-          params.data[params.colDef.field] = params.newValue;
+          params.data[params.colDef.field] = v;
+          params.api.refreshRows([params.node]);
         
           executeAction('change',params.data,null,function(d){
 
@@ -228,6 +250,7 @@ app.factory('Tables',['$http','$q','Urls','Utils','Dictionary','Payload','Const'
       table.load = function(options,result) {
         
         table.loading = true;
+        if (table.grid.api) table.grid.api.showLoading(true);
         table.loadCallback = undefined;
         
         factory.get({name:table.name,options:options},function(d){
@@ -248,6 +271,7 @@ app.factory('Tables',['$http','$q','Urls','Utils','Dictionary','Payload','Const'
           } 
           
           table.loading = false;
+          if (table.grid.api) table.grid.api.showLoading(false);
         });
       }
     }

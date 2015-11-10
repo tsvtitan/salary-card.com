@@ -14,12 +14,57 @@ module.exports = {
       type: 'string',
       required: true
     },
+    '7_25': 'float',
+    '7_50': 'float',
+    '7_75': 'float',
     '8_25': 'float',
     '8_50': 'float',
     '8_75': 'float',
     '9_25': 'float',
     '9_50': 'float',
     '9_75': 'float',
+    '10_25': 'float',
+    '10_50': 'float',
+    '10_75': 'float',
+    '11_25': 'float',
+    '11_50': 'float',
+    '11_75': 'float',
+    '12_25': 'float',
+    '12_50': 'float',
+    '12_75': 'float',
+    '13_25': 'float',
+    '13_50': 'float',
+    '13_75': 'float',
+    '14_25': 'float',
+    '14_50': 'float',
+    '14_75': 'float',
+    '15_25': 'float',
+    '15_50': 'float',
+    '15_75': 'float',
+    '16_25': 'float',
+    '16_50': 'float',
+    '16_75': 'float',
+    '17_25': 'float',
+    '17_50': 'float',
+    '17_75': 'float',
+    '18_25': 'float',
+    '18_50': 'float',
+    '18_75': 'float',
+    '19_25': 'float',
+    '19_50': 'float',
+    '19_75': 'float',
+    '20_25': 'float',
+    '20_50': 'float',
+    '20_75': 'float',
+    '21_25': 'float',
+    '21_50': 'float',
+    '21_75': 'float',
+    '22_25': 'float',
+    '22_50': 'float',
+    '22_75': 'float',
+    '23_25': 'float',
+    '23_50': 'float',
+    '23_75': 'float',
     priority: 'integer',
     locked: 'datetime',
     lang: 'string',
@@ -29,6 +74,8 @@ module.exports = {
       return Utils.extend({},this);
     }
   },
+  
+  changeKeys: ['id'],
   
   import: function(user,params,files,result) {
     
@@ -107,7 +154,6 @@ module.exports = {
 
                   var correction = {
                     code: d.code,
-                    grades: {},
                     priority: priority++,
                     lang: Utils.isObject(user)?user.lang:null 
                   };
@@ -123,32 +169,16 @@ module.exports = {
 
                 if (correction) {
 
-                  var grades = Utils.isObject(correction.grades)?correction.grades:{};
-
-                  if (d.grade) {
-
-                    var grade = grades[d.grade];
-
-                    if (!grade) {
-                      
-                      grades[d.grade] = {
-                        75: (d['75'])?parseFloat(d['75']):null,
-                        50: (d['50'])?parseFloat(d['50']):null,
-                        25: (d['25'])?parseFloat(d['25']):null,
-                      };
-                      
-                    } else {
-                      
-                      grade['75'] = (d['75'])?parseFloat(d['75']):null;
-                      grade['50'] = (d['50'])?parseFloat(d['50']):null;
-                      grade['25'] = (d['25'])?parseFloat(d['25']):null;
-                    }
-                  }
-
-                  self.update({id:correction.id},{grades:grades},function(err,u){
+                  var obj = {};
+                  
+                  obj[Utils.format('{grade}_75',d)] = (d['75'])?parseFloat(d['75']):null;
+                  obj[Utils.format('{grade}_50',d)] = (d['50'])?parseFloat(d['50']):null;
+                  obj[Utils.format('{grade}_25',d)] = (d['25'])?parseFloat(d['25']):null;
+                  
+                  self.update({id:correction.id},obj,function(err,u){
 
                     if (u) {
-                      correction.grades = grades;
+                      correction = Utils.extend(correction,obj);
                       lastCorrection = correction;
                     }
                     cb1(err);

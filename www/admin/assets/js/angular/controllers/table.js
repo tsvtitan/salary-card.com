@@ -1,8 +1,9 @@
 
-app.controller('table',['$scope','Const','Alert','Utils',
-                        function($scope,Const,Alert,Utils){
+app.controller('table',['$scope','$element','Const','Alert','Dictionary',
+                        function($scope,$element,Const,Alert,Dictionary){
   
   $scope.table = ($scope.frame.isTable())?$scope.frame:null;
+  //$scope.dic = Dictionary.dic($element);
   
   if ($scope.table) {
   
