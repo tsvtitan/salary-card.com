@@ -133,7 +133,7 @@ app.factory('Page',['$http','$q','$controller',
             
             switch (frame.type) {
               case 'table': Tables.prepare(frame); break;
-              case 'graph': prepareGraph(frame); break;
+              case 'graph': Graphs.prepare(frame); break;
             }
             
             if (!Utils.isFunction(frame.isTable)) {
@@ -151,7 +151,6 @@ app.factory('Page',['$http','$q','$controller',
             if (!Utils.isFunction(frame.controller)) {
  
               frame.controller = function($scope,$element){
-                
                 return $controller(frame.controllerName,{'$scope':$scope,'$element':$element});
               }
             }

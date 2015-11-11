@@ -300,10 +300,8 @@ app.factory('Tables',['$http','$q','Urls','Utils','Dictionary','Payload','Const'
   }
   
   factory.prepare = function(table) {
-      
     prepareTable(table);
   }
-
   
   return factory;
   

@@ -19,7 +19,9 @@ module.exports = {
     
     if (req.session && req.session.userId) {
       
-      res.jsonSuccess({reload:true});
+      var stamp = new Date();
+      
+      res.jsonSuccess({reload:true},moment().diff(stamp));
       
     } else res.userNotFound();
   },
@@ -41,10 +43,10 @@ module.exports = {
       
       if (req.session && req.session.userId) {
         
-        setTimeout(function(){
-          res.jsonSuccess({data:[]});
-        },2000);
-
+        var stamp = new Date();
+        
+        res.jsonSuccess({data:[]},{value:moment().diff(stamp),max:2000});
+        
       } else userNotFound();
       
     } catch (e) {
