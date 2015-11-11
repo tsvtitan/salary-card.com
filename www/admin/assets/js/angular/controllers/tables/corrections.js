@@ -1,8 +1,9 @@
 
-app.controller('tableCorrections',['$scope','Const','Alert','Utils',
-                                   function ($scope,Const,Alert,Utils) {
+app.controller('tableCorrections',['$scope','$element','Const','Alert','Dictionary',
+                                   function ($scope,$element,Const,Alert,Dictionary) {
   
   $scope.table = ($scope.frame.isTable())?$scope.frame:null;
+  $scope.dic = Dictionary.dic($element,$scope.frame.controllerName);
   
   if ($scope.table) {
     

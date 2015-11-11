@@ -84,12 +84,29 @@
       "Профиль": "Profile"
     },
     
+    "[LOADING...]": "Loading...",
+    
     "table": {
-      "Зарплаты": "Salaries"
+      "Зарплаты": "Salaries",
+      "columns": {
+        "Наименование": "Name",
+        "Коэффициент": "Ratio",
+        "Уровень": "Level",
+        "Грейд": "Grade",
+        "Код": "Code"
+      }
     },
     
     "tableSectors": {
-      "Отрасли": "Sectors"
+      "Отрасли": "Sectors",
+      "columns": {
+        "Наименование": "Name2",
+        "Коэффициент": "Ratio2"
+      }
+    },
+    
+    "tableCorrections": {
+      "Коэффициенты специализаций": "Corrections"
     },
 
     "Check fields": "Проверьте поля",

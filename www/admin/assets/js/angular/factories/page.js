@@ -127,6 +127,10 @@ app.factory('Page',['$http','$q','$controller',
           
           if (Utils.isObject(frame)) {
             
+            if (!Utils.isFunction(frame.controller)) {
+              frame.controllerName = (frame.controller)?frame.controller:frame.type;
+            }
+            
             switch (frame.type) {
               case 'table': Tables.prepare(frame); break;
               case 'graph': prepareGraph(frame); break;
@@ -145,12 +149,10 @@ app.factory('Page',['$http','$q','$controller',
             }
 
             if (!Utils.isFunction(frame.controller)) {
-              
-              var controller = (frame.controller)?frame.controller:frame.type
-              frame.controller = function($scope){
+ 
+              frame.controller = function($scope,$element){
                 
-                //$scope.table = (frame.isTable())?frame:null;
-                return $controller(controller,{'$scope':$scope/*,'table':$scope.table*/});
+                return $controller(frame.controllerName,{'$scope':$scope,'$element':$element});
               }
             }
             
