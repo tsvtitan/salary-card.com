@@ -217,11 +217,11 @@ module.exports = {
           
           function getData(table,options,model,ret){
             
-            if (table.grid) {
+            if (table.options) {
               
               var fields = {};
 
-              var columns = Utils.isArray(table.grid.columnDefs)?table.grid.columnDefs:[];
+              var columns = Utils.isArray(table.options.columnDefs)?table.options.columnDefs:[];
 
               Utils.forEach(columns,function(column){
                 fields[column.field] = 1;
@@ -235,7 +235,7 @@ module.exports = {
                 ret(err,data);
               });
               
-            } else ret('Grid is not found');
+            } else ret('Options is not found');
           }
           
         ],function(err,data){

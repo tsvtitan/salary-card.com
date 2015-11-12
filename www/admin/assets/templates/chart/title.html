@@ -5,11 +5,11 @@
 
 <div class="ibox-tools">
 
-  <a data-ng-click="chart.reload()">
+  <a data-ng-click="chart.reload()" data-ng-disabled="chart.loading">
     <i class="fa fa-refresh" data-ng-class="(chart.loading || chart.processing)?'fa-spin':''"></i>
   </a>
 
-  <a data-ng-click="chart.collapsed=!chart.collapsed" data-ng-show="chart.canCollapse">
+  <a data-ng-click="chart.toggle()" data-ng-show="chart.canCollapse">
     <i class="fa" data-ng-class="(chart.collapsed)?'fa-chevron-down':'fa-chevron-up'"></i>
   </a>
   

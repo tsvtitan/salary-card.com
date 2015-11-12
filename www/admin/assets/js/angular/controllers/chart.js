@@ -4,7 +4,7 @@ app.controller('chart',['$scope','Const','Alert','Utils',
   
   $scope.chart = (Utils.isObject($scope.frame) && $scope.frame.isChart())?$scope.frame:null;
   
-  $scope.options = {
+  $scope.chart.options = {
     chart: {
         type: 'discreteBarChart',
         height: 450,
@@ -35,9 +35,9 @@ app.controller('chart',['$scope','Const','Alert','Utils',
 
   if ($scope.chart) {
   
-    $scope.chart.load({},function(d){
+    $scope.chart.load({}/*,function(d){
       
-      $scope.data = [{
+      $scope.chart.data = [{
         key: "Cumulative Return",
         values: [
             { "label" : "A" , "value" : -29.765957771107 },
@@ -51,7 +51,7 @@ app.controller('chart',['$scope','Const','Alert','Utils',
         ]
       }];
       //$scope.api.refresh();
-    });
+    }*/);
     
   } else Alert.error(Const.tableNotAvailable);
   

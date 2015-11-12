@@ -82,32 +82,48 @@ app.factory('Charts',['$http','$q','Urls','Utils','Dictionary','Payload','Const'
       });
     }
     
+    if (!Utils.isFunction(chart.setData)) {
+      
+      chart.setData = function(data) {
+        
+        //chart.data = Utils.isArray(data)?data:[];
+        chart.api.updateWithData(Utils.isArray(data)?data:[]);
+      }
+    }
+    
     if (!Utils.isFunction(chart.load)) {
       
       chart.load = function(options,result) {
         
-        chart.loading = true;
-        chart.loadCallback = undefined;
-        
-        factory.get({name:chart.name,options:options},function(d){
+        if (chart.loading) {
           
-          chart.options = options;
+          Alert.info('Загрузка идет...');
+                  
+        } else {
           
-          if (Utils.isFunction(result)) {
-            
-            chart.loadCallback = result;
-            result(d);
-            
-          } else {
-            
-            if (d.error) Alert.error(d.error);
-            else {
-              //chart.setData(d.data);
-            }
-          } 
-          
-          chart.loading = false;
-        });
+          chart.loading = true;
+          chart.loadCallback = undefined;
+
+          factory.get({name:chart.name,options:options},function(d){
+
+            chart.loadOptions = options;
+
+            if (Utils.isFunction(result)) {
+
+              chart.loadCallback = result;
+              result(d);
+
+            } else {
+
+              if (d.error) Alert.error(d.error);
+              else {
+                chart.setData(d.data);
+              }
+            } 
+
+            chart.loading = false;
+          });
+        }
       }
     }
     
@@ -115,7 +131,15 @@ app.factory('Charts',['$http','$q','Urls','Utils','Dictionary','Payload','Const'
       
       chart.reload = function(result) {
         
-        chart.load(chart.options,result || chart.loadCallback);
+        chart.load(chart.loadOptions,result || chart.loadCallback);
+      }
+    }
+    
+    if (!Utils.isFunction(chart.toggle)) {
+      
+      chart.toggle = function() {
+        chart.collapsed = !chart.collapsed;
+        //if (!chart.collapsed) chart.api.update();
       }
     }
     

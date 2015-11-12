@@ -83,7 +83,7 @@ app.factory('Tables',['$http','$q','Urls','Utils','Dictionary','Payload','Const'
       });
     }
     
-    if (Utils.isObject(table.grid)) {
+    if (Utils.isObject(table.options)) {
             
       function convertTo(type,value,def) {
         
@@ -111,7 +111,7 @@ app.factory('Tables',['$http','$q','Urls','Utils','Dictionary','Payload','Const'
       var possibleFirst = null;
       var columnsDic = Dictionary.getProp(table.controllerName,'columns');
       
-      Utils.forEach(table.grid.columnDefs,function(col){
+      Utils.forEach(table.options.columnDefs,function(col){
       
         col.headerName = (columnsDic[col.headerName])?columnsDic[col.headerName]:col.headerName;
                 
@@ -136,7 +136,7 @@ app.factory('Tables',['$http','$q','Urls','Utils','Dictionary','Payload','Const'
         col.cellClass = getCellClass(col);
       });
       
-      Utils.forEach(table.grid.columnDefs,function(col){
+      Utils.forEach(table.options.columnDefs,function(col){
         
         if (col.format && col.type==='string') {
           
@@ -146,7 +146,7 @@ app.factory('Tables',['$http','$q','Urls','Utils','Dictionary','Payload','Const'
             
             for (var key in data) {
               
-              var colDef = Utils.find(table.grid.columnDefs,function(cl){
+              var colDef = Utils.find(table.options.columnDefs,function(cl){
                 return cl.field === key;
               });
               if (colDef && Utils.isFunction(colDef.cellRenderer)) {
@@ -168,12 +168,12 @@ app.factory('Tables',['$http','$q','Urls','Utils','Dictionary','Payload','Const'
         }
       }
       
-      table.grid.onReady = function(event) {
+      table.options.onReady = function(event) {
 
         event.api.sizeColumnsToFit();
       }
       
-      table.grid.onCellValueChanged = function(params) {
+      table.options.onCellValueChanged = function(params) {
         
         var v = convertTo(params.colDef.type,params.newValue,params.oldValue);
         
@@ -196,7 +196,7 @@ app.factory('Tables',['$http','$q','Urls','Utils','Dictionary','Payload','Const'
         }
       }
       
-      table.grid.localeTextFunc = function() {
+      table.options.localeTextFunc = function() {
         
         return function (key, defaultValue) {
           var localeText = Dictionary.getProp(table.controllerName,key);
@@ -252,9 +252,9 @@ app.factory('Tables',['$http','$q','Urls','Utils','Dictionary','Payload','Const'
             
           })(treeData,data,0);
           
-          table.grid.api.setRowData(treeData);
+          table.options.api.setRowData(treeData);
         
-        } else table.grid.api.setRowData(Utils.isArray(data)?data:[]);
+        } else table.options.api.setRowData(Utils.isArray(data)?data:[]);
       }
     }
     
@@ -263,12 +263,12 @@ app.factory('Tables',['$http','$q','Urls','Utils','Dictionary','Payload','Const'
       table.load = function(options,result) {
         
         table.loading = true;
-        if (table.grid.api) table.grid.api.showLoadingOverlay();
+        if (table.options.api) table.options.api.showLoadingOverlay();
         table.loadCallback = undefined;
         
         factory.get({name:table.name,options:options},function(d){
           
-          table.options = options;
+          table.loadOptions = options;
           
           if (Utils.isFunction(result)) {
             
@@ -284,7 +284,7 @@ app.factory('Tables',['$http','$q','Urls','Utils','Dictionary','Payload','Const'
           } 
           
           table.loading = false;
-          if (table.grid.api) table.grid.api.hideOverlay();
+          if (table.options.api) table.options.api.hideOverlay();
         });
       }
     }
@@ -293,7 +293,7 @@ app.factory('Tables',['$http','$q','Urls','Utils','Dictionary','Payload','Const'
       
       table.reload = function(result) {
         
-        table.load(table.options,result || table.loadCallback);
+        table.load(table.loadOptions,result || table.loadCallback);
       }
     }
     

@@ -54,7 +54,7 @@ Channels.prototype = {
         
         var to = (recipient && recipient.name)?Utils.format('{name} <{contact}>',recipient):Utils.format('{contact}',recipient);
         
-        var rnd = Utils.random(message.id.toString().length);
+        var rnd = Utils.randomString(message.id.toString().length);
                 
         var m = {
           from: (message.sender && message.sender.name)?Utils.format('{name} <{contact}>',message.sender):Utils.format('{contact}',message.sender),

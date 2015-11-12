@@ -55,7 +55,7 @@ module.exports = {
 
                     case 'table': {
                       model = Tables;
-                      fields = Utils.extend(fields,{model:1,icon:1,grid:1,class:1,children:1});
+                      fields = Utils.extend(fields,{model:1,icon:1,options:1,class:1,children:1});
                       fields = Utils.extend(fields,{columnDefs:1,headerName:1,field:1,hide:1,rowSelection:1,enableSorting:1,pinnedColumnCount:1,
                                                     rowHeight:1,enableColResize:1,showToolPanel:1,singleClickEdit:1,suppressScrollLag:1,width:1,
                                                     editable:1,id:1,cellClass:1,first:1,groupHeaders:1,headerGroup:1,format:1,type:1});
@@ -63,7 +63,7 @@ module.exports = {
                     }
                     case 'chart': {
                       model = Charts;
-                      fields = Utils.extend(fields,{model:1,icon:1,class:1});
+                      fields = Utils.extend(fields,{model:1,icon:1,options:1,class:1});
                       break;
                     }
                   }
@@ -107,13 +107,13 @@ module.exports = {
                         return m.globalId === r.model;
                       });
                       
-                      if (model && r.grid && r.grid.columnDefs) {
+                      if (model && r.options && r.options.columnDefs) {
                         
                         if (r.children) {
-                          r.grid.rowsAlreadyGrouped = true;
+                          r.options.rowsAlreadyGrouped = true;
                         }
                         
-                        Utils.forEach(r.grid.columnDefs,function(col){
+                        Utils.forEach(r.options.columnDefs,function(col){
                           
                           var attr = model.attributes[col.field];
                           

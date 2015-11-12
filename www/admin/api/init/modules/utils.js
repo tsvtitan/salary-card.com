@@ -275,7 +275,7 @@ Utils.prototype = {
     } else return fullName;
   },
   
-  random: function(obj) {
+  randomString: function(obj) {
     
     if (_.isObject(obj) || _.isNumber(obj)) {
       
@@ -283,6 +283,11 @@ Utils.prototype = {
       
     } else return obj;
  
+  },
+  
+  randomNumber: function(min,max) {
+    
+    return Math.random() * (max - min) + min;
   },
   
   isInteger: function(obj) {
