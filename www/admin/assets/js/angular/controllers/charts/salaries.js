@@ -1,5 +1,5 @@
 
-app.controller('graphSalary',['$scope','$element',
+app.controller('chartSalary',['$scope','$element',
                               'Dictionary','Auth','Init',
                               function($scope,$element,
                                        Dictionary,Auth,Init) {

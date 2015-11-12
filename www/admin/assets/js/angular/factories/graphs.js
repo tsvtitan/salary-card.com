@@ -1,19 +1,19 @@
 
-app.factory('Graphs',['$http','$q','Urls','Utils','Dictionary','Payload','Const','Alert',
+app.factory('Charts',['$http','$q','Urls','Utils','Dictionary','Payload','Const','Alert',
                       function($http,$q,Urls,Utils,Dictionary,Payload,Const,Alert) {
   
   var factory = {
     
     get: function(d,result) {
       
-      $http.post(Urls.graphsGet,Payload.get(d))
+      $http.post(Urls.chartsGet,Payload.get(d))
            .success(result)
            .error(function(d){ result({error:Dictionary.connectionFailed(d)}); });  
     },
     
     action: function(d,result) {
       
-      $http.post(Urls.graphsAction,Utils.makeFormData(Payload.get(d)),{
+      $http.post(Urls.chartsAction,Utils.makeFormData(Payload.get(d)),{
                   headers: {'Content-Type':undefined},
                             transformRequest:angular.identity
                 })
@@ -22,7 +22,7 @@ app.factory('Graphs',['$http','$q','Urls','Utils','Dictionary','Payload','Const'
     }
   }
 
-  function prepareGraph(graph) {
+  function prepareChart(chart) {
   
     function executeAction(name,params,files,result) {
       
@@ -30,7 +30,7 @@ app.factory('Graphs',['$http','$q','Urls','Utils','Dictionary','Payload','Const'
 
         var deferred = $q.defer();
         var data = {
-          name: graph.name,
+          name: chart.name,
           action: name,
           params: params,
           files: files
@@ -43,11 +43,11 @@ app.factory('Graphs',['$http','$q','Urls','Utils','Dictionary','Payload','Const'
         return deferred.promise;
       }
 
-      graph.processing = true;
+      chart.processing = true;
 
       execute().then(function(d){
 
-        graph.processing = false;
+        chart.processing = false;
 
         if (d.error) {
 
@@ -56,7 +56,7 @@ app.factory('Graphs',['$http','$q','Urls','Utils','Dictionary','Payload','Const'
 
         } else if (d.reload) {
 
-          graph.reload(result);
+          chart.reload(result);
 
         } else if (Utils.isFunction(result)) result(d);
 
@@ -65,7 +65,7 @@ app.factory('Graphs',['$http','$q','Urls','Utils','Dictionary','Payload','Const'
     
     function prepareAction(action) {
       
-      action.graph = graph;
+      action.chart = chart;
       
       if (!Utils.isFunction(action.execute)) {
         
@@ -75,54 +75,54 @@ app.factory('Graphs',['$http','$q','Urls','Utils','Dictionary','Payload','Const'
       }
     }
     
-    if (Utils.isArray(graph.actions)) {
+    if (Utils.isArray(chart.actions)) {
     
-      Utils.forEach(graph.actions,function(action){
+      Utils.forEach(chart.actions,function(action){
         prepareAction(action);
       });
     }
     
-    if (!Utils.isFunction(graph.load)) {
+    if (!Utils.isFunction(chart.load)) {
       
-      graph.load = function(options,result) {
+      chart.load = function(options,result) {
         
-        graph.loading = true;
-        graph.loadCallback = undefined;
+        chart.loading = true;
+        chart.loadCallback = undefined;
         
-        factory.get({name:graph.name,options:options},function(d){
+        factory.get({name:chart.name,options:options},function(d){
           
-          graph.options = options;
+          chart.options = options;
           
           if (Utils.isFunction(result)) {
             
-            graph.loadCallback = result;
+            chart.loadCallback = result;
             result(d);
             
           } else {
             
             if (d.error) Alert.error(d.error);
             else {
-              //graph.setData(d.data);
+              //chart.setData(d.data);
             }
           } 
           
-          graph.loading = false;
+          chart.loading = false;
         });
       }
     }
     
-    if (!Utils.isFunction(graph.reload)) {
+    if (!Utils.isFunction(chart.reload)) {
       
-      graph.reload = function(result) {
+      chart.reload = function(result) {
         
-        graph.load(graph.options,result || graph.loadCallback);
+        chart.load(chart.options,result || chart.loadCallback);
       }
     }
     
   }
                         
-  factory.prepare = function(graph) {
-    prepareGraph(graph);
+  factory.prepare = function(chart) {
+    prepareChart(chart);
   }
     
   return factory;

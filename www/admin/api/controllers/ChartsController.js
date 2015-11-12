@@ -1,4 +1,4 @@
-// GraphsController
+// ChartsController
 
 var fs = require('fs');
 

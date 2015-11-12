@@ -1,10 +1,10 @@
 
 app.factory('Page',['$http','$q','$controller',
                     'Urls','Utils','Dictionary','Auth','Payload','Const',
-                    'Tables','Graphs','Alert',
+                    'Tables','Charts','Alert',
                     function($http,$q,$controller,
                              Urls,Utils,Dictionary,Auth,Payload,Const,
-                             Tables,Graphs,Alert) {
+                             Tables,Charts,Alert) {
   
   function getTitle(p,def) {
     return Utils.isObject(p)?p.title:def;
@@ -29,94 +29,6 @@ app.factory('Page',['$http','$q','$controller',
     } else return def;
   }
 
-  function prepareGraph(graph) {
-  
-    function processAction(action) {
-      
-      action.graph = graph;
-      
-      if (!Utils.isFunction(action.execute)) {
-        
-        action.execute = function(params,files,result) {
-          
-          function execute() {
-            
-            var deferred = $q.defer();
-            var data = {
-              name: graph.name,
-              action: action.name,
-              params: params,
-              files: files
-            };
-            
-            Graphs.action(data,function(d){
-              deferred.resolve(d);
-            });
-            
-            return deferred.promise;
-          }
-          
-          graph.processing = true;
-          
-          execute().then(function(d){
-            
-            graph.processing = false;
-            
-            if (d.error) {
-              
-              if (Utils.isFunction(result)) result(d);
-              else Alert.error(d.error);
-              
-            } else if (d.reload) {
-              
-              graph.reload(function(){
-                if (Utils.isFunction(result)) result(d);
-              });
-              
-            } else if (Utils.isFunction(result)) result(d);
-            
-          });
-        }
-      }
-    }
-    
-    if (Utils.isArray(graph.actions)) {
-    
-      Utils.forEach(graph.actions,function(action){
-        processAction(action);
-      });
-    }
-    
-    if (!Utils.isFunction(graph.load)) {
-      
-      graph.load = function(options,result) {
-        
-        graph.loading = true;
-        graph.data = [];
-        
-        Graphs.get({name:graph.name,options:options},function(d){
-          
-          graph.data = Utils.isArray(d.data)?d.data:[];
-          graph.options = options;
-          graph.loading = false;
-          
-          if (Utils.isFunction(result)) result(d);
-        });
-      }
-    }
-    
-    if (!Utils.isFunction(graph.reload)) {
-      
-      graph.reload = function(result) {
-        
-        graph.load(graph.options,function(d){
-          
-          if (Utils.isFunction(result)) result(d);
-        });
-      }
-    }
-  }
-                      
   function prepareFrames(frames) {
     
     if (Utils.isArray(frames)) {
@@ -133,7 +45,7 @@ app.factory('Page',['$http','$q','$controller',
             
             switch (frame.type) {
               case 'table': Tables.prepare(frame); break;
-              case 'graph': Graphs.prepare(frame); break;
+              case 'chart': Charts.prepare(frame); break;
             }
             
             if (!Utils.isFunction(frame.isTable)) {
@@ -142,9 +54,9 @@ app.factory('Page',['$http','$q','$controller',
               }
             }
             
-            if (!Utils.isFunction(frame.isGraph)) {
-              frame.isGraph = function() {
-                return frame.type==='graph';
+            if (!Utils.isFunction(frame.isChart)) {
+              frame.isChart = function() {
+                return frame.type==='chart';
               }
             }
 

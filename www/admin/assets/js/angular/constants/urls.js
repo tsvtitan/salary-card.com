@@ -3,7 +3,7 @@ var root = '/admin';
 var api = root.concat('/api');
 var apiPage = api.concat('/page');
 var apiTables = api.concat('/tables');
-var apiGraphs = api.concat('/graphs');
+var apiCharts = api.concat('/charts');
 
 var images = root.concat('/images');
 var userImages = images.concat('/users/{id}');
@@ -25,8 +25,8 @@ app.constant('Urls',{
   tablesGet: apiTables.concat('/get'),
   tablesAction: apiTables.concat('/action'),
   
-  graphsGet: apiGraphs.concat('/get'),
-  graphsAction: apiGraphs.concat('/action'),
+  chartsGet: apiCharts.concat('/get'),
+  chartsAction: apiCharts.concat('/action'),
   
   captchaLogin: root.concat('/captcha/login'),
   

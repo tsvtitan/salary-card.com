@@ -61,8 +61,8 @@ module.exports = {
                                                     editable:1,id:1,cellClass:1,first:1,groupHeaders:1,headerGroup:1,format:1,type:1});
                       break;
                     }
-                    case 'graph': {
-                      model = Graphs;
+                    case 'chart': {
+                      model = Charts;
                       fields = Utils.extend(fields,{model:1,icon:1,class:1});
                       break;
                     }
