@@ -9,7 +9,6 @@
  */
 
 
-
 // CSS files to inject in order
 //
 // (if you're using LESS with the built-in default config, you'll want
@@ -20,6 +19,7 @@ var cssFilesToInject = [
   'styles/font-awesome.min.css',
   'styles/ladda-themeless.min.css',
   'styles/ag-grid.css',
+  'styles/nv.d3.css',
   'styles/theme-fresh.css',
   'styles/toastr.css',
   'styles/inspinia.css',
@@ -48,6 +48,9 @@ var jsFilesToInject = [
   'js/dependencies/angular.js',
   
   'js/dependencies/bootstrap.js',
+  
+  'js/dependencies/d3.js',
+  'js/dependencies/nv.d3.js',
   
   'js/dependencies/spin.min.js',
   'js/dependencies/ladda.min.js',
