@@ -20,6 +20,7 @@ module.exports = {
     template: 'stirng',
     icon: 'string',
     model: 'string',
+    controller: 'string',
     canCollapse: 'boolean',
     collapsed: 'boolean',
     canClose: 'boolean',

@@ -79,7 +79,7 @@ module.exports.policies = {
     '*': 'accessGranted'
   },
   
-  GraphsController: {
+  ChartsController: {
     
     '*': 'accessGranted'
   },
