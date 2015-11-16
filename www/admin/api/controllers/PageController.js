@@ -64,6 +64,12 @@ module.exports = {
                     case 'chart': {
                       model = Charts;
                       fields = Utils.extend(fields,{model:1,icon:1,options:1,class:1});
+                      fields = Utils.extend(fields,{icon:1,options:1,class:1,chart:1,type:1,margin:1,top:1,right:1,bottom:1,left:1,
+                                                    showValues:1,valueFormat:1,transitionDuration:1,xAxis:1,axisLabel:1,yAxis:1,
+                                                    axisLabelDistance:1,x:1,y:1,height:1,useInteractiveGuideline:1,clipVoronoi:1,
+                                                    showMaxMin:1,staggerLabels:1,tickFormat:1,rotateLabels:1,orient:1,tickSize:1,
+                                                    tickPadding:1,tickSubdivide:1,lines:1,styles:1,css:1,clipEdge:1,xType:1,yType:1,
+                                                    stacked:1});
                       break;
                     }
                   }

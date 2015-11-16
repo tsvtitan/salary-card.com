@@ -5,6 +5,7 @@ app.constant('Const',{
   connectionFailed: 'Соединение разорвано',
   pageNotAvailable: 'Страница не найдена',
   tableNotAvailable: 'Таблица не найдена',
+  chartNotAvailable: 'График не найден',
   
   alertError: 'Ошибка',
   alertInfo: 'Информация',

@@ -83,16 +83,16 @@ app.service('Utils',['base64',
     return (isNegative?'-':'') + v[0] + v[1]; //put back any negation and combine integer and fraction.
   }
     
-  this.format = function(s,values) {
+  this.format = function(s,values,type) {
     
     if (angular.isObject(s) || angular.isArray(s)) {
       return s;
     } else {
-      if (angular.isNumber(values)) {
-        return formatNumber(s,values);
-      } else if (angular.isArray(values)) {
-        return vsprintf(s,values);
-      } else return formatObj(s,values);
+      
+      if ((angular.isNumber(values) && !type) || (angular.isNumber(values) && (type==='float' || type==='integer'))) return formatNumber(s,values);
+      else if ((angular.isDate(values) && !type) || (angular.isNumber(values) && type==='date')) return moment(values).format(s);
+      else if (angular.isArray(values)) return vsprintf(s,values);
+      else return formatObj(s,values);
       
     }
   }
@@ -240,9 +240,11 @@ app.service('Utils',['base64',
     return _.isNumber(obj) && (obj === +obj && obj === (obj|0));
   }
   
-  this.toInteger = function(obj) {
+  this.toInteger = function(obj,def) {
     
-    var ret = _.isString(obj)?obj:obj.toString();
+    if (this.isInteger(obj)) return obj;
+    
+    var ret = _.isString(obj)?obj:(obj?obj.toString():def);
     
     var r = parseInt(ret);
     if (this.isInteger(r)) {
@@ -257,9 +259,11 @@ app.service('Utils',['base64',
     return _.isNumber(obj) && (obj === +obj && obj !== (obj|0));
   }
   
-  this.toFloat = function(obj) {
+  this.toFloat = function(obj,def) {
     
-    var ret = _.isString(obj)?obj:obj.toString();
+    if (this.isFloat(obj)) return obj;
+    
+    var ret = _.isString(obj)?obj:(obj?obj.toString():def);
     
     var r = parseFloat(ret);
     if (this.isNumber(r)) {
@@ -268,6 +272,17 @@ app.service('Utils',['base64',
     
     return ret;
   } 
+  
+  this.isDate = function(obj) {
+    return _.isDate(obj);
+  }
+  
+  this.toDate = function(obj,def) {
+    
+    if (this.isDate(obj)) return obj;
+    
+    return moment(obj).toDate();
+  }
   
   this.cast = function(pattern,string) {
     

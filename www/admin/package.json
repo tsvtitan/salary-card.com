@@ -19,6 +19,7 @@
     "grunt-contrib-less" : "0.11.1",
     "grunt-contrib-coffee" : "~0.10.1",
     "agenda" : "~0.6.28",
+    "d3": "~3.5.8",
     "bcrypt" : "~0.8.2",
     "canvas-captcha" : "~1.2.7",
     "connect-redis" : "~1.4.5",

@@ -82,6 +82,81 @@ app.factory('Charts',['$http','$q','Urls','Utils','Dictionary','Payload','Const'
       });
     }
     
+    if (Utils.isObject(chart.options)) {
+      
+      function convertTo(type,value,def) {
+        
+        switch (type) {
+          
+          case 'float': return Utils.toFloat(value,def);          
+          case 'integer': return Utils.toInteger(value,def); 
+          case 'date': return Utils.toDate(value,def);
+          case 'string': return value;
+        }
+        return (def)?def:value;
+      }
+      
+      if (Utils.isObject(chart.options.chart)) {
+        
+        var ch = chart.options.chart;
+        
+        if (!Utils.isFunction(ch.x)) {
+          
+          var x = (ch.x)?ch.x:0;
+          ch.x = function(d) {
+            //return (ch.xType)?convertTo(ch.xType,d[x]):d[x];
+            return d[x];
+          }
+        }
+        
+        if (!Utils.isFunction(ch.y)) {
+          
+          var y = (ch.y)?ch.y:1;
+          ch.y = function(d) {
+            //return (ch.yType)?convertTo(ch.yType,d[y]):d[y];
+            return d[y];
+          }
+        }
+        
+        if (!Utils.isFunction(ch.valueFormat) && ch.valueFormat) {
+          
+          var valueFormat = Utils.isString(ch.valueFormat)?ch.valueFormat:false;
+          if (valueFormat) {
+            ch.valueFormat = function(d) {
+              return Utils.format(valueFormat,d);
+            }
+          }
+        }
+        
+        if (Utils.isObject(ch.xAxis)) {
+          
+          if (!Utils.isFunction(ch.xAxis.tickFormat) && ch.xAxis.tickFormat) {
+            
+            var xAxisTickFormat = Utils.isString(ch.xAxis.tickFormat)?ch.xAxis.tickFormat:false;
+            if (xAxisTickFormat) {
+              ch.xAxis.tickFormat = function(d) {
+                return Utils.format(xAxisTickFormat,d,ch.xType);
+              }
+            }
+          }
+        }
+        
+        if (Utils.isObject(ch.yAxis)) {
+          
+          if (!Utils.isFunction(ch.yAxis.tickFormat) && ch.yAxis.tickFormat) {
+            
+            var yAxisTickFormat = Utils.isString(ch.yAxis.tickFormat)?ch.yAxis.tickFormat:false;
+            if (yAxisTickFormat) {
+              ch.yAxis.tickFormat = function(d) {
+                return Utils.format(yAxisTickFormat,d,ch.yType);
+              }
+            }
+          }
+        }
+      }
+      
+    }
+    
     if (!Utils.isFunction(chart.setData)) {
       
       chart.setData = function(data) {
