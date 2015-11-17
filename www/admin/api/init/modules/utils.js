@@ -147,6 +147,8 @@ Utils.prototype = {
   
   remainKeys: function(arr,keys) {
     
+    var self = this;
+    
     function inKeys(k) {
       
       if (_.isArray(keys)) {
@@ -176,7 +178,9 @@ Utils.prototype = {
           if (_.isObject(o)) {
             obj[k1] = remove(o);
           } else if (!inKeys(k1)) {
-            temp.push(k1);
+            var k11 = self.toInteger(k1,false);
+            if (!self.isInteger(k11))
+              temp.push(k1);
           }
         }
         
@@ -295,9 +299,9 @@ Utils.prototype = {
     return _.isNumber(obj) && (obj === +obj && obj === (obj|0));
   },
   
-  toInteger: function(obj) {
+  toInteger: function(obj,def) {
     
-    var ret = _.isString(obj)?obj:obj.toString();
+    var ret = _.isString(obj)?obj:(obj?obj.toString():def);
     
     var r = parseInt(ret);
     if (this.isInteger(r)) {
@@ -312,9 +316,9 @@ Utils.prototype = {
     return _.isNumber(obj) && (obj === +obj && obj !== (obj|0));
   },
   
-  toFloat: function(obj) {
+  toFloat: function(obj,def) {
     
-    var ret = _.isString(obj)?obj:obj.toString();
+    var ret = _.isString(obj)?obj:(obj?obj.toString():def);
     
     var r = parseFloat(ret);
     if (this.isNumber(r)) {

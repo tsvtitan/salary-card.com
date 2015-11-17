@@ -89,9 +89,12 @@ app.service('Utils',['base64',
       return s;
     } else {
       
-      if ((angular.isNumber(values) && !type) || (angular.isNumber(values) && (type==='float' || type==='integer'))) return formatNumber(s,values);
-      else if ((angular.isDate(values) && !type) || (angular.isNumber(values) && type==='date')) return moment(values).format(s);
-      else if (angular.isArray(values)) return vsprintf(s,values);
+      if ((angular.isNumber(values) && !type) || (angular.isNumber(values) && (type==='float' || type==='integer'))) 
+        return formatNumber(s,values);
+      else if ((angular.isDate(values) && !type) || ((angular.isNumber(values) || angular.isString(values)) && type==='date')) 
+        return moment(values).format(s);
+      else if (angular.isArray(values)) 
+        return vsprintf(s,values);
       else return formatObj(s,values);
       
     }

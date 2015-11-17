@@ -123,36 +123,31 @@ app.factory('Charts',['$http','$q','Urls','Utils','Dictionary','Payload','Const'
           var valueFormat = Utils.isString(ch.valueFormat)?ch.valueFormat:false;
           if (valueFormat) {
             ch.valueFormat = function(d) {
-              return Utils.format(valueFormat,d);
+              return Utils.format(valueFormat,d,ch.xType);
             }
           }
         }
         
-        if (Utils.isObject(ch.xAxis)) {
+        function setTickFormat(obj,dataType) {
           
-          if (!Utils.isFunction(ch.xAxis.tickFormat) && ch.xAxis.tickFormat) {
-            
-            var xAxisTickFormat = Utils.isString(ch.xAxis.tickFormat)?ch.xAxis.tickFormat:false;
-            if (xAxisTickFormat) {
-              ch.xAxis.tickFormat = function(d) {
-                return Utils.format(xAxisTickFormat,d,ch.xType);
+          if (Utils.isObject(obj)) {
+          
+            if (!Utils.isFunction(obj.tickFormat) && obj.tickFormat) {
+
+              var tickFormat = Utils.isString(obj.tickFormat)?obj.tickFormat:false;
+              if (tickFormat) {
+                obj.tickFormat = function(d) {
+                  return Utils.format(tickFormat,d,dataType);
+                }
               }
             }
           }
         }
         
-        if (Utils.isObject(ch.yAxis)) {
-          
-          if (!Utils.isFunction(ch.yAxis.tickFormat) && ch.yAxis.tickFormat) {
-            
-            var yAxisTickFormat = Utils.isString(ch.yAxis.tickFormat)?ch.yAxis.tickFormat:false;
-            if (yAxisTickFormat) {
-              ch.yAxis.tickFormat = function(d) {
-                return Utils.format(yAxisTickFormat,d,ch.yType);
-              }
-            }
-          }
-        }
+        setTickFormat(ch.xAxis,ch.xType);
+        setTickFormat(ch.yAxis,ch.yType);
+        setTickFormat(ch.x2Axis,ch.xType);
+        setTickFormat(ch.y2Axis,ch.yType);
       }
       
     }

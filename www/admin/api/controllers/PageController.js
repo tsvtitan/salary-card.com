@@ -69,7 +69,11 @@ module.exports = {
                                                     axisLabelDistance:1,x:1,y:1,height:1,useInteractiveGuideline:1,clipVoronoi:1,
                                                     showMaxMin:1,staggerLabels:1,tickFormat:1,rotateLabels:1,orient:1,tickSize:1,
                                                     tickPadding:1,tickSubdivide:1,lines:1,styles:1,css:1,clipEdge:1,xType:1,yType:1,
-                                                    stacked:1});
+                                                    stacked:1,zoom:1,enabled:1,scaleExtent:1,useFixedDomain:1,useNiceScale:1,
+                                                    horizontalOff:1,verticalOff:1,unzoomEventType:1,showControls:1,duration:1,
+                                                    legend:1,labelThreshold:1,labelSunbeamLayout:1,labelsOutside:1,
+                                                    rotateYLabel:1,rotateXLabel:1,x2Axis:1,y2Axis:1
+                                                    });
                       break;
                     }
                   }
@@ -166,24 +170,26 @@ module.exports = {
               else if (arr) {
 
                 var table = [];
-
+                
                 Utils.forEach(frames,function(cols){
-
+                  
                   var records = [];
 
                   Utils.forEach(cols,function(frame){
+                    
+                    if (!frame.locked) {
+                    
+                      var obj = Utils.find(arr,function(a){
+                        return a.name === frame.name;
+                      });
 
-                    var obj = Utils.find(arr,function(a){
-                      return a.name === frame.name;
-                    });
+                      if (obj && obj.record) {
 
-                    if (obj && obj.record) {
-
-                      var rec = Utils.clone(obj.record);
-                      rec = Utils.extend(rec,frame);
-                      records.push(rec);
+                        var rec = Utils.clone(obj.record);
+                        rec = Utils.extend(rec,frame);
+                        records.push(rec);
+                      }
                     }
-
                   });
 
                   if (records.length>0) {

@@ -6,9 +6,11 @@ module.exports = {
   
   req: function(req,res) {
     
+    var log = this.log;
+    
     console.log('Test/req');
     
-    var recipients = [];
+    /*var recipients = [];
     
     var maxCount = 1;
     
@@ -20,9 +22,9 @@ module.exports = {
         fio: 'Some Name',
         param: 'Параметр'
       });
-    }
+    }*/
     
-    var message = {
+    /*var message = {
       
       creator: 'tsv',
       sender: {
@@ -41,7 +43,7 @@ module.exports = {
         { name: 'Сергей', contact: 'tsv.titan@gmail.com', surname: 'Томилов', patronymic: 'Вячеславович' }
       ],*/
       //recipient: { name: 'Name1', contact: 'tsv@ufsic.com', fio: 'Some Name', param: 'Параметр' },
-      subject: '!!! Тема письма: {name}, {contact}',
+      /*subject: '!!! Тема письма: {name}, {contact}',
       headers: {'QQQ-WWW-EEE':'RRR-TTT-YYY'},
       attachments: [
         {
@@ -82,7 +84,30 @@ module.exports = {
         //statues: statuses
       });
         
-    });
+    });*/
+    
+    var table = {
+      "zoom": {
+        "enabled": true,
+        "scaleExtent": [
+         1,
+         10
+        ],
+        "useFixedDomain": false,
+        "useNiceScale": false,
+        "horizontalOff": false,
+        "verticalOff": true,
+        "unzoomEventType": "dblclick.zoom"
+      }
+    };
+    
+    var fields = {zoom:1,enabled:1,scaleExtent:1};
+    
+    table = Utils.remainKeys(table,fields);
+    
+    log.debug(table);
+    
+    res.json(table);
   }
   
 }
