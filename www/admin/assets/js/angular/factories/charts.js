@@ -146,6 +146,8 @@ app.factory('Charts',['$http','$q','Urls','Utils','Dictionary','Payload','Const'
         
         setTickFormat(ch.xAxis,ch.xType);
         setTickFormat(ch.yAxis,ch.yType);
+        setTickFormat(ch.yAxis1,ch.yType);
+        setTickFormat(ch.yAxis2,ch.yType);
         setTickFormat(ch.x2Axis,ch.xType);
         setTickFormat(ch.y2Axis,ch.yType);
       }
@@ -171,12 +173,14 @@ app.factory('Charts',['$http','$q','Urls','Utils','Dictionary','Payload','Const'
                   
         } else {
           
+          var opts = options || {};
+          
           chart.loading = true;
           chart.loadCallback = undefined;
 
-          factory.get({name:chart.name,options:options},function(d){
+          factory.get({name:chart.name,options:opts},function(d){
 
-            chart.loadOptions = options;
+            chart.loadOptions = opts;
 
             if (Utils.isFunction(result)) {
 

@@ -72,7 +72,7 @@ module.exports = {
                                                     stacked:1,zoom:1,enabled:1,scaleExtent:1,useFixedDomain:1,useNiceScale:1,
                                                     horizontalOff:1,verticalOff:1,unzoomEventType:1,showControls:1,duration:1,
                                                     legend:1,labelThreshold:1,labelSunbeamLayout:1,labelsOutside:1,
-                                                    rotateYLabel:1,rotateXLabel:1,x2Axis:1,y2Axis:1
+                                                    rotateYLabel:1,rotateXLabel:1,x2Axis:1,y2Axis:1,color:1,donut:1
                                                     });
                       break;
                     }

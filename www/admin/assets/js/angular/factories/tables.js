@@ -262,13 +262,15 @@ app.factory('Tables',['$http','$q','Urls','Utils','Dictionary','Payload','Const'
       
       table.load = function(options,result) {
         
+        var opts = options || {};
+        
         table.loading = true;
         if (table.options.api) table.options.api.showLoadingOverlay();
         table.loadCallback = undefined;
         
-        factory.get({name:table.name,options:options},function(d){
+        factory.get({name:table.name,options:opts},function(d){
           
-          table.loadOptions = options;
+          table.loadOptions = opts;
           
           if (Utils.isFunction(result)) {
             
