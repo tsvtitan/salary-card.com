@@ -84,6 +84,15 @@
       "Профиль": "Profile"
     },
     
+    "actionFile": {
+      "Импорт": "Import"
+    },
+    
+    "actionOptions": {
+      "Настройка": "Options",
+      "Предупреждение": "Warning2"
+    },
+    
     "[LOADING...]": "Loading...",
     
     "table": {

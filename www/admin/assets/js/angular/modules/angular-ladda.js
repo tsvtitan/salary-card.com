@@ -1,14 +1,30 @@
-/*! angular-ladda 0.2.1 */
+/*! angular-ladda 0.3.1 */
 /**!
  * AngularJS Ladda directive
  * @author Chungsub Kim <subicura@subicura.com>
  */
 
 /* global Ladda */
-(function () {
+/* exported Ladda */
+(function (root, factory)
+{
+  'use strict';
+  if (typeof define === 'function' && define.amd) {
+    // AMD. Register as an anonymous module.
+    define(['angular', 'ladda'], factory);
+  } else if (typeof module !== 'undefined' && typeof module.exports === 'object') {
+    // CommonJS support (for us webpack/browserify/ComponentJS folks)
+    module.exports = factory(require('angular'), require('ladda'));
+  } else {
+    // in the case of no module loading system
+    return factory(root.angular, root.Ladda);
+  }
+}(this, function (angular, Ladda){
   'use strict';
 
-  angular.module('angular-ladda', [])
+  var moduleName = 'angular-ladda';
+  
+  angular.module(moduleName, [])
     .provider('ladda', function () {
       var opts = {
         'style': 'zoom-in'
@@ -22,7 +38,7 @@
         }
       };
     })
-    .directive('ladda', ['$compile', '$timeout', 'ladda', function ($compile, $timeout, laddaOption) {
+    .directive('ladda', ['ladda', function (laddaOption) {
       return {
         restrict: 'A',
         priority: -1,
@@ -30,16 +46,6 @@
           element.addClass('ladda-button');
           if(angular.isUndefined(element.attr('data-style'))) {
             element.attr('data-style', laddaOption.style || 'zoom-in');
-          }
-          
-          if(angular.isUndefined(element.attr('data-spinner-color'))) {
-            element.attr('data-spinner-color', laddaOption.spinnerColor || '#000');
-          }
-          
-          if(angular.isUndefined(element.attr('data-spinner-size'))) {
-            if (laddaOption.spinnerSize) {
-              element.attr('data-spinner-size');
-            }
           }
 
           // ladda breaks childNode's event property.
@@ -56,23 +62,25 @@
 
           // add watch!
           scope.$watch(attrs.ladda, function(loading) {
-            if(loading || angular.isNumber(loading)) {
-              if(!ladda.isLoading()) {
-                ladda.start();
-              }
-              if(angular.isNumber(loading)) {
-                ladda.setProgress(loading);
-              }
-            } else {
+            if(!loading && !angular.isNumber(loading)) {
               ladda.stop();
-              // When the button also have the ng-disabled directive it needs to be 
+              // When the button also have the ng-disabled directive it needs to be
               // re-evaluated since the disabled attribute is removed by the 'stop' method.
               if (attrs.ngDisabled) {
                 element.attr('disabled', scope.$eval(attrs.ngDisabled));
               }
+              return;
+            }
+            if(!ladda.isLoading()) {
+              ladda.start();
+            }
+            if(angular.isNumber(loading)) {
+              ladda.setProgress(loading);
             }
           });
         }
       };
     }]);
-})();
+    
+  return moduleName;
+}));

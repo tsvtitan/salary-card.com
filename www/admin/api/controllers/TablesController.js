@@ -27,6 +27,8 @@ module.exports = {
           
           if (req.body && req.body.name && req.body.action) {
             
+            //log.debug(req.body);
+            
             Tables.findOneByName(req.body.name,function(err,table){
               
               ret(err,table,req.body.action);

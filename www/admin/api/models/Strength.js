@@ -94,6 +94,14 @@ module.exports = {
       result(err,{reload:true});
     });
    
+  },
+  
+  options: function(user,params,files,result) {
+    
+    this.log.debug(params);
+    
+    result(null,{reload:true});
+
   }
   
 }

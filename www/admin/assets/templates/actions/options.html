@@ -1,1 +1,24 @@
-<a href="" data-ng-controller="actionOptions" data-ng-click="execute()">{{ action.title }}</a>
+<script type="text/ng-template" id="actionOptionsDialog.html">
+    
+    <div class="inmodal">
+          <div class="modal-header">
+              <h3 class="modal-title">I'm a modal!</h3>
+          </div>
+          <div class="modal-body">
+              <ul>
+                  <li ng-repeat="item in items">
+                      <a href="#" ng-click="$event.preventDefault(); selected.item = item">{{ item }}</a>
+                  </li>
+              </ul>
+              Selected: <b>{{ selected.item }}</b>
+          </div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-primary" data-ng-click="ok()" ladda="action.executing">Save changes</button>
+              <button type="button" class="btn" data-ng-click="alert()">{{ dic('Предупреждение') }}</button>
+              <button type="button" class="btn btn-white" data-ng-click="cancel()">Close</button>
+              
+          </div>
+    </div>
+</script>
+
+<a href="" data-ng-controller="actionOptions" data-ng-click="execute()">{{ dic(action.title) }}</a>
