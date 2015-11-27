@@ -100,7 +100,11 @@ module.exports = {
     
     this.log.debug(params);
     
-    result(null,{reload:true});
+    if (params && params.item!=='item1') {
+      
+      result('Error raised');
+      
+    } else result(null,{reload:true});
 
   }
   

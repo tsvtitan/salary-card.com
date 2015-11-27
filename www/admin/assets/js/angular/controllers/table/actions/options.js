@@ -1,12 +1,12 @@
 
-app.controller('actionOptions',['$scope','$element','$uibModal',
-                                'Dictionary','Utils','Log',
-                                function($scope,$element,$uibModal,
-                                         Dictionary,Utils,Log) {
+app.controller('tableActionOptions',['$scope','$element','$uibModal',
+                                     'Dictionary','Utils','Log',
+                                     function($scope,$element,$uibModal,
+                                              Dictionary,Utils,Log) {
                                            
   $scope.items = ['item1', 'item2', 'item3'];
   $scope.dic = Dictionary.dic($element); 
-  $scope.dialogController = 'actionOptionsDialog';
+  $scope.dialogController = 'tableActionOptionsDialog';
   
   $scope.execute = function() {
     
@@ -36,11 +36,11 @@ app.controller('actionOptions',['$scope','$element','$uibModal',
   
 }]);
 
-app.controller('actionOptionsDialog',['$scope','$uibModalInstance','items','action','dic',
-                                      'Utils','Alert','Dictionary',
-                                      function($scope,$uibModalInstance,items,action,dic,
-                                               Utils,Alert,Dictionary) {
-  
+app.controller('tableActionOptionsDialog',['$scope','$uibModalInstance','items','action','dic',
+                                           'Utils','Alert','Dictionary',
+                                           function($scope,$uibModalInstance,items,action,dic,
+                                                    Utils,Alert,Dictionary) {
+
   $scope.items = items;
   $scope.dic = dic;
   $scope.action = action;
