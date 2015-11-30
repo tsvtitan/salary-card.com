@@ -1,10 +1,10 @@
 
 app.factory('Page',['$http','$q','$controller',
                     'Urls','Utils','Dictionary','Auth','Payload','Const',
-                    'Tables','Charts','Alert',
+                    'Tables','Charts','Forms','Alert',
                     function($http,$q,$controller,
                              Urls,Utils,Dictionary,Auth,Payload,Const,
-                             Tables,Charts,Alert) {
+                             Tables,Charts,Forms,Alert) {
   
   function getTitle(p,def) {
     return Utils.isObject(p)?p.title:def;
@@ -46,6 +46,7 @@ app.factory('Page',['$http','$q','$controller',
             switch (frame.type) {
               case 'table': Tables.prepare(frame); break;
               case 'chart': Charts.prepare(frame); break;
+              case 'form': Forms.prepare(frame); break;
             }
             
             if (!Utils.isFunction(frame.isTable)) {
@@ -57,6 +58,12 @@ app.factory('Page',['$http','$q','$controller',
             if (!Utils.isFunction(frame.isChart)) {
               frame.isChart = function() {
                 return frame.type==='chart';
+              }
+            }
+            
+            if (!Utils.isFunction(frame.isForm)) {
+              frame.isForm = function() {
+                return frame.type==='form';
               }
             }
 

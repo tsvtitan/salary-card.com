@@ -1,0 +1,20 @@
+<h5>
+  <span data-ng-show="form.icon"><i class="fa" data-ng-class="form.icon"></i>&nbsp;&nbsp;</span>
+  <span>{{ dic(form.title) }}</span>
+</h5>
+
+<div class="ibox-tools">
+
+  <a data-ng-click="form.reload()">
+    <i class="fa fa-refresh" data-ng-class="(form.loading || form.processing)?'fa-spin':''"></i>
+  </a>
+
+  <a data-ng-click="form.toggle()" data-ng-show="form.canCollapse">
+    <i class="fa" data-ng-class="(form.collapsed)?'fa-chevron-down':'fa-chevron-up'"></i>
+  </a>
+
+  <a data-ng-click="form.closed=!form.closed" data-ng-show="form.canClose">
+    <i class="fa fa-times"></i>
+  </a>
+
+</div>

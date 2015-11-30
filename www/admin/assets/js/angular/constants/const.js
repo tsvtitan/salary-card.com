@@ -6,6 +6,7 @@ app.constant('Const',{
   pageNotAvailable: 'Страница не найдена',
   tableNotAvailable: 'Таблица не найдена',
   chartNotAvailable: 'График не найден',
+  formNotAvailable: 'Форма не найдена',
   
   alertError: 'Ошибка',
   alertInfo: 'Информация',

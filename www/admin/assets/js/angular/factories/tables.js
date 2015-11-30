@@ -299,6 +299,13 @@ app.factory('Tables',['$http','$q','Urls','Utils','Dictionary','Payload','Const'
       }
     }
     
+    if (!Utils.isFunction(table.toggle)) {
+      
+      table.toggle = function() {
+        table.collapsed = !table.collapsed;
+      }
+    }
+    
   }
   
   factory.prepare = function(table) {

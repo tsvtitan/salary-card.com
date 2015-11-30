@@ -9,7 +9,7 @@
     <i class="fa fa-refresh" data-ng-class="(table.loading || table.processing)?'fa-spin':''"></i>
   </a>
 
-  <a data-ng-click="table.collapsed=!table.collapsed" data-ng-show="table.canCollapse">
+  <a data-ng-click="table.toggle()" data-ng-show="table.canCollapse">
     <i class="fa" data-ng-class="(table.collapsed)?'fa-chevron-down':'fa-chevron-up'"></i>
   </a>
 

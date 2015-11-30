@@ -169,7 +169,7 @@ app.factory('Charts',['$http','$q','Urls','Utils','Dictionary','Payload','Const'
         
         if (chart.loading) {
           
-          Alert.info('Загрузка идет...');
+          //Alert.info('Загрузка идет...');
                   
         } else {
           
@@ -213,7 +213,6 @@ app.factory('Charts',['$http','$q','Urls','Utils','Dictionary','Payload','Const'
       
       chart.toggle = function() {
         chart.collapsed = !chart.collapsed;
-        //if (!chart.collapsed) chart.api.update();
       }
     }
     

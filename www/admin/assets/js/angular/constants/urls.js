@@ -4,6 +4,7 @@ var api = root.concat('/api');
 var apiPage = api.concat('/page');
 var apiTables = api.concat('/tables');
 var apiCharts = api.concat('/charts');
+var apiForms = api.concat('/forms');
 
 var images = root.concat('/images');
 var userImages = images.concat('/users/{id}');
@@ -27,6 +28,8 @@ app.constant('Urls',{
   
   chartsGet: apiCharts.concat('/get'),
   chartsAction: apiCharts.concat('/action'),
+  
+  formsGet: apiForms.concat('/get'),
   
   captchaLogin: root.concat('/captcha/login'),
   
