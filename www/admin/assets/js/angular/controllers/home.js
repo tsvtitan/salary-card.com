@@ -1,8 +1,8 @@
 
-app.controller('pageHome',['$rootScope','$state','$scope','$element','$timeout',
-                           'Dictionary','Const','Auth','Init',
-                           function($rootScope,$state,$scope,$element,$timeout,
-                                    Dictionary,Const,Auth,Init) {
+app.controller('pageHome',['$scope','$element',
+                           'Dictionary',
+                           function($scope,$element,
+                                    Dictionary) {
   $scope.dic = Dictionary.dic($element);
   
   function init() {

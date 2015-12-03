@@ -120,7 +120,9 @@ app.factory('Page',['$http','$q','$controller',
              .error(function(d){ result({error:Dictionary.connectionFailed(d)}); });  
      
       } else result(Const.pageNotAvailable);
-    }
+    },
+    
+    
   }
   
   return factory;

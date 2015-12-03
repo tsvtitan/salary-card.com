@@ -1,8 +1,8 @@
 
-app.controller('menu',['$rootScope','$scope','$state','$element','$timeout',
-                       'Auth','Dictionary','Const','Alert','Init','Utils',
-                       function($rootScope,$scope,$state,$element,$timeout,
-                                Auth,Dictionary,Const,Alert,Init,Utils){
+app.controller('partialMenu',['$scope','$element','$timeout',
+                              'Auth','Dictionary','Const','Alert','Init','Utils',
+                              function($scope,$element,$timeout,
+                                       Auth,Dictionary,Const,Alert,Init,Utils){
   
   $scope.dic = Dictionary.dic($element);
   $scope.name = '';
