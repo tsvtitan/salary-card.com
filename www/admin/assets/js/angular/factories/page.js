@@ -40,7 +40,8 @@ app.factory('Page',['$http','$q','$controller',
           if (Utils.isObject(frame)) {
             
             if (!Utils.isFunction(frame.controller)) {
-              frame.controllerName = (frame.controller)?frame.controller:frame.type;
+              var defController = 'frame'+frame.type.charAt(0).toUpperCase()+frame.type.slice(1);
+              frame.controllerName = (frame.controller)?frame.controller:defController;
             }
             
             switch (frame.type) {
@@ -70,7 +71,19 @@ app.factory('Page',['$http','$q','$controller',
             if (!Utils.isFunction(frame.controller)) {
  
               frame.controller = function($scope,$element){
-                return $controller(frame.controllerName,{'$scope':$scope,'$element':$element});
+                
+                if (frame.isTable) $scope.table = frame;
+                if (frame.isChart) $scope.chart = frame;
+                if (frame.isForm) $scope.form = frame;
+                
+                $scope.dic = Dictionary.dic($element,frame.controllerName);
+                
+                var inject = {
+                  '$scope':$scope,
+                  '$element':$element
+                };
+                
+                return $controller(frame.controllerName,inject);
               }
             }
             

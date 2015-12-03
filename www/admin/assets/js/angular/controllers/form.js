@@ -1,14 +1,15 @@
 
-app.controller('form',['$scope','$element','Const','Alert','Dictionary',
-                        function($scope,$element,Const,Alert,Dictionary){
+app.controller('pageForm',['$scope','$element',
+                           'Dictionary','Auth','Init',
+                           function($scope,$element,
+                                    Dictionary,Auth,Init) {
   
-  $scope.form = ($scope.frame.isForm())?$scope.frame:null;
-  $scope.dic = Dictionary.dic($element,$scope.frame.controllerName);
-  
-  if ($scope.form) {
-  
-    $scope.form.load({});
+  $scope.dic = Dictionary.dic($element);
+
+  function init() {
+    $scope.ready();
+  } 
     
-  } else Alert.error(Const.formNotAvailable);
+  init();
   
 }]);

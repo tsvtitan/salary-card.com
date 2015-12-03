@@ -88,7 +88,9 @@ app.controller('boot',['$rootScope','$scope','$state','$element','$timeout',
           Auth.setHtmlTitle(toState.name);
           if (r.spinner) $scope.showSpinner();
           
-          Page.set(Auth.getPage(toState.name));
+          var page = Auth.getPage(toState.name);
+          Auth.setMenuByPage(page);
+          Page.set(page);
           
         } else {
           $scope.hideSpinner();

@@ -1,0 +1,9 @@
+<div class="ibox float-e-margins fadeIn-fadeOut" 
+     data-ng-controller="controller" 
+     data-ng-class="(chart.collapsed || chart.loading)?'border-bottom':''" data-ng-hide="chart.closed">
+        
+  <div class="ibox-title" data-ng-include="'frames/chart/title.html'"></div>
+
+  <div class="ibox-content fadeIn-fadeOut" data-ng-hide="chart.collapsed" data-ng-include="'frames/chart/content.html'"></div>
+
+</div>

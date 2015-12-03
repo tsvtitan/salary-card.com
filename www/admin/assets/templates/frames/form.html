@@ -1,0 +1,9 @@
+<div class="ibox float-e-margins fadeIn-fadeOut" 
+     data-ng-controller="controller"
+     data-ng-class="(form.collapsed || form.loading)?'border-bottom':''" data-ng-hide="form.closed">
+        
+  <div class="ibox-title" data-ng-include="'frames/form/title.html'"></div>
+
+  <div class="ibox-content fadeIn-fadeOut" data-ng-hide="form.collapsed" data-ng-include="'frames/form/content.html'"></div>
+
+</div>

@@ -1,9 +1,6 @@
 
-app.controller('chartCandlestickBar',['$scope','$element','Const','Alert','Dictionary','Utils',
-                                      function ($scope,$element,Const,Alert,Dictionary,Utils) {
-  
-  $scope.chart = ($scope.frame.isChart())?$scope.frame:null;
-  $scope.dic = Dictionary.dic($element,$scope.frame.controllerName);
+app.controller('frameChartCandlestickBar',['$scope','Const','Alert','Utils',
+                                           function ($scope,Const,Alert,Utils) {
   
   if ($scope.chart) {
     

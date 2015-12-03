@@ -64,7 +64,7 @@ module.exports = {
                     case 'chart': {
                       model = Charts;
                       fields = Utils.extend(fields,{icon:1,options:1,class:1});
-                      fields = Utils.extend(fields,{options:1,class:1,chart:1,type:1,margin:1,top:1,right:1,bottom:1,left:1,
+                      fields = Utils.extend(fields,{chart:1,type:1,margin:1,top:1,right:1,bottom:1,left:1,
                                                     showValues:1,valueFormat:1,transitionDuration:1,xAxis:1,axisLabel:1,yAxis:1,
                                                     axisLabelDistance:1,x:1,y:1,height:1,useInteractiveGuideline:1,clipVoronoi:1,
                                                     showMaxMin:1,staggerLabels:1,tickFormat:1,rotateLabels:1,orient:1,tickSize:1,
@@ -78,7 +78,8 @@ module.exports = {
                     }
                     case 'form': {
                       model = Forms;
-                      fields = Utils.extend(fields,{fields:1});
+                      fields = Utils.extend(fields,{icon:1,options:1,class:1});
+                      fields = Utils.extend(fields,{fields:1,submit:1,cancel:1,page:1});
                     }
                   }
 

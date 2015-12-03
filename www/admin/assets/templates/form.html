@@ -1,9 +1,13 @@
-<div class="ibox float-e-margins fadeIn-fadeOut" 
-     data-ng-controller="frame.controller" 
-     data-ng-class="(form.collapsed || form.loading)?'border-bottom':''" data-ng-hide="form.closed">
-        
-  <div class="ibox-title" data-ng-include="'form/title.html'"></div>
+<div class="wrapper wrapper-content zoomIn-zoomOut" 
+     data-ng-controller="pageForm">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2">
+      <div class="text-center m-t-lg">
+          <h1>
+              Form
+          </h1>
 
-  <div class="ibox-content fadeIn-fadeOut" data-ng-hide="form.collapsed" data-ng-include="'form/content.html'"></div>
-
+      </div>
+    </div>
+  </div>
 </div>

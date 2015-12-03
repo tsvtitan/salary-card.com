@@ -1,9 +1,6 @@
 
-app.controller('chartDonut',['$scope','$element','Const','Alert','Dictionary',
-                              function ($scope,$element,Const,Alert,Dictionary) {
-  
-  $scope.chart = ($scope.frame.isChart())?$scope.frame:null;
-  $scope.dic = Dictionary.dic($element,$scope.frame.controllerName);
+app.controller('frameChartDonut',['$scope','Const','Alert',
+                                  function ($scope,Const,Alert) {
   
   if ($scope.chart) {
     

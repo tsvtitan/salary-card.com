@@ -8,7 +8,6 @@ app.controller('menu',['$rootScope','$scope','$state','$element','$timeout',
   $scope.name = '';
   $scope.email = '';
   $scope.imageProfileUrl = '';
-  $scope.activeMenu = false;
   
   $scope.logout = function() {
     
@@ -35,30 +34,16 @@ app.controller('menu',['$rootScope','$scope','$state','$element','$timeout',
   
   $scope.menuClick = function(m,child) {
     
-    if ($scope.activeMenu===m && !Utils.isEmpty(m.state)) return;
-    
-    if (Utils.isArray(m.items) && m.items.length>0) {
-      m.expanded = !m.expanded;
-    } 
-    
-    var activate = !child && $scope.activeMenu!==m;
-    
     if (!Utils.isEmpty(m.page)) {
-      activate = activate & $scope.reload(m.page);
-    }
-    
-    if (activate) {
       
-      if (Utils.isObject($scope.activeMenu)) {
-        $scope.activeMenu.expanded = false;
-      }
-      $scope.activeMenu = m;
-    }
+      $scope.reload(m.page);
+      
+    } else Auth.setActiveMenu(m,true);
   }
   
   $scope.isMenuActive = function(m) {
     
-    return $scope.activeMenu===m;
+    return Utils.isArray(Auth.activeMenu) && Auth.activeMenu.indexOf(m)>=0;
   }
   
   function init() {

@@ -1,7 +1,8 @@
 
-app.controller('frames',['$scope','Page','Utils',
-                         function($scope,Page,Utils){
+app.controller('pageFrames',['$scope','Page','Utils',
+                             function($scope,Page,Utils){
   
+  $scope.page = Page;
   $scope.frames = [];
   $scope.state = {visible:false};
   

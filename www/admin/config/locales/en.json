@@ -44,6 +44,11 @@
     "Информация": "Information",
     "Предупреждение": "Warning",
     "Успех": "Success",
+    "OK": "OK",
+    "Отмена": "Cancel",
+    "Добавить": "Add",
+    "Изменить": "Change",
+    "Создать": "Create",
   
     "Проверьте поля": "Check fields",
     "Соединение разорвано": "Connection failed",
@@ -64,7 +69,7 @@
       "Выйти": "Log out"
     },
     
-    "login": {
+    "pageLogin": {
       "Логин": "Login",
       "Укажите логин": "Input login",
       "Пароль": "Password",
@@ -76,11 +81,11 @@
       "Забыли пароль?": "Forgot password?"
     },
     
-    "home": {
+    "pageHome": {
       "Главная": "Home"
     },
     
-    "profile": {
+    "pageProfile": {
       "Профиль": "Profile"
     },
     

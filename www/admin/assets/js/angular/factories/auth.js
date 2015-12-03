@@ -28,6 +28,7 @@ app.factory('Auth',['$rootScope','$http','Route','Urls','Dictionary','Payload','
     captcha: false,
     templates: [],
     menu: [],
+    activeMenu: [],
     pages: [],
     loginPage: {name:'login',url:'/login',template:'login.html'},
     
@@ -168,6 +169,55 @@ app.factory('Auth',['$rootScope','$http','Route','Urls','Dictionary','Payload','
         $rootScope.title = Utils.format('%s - %s',[Dictionary.get('Title'),page.title]);
       } else {
         $rootScope.title = Dictionary.get('Title');
+      }
+    },
+    
+    setActiveMenu: function(menu,reset) {
+      
+      if (Utils.isArray(this.activeMenu) && this.activeMenu.indexOf(menu)>=0) return;
+      
+      Utils.forEach(this.activeMenu,function(m){
+        m.expanded = Utils.isEmpty(m.items);
+      });
+      
+      if (reset) {
+        this.activeMenu = Utils.reject(this.activeMenu,function(m){
+          return (Utils.isArray(m.items) && m.items.indexOf(menu)==-1) || Utils.isEmpty(m.items);
+        });
+      }
+      
+      this.activeMenu.push(menu);
+      
+      Utils.forEach(this.activeMenu,function(m){
+        m.expanded = true;
+      });
+    },
+    
+    setMenuByPage: function(page) {
+      
+      if (page) {
+        
+        var menu = [];
+        
+        (function setMenu(parent,items){
+            
+          Utils.forEach(items,function(item){
+            
+            if (Utils.isArray(item.items)) {
+              setMenu(item,item.items);
+            }
+            
+            if (item.page===page.name) {
+              if (!parent) menu.push(item);
+              else menu.push(parent);
+            }
+          });
+            
+        })(null,this.menu);
+          
+        if (!Utils.isEmpty(menu)) {
+          this.setActiveMenu(menu[0],true);
+        }
       }
     }
     
