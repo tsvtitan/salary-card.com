@@ -14,9 +14,6 @@ app.factory('Forms',['$http','$q','Urls','Utils','Dictionary','Payload','Const',
 
   function prepareForm(form) {
   
-    if (Utils.isObject(form.options)) {
-    }
-    
     if (!Utils.isFunction(form.load)) {
       
       form.load = function(options,result) {

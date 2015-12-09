@@ -1,13 +1,10 @@
-<form class="form-horizontal ng-pristine" data-ng-submit="submit()">
+<form class="form-horizontal ng-pristine" 
+      data-ng-submit="submit()">
   
+  <div data-ng-include="form.header || 'frames/form/header.html'"></div>
   
-  <div class="hr-line-dashed"></div>
+  <div data-ng-include="form.body || 'frames/form/body.html'"></div>
+
+  <div data-ng-include="form.footer || 'frames/form/footer.html'"></div>
   
-  <div class="form-group">
-    <div class="text-center">
-      <button class="btn btn-primary" type="submit">{{ dic((form.options && form.options.submit.title)?form.options.submit.title:'ОК') }}</button>
-      <button class="btn btn-white" type="button" data-ng-click="cancel()">{{ dic((form.options && form.options.cancel.title)?form.options.cancel.title:'Отмена') }}</button>
-    </div>
-  </div>
-  
-</form>  
+</form>

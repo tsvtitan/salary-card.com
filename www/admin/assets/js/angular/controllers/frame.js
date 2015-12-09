@@ -1,9 +1,9 @@
 
-app.controller('pageForm',['$scope','Page','Utils',
-                           function($scope,Page,Utils) {
+app.controller('pageFrame',['$scope','Page','Utils',
+                             function($scope,Page,Utils) {
   
   $scope.page = Page;
-  $scope.form = false;
+  $scope.frame = false;
   $scope.state = {visible:false};
   
   Page.frame(function(d){
@@ -12,9 +12,9 @@ app.controller('pageForm',['$scope','Page','Utils',
       $scope.ready(d.error);
     } else {
       
-      $scope.form = Utils.isObject(d.frame)?d.frame:false;
-      if ($scope.form) {
-        $scope.form.titleVisible = false;
+      $scope.frame = Utils.isObject(d.frame)?d.frame:false;
+      if ($scope.frame) {
+        $scope.frame.titleVisible = false;
       }
       
       $scope.ready(function(){

@@ -22,7 +22,7 @@ module.exports = {
         function getPage(ret){
 
           var where = {name: (req.body)?req.body.name:null};
-          var fields = {name:1,type:1,class:1,template:1,frames:1,form:1,
+          var fields = {name:1,type:1,class:1,template:1,header:1,body:1,footer:1,frames:1,form:1,
                        collapsed:1,canClose:1,canCollapse:1,locked:1};
 
           Users.getModelRecord(req.session.userId,Pages,fields,where,null,null,
@@ -78,8 +78,8 @@ module.exports = {
                     }
                     case 'form': {
                       model = Forms;
-                      fields = Utils.extend(fields,{icon:1,options:1,class:1,canReload:1});
-                      fields = Utils.extend(fields,{fields:1,submit:1,cancel:1,page:1});
+                      fields = Utils.extend(fields,{icon:1,options:1,class:1,canReload:1,header:1,body:1,footer:1});
+                      fields = Utils.extend(fields,{fields:1,page:1,buttons:1});
                     }
                   }
 

@@ -1,0 +1,8 @@
+<div class="wrapper wrapper-content zoomIn-zoomOut" 
+     data-ng-controller="pageFrame" data-ng-show="state.visible">
+  <div class="row" data-ng-if="frame">
+    <div data-ng-class="(frame.class)?frame.class:'col-lg-12'" 
+         data-ng-include="frame.template" data-ng-init="controller=frame.controller">
+    </div>
+  </div>
+</div>
