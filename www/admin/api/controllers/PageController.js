@@ -23,7 +23,7 @@ module.exports = {
 
           var where = {name: (req.body)?req.body.name:null};
           var fields = {name:1,type:1,class:1,template:1,header:1,body:1,footer:1,frames:1,form:1,
-                       collapsed:1,canClose:1,canCollapse:1,locked:1};
+                       collapsed:1,canClose:1,canCollapse:1,canLoad:1,locked:1};
 
           Users.getModelRecord(req.session.userId,Pages,fields,where,null,null,
                                function(err,page){
@@ -49,7 +49,8 @@ module.exports = {
                   
                   var model = null;
                   var fields = {name:1,title:1,description:1,template:1,actions:1,
-                              controller:1,collapsed:1,canClose:1,canCollapse:1,titleVisible:1};
+                              controller:1,collapsed:1,canClose:1,canCollapse:1,canLoad:1,
+                              titleVisible:1};
 
                   switch (frame.type) {
 
@@ -78,8 +79,8 @@ module.exports = {
                     }
                     case 'form': {
                       model = Forms;
-                      fields = Utils.extend(fields,{icon:1,options:1,class:1,canReload:1,header:1,body:1,footer:1});
-                      fields = Utils.extend(fields,{fields:1,page:1,buttons:1});
+                      fields = Utils.extend(fields,{icon:1,options:1,class:1,header:1,body:1,footer:1});
+                      fields = Utils.extend(fields,{fields:1,page:1,buttons:1,submit:1,list:1});
                     }
                   }
 

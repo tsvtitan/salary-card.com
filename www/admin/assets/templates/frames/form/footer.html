@@ -1,13 +1,16 @@
 <div class="hr-line-dashed"></div>
 
-<div class="form-group" data-ng-show="form.buttons">
+<div class="form-group" data-ng-show="form.submit || form.buttons">
+  
   <div class="text-center">
     
+    <button class="btn" type="submit" 
+            data-ng-if="form.submit" data-ng-class="(form.submit.class)?form.submit.class:'btn-primary'">{{ dic((form.submit && form.submit.title)?form.submit.title:'ОК') }}</button>
+  
     <button class="btn" type="button"
             data-ng-repeat="b in form.buttons" data-ng-class="(b.class)?b.class:'btn-white'"
             data-ng-click="click(b)">{{ dic((b.title)?b.title:b.name) }}</button>
     
-    <!--button class="btn btn-primary" type="submit">{{ dic((form.submit && form.submit.title)?form.submit.title:'ОК') }}</button>
-    <button class="btn btn-white" type="button" data-ng-click="cancel()">{{ dic(form.cancel.title?form.cancel.title:'Отмена') }}</button-->
   </div>
+  
 </div>

@@ -43,7 +43,7 @@ app.factory('Page',['$http','$q','$controller',
             frame.collapsed = Utils.isDefined(frame.collapsed)?frame.collapsed:false;
             frame.canCollapse = Utils.isDefined(frame.canCollapse)?frame.canCollapse:true;
             frame.canClose = Utils.isDefined(frame.canClose)?frame.canClose:true;
-            frame.canReload = Utils.isDefined(frame.canReload)?frame.canReload:true;
+            frame.canLoad = Utils.isDefined(frame.canLoad)?frame.canLoad:true;
             
             if (!Utils.isFunction(frame.controller)) {
               var defController = 'frame'+frame.type.charAt(0).toUpperCase()+frame.type.slice(1);

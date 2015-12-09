@@ -262,32 +262,39 @@ app.factory('Tables',['$http','$q','Urls','Utils','Dictionary','Payload','Const'
       
       table.load = function(options,result) {
         
-        var opts = options || {};
-        
-        table.loading = true;
-        if (table.options.api) table.options.api.showLoadingOverlay();
-        table.loadCallback = undefined;
-        
-        factory.get({name:table.name,options:opts},function(d){
+        if (table.loading) {
           
-          table.loadOptions = opts;
+          //Alert.info('Загрузка идет...');
+                  
+        } else if (table.canLoad) {
           
-          if (Utils.isFunction(result)) {
-            
-            table.loadCallback = result;
-            result(d);
-            
-          } else {
-            
-            if (d.error) Alert.error(d.error);
-            else {
-              table.setData(d.data);
-            }
-          } 
-          
-          table.loading = false;
-          if (table.options.api) table.options.api.hideOverlay();
-        });
+          var opts = options || {};
+
+          table.loading = true;
+          if (table.options.api) table.options.api.showLoadingOverlay();
+          table.loadCallback = undefined;
+
+          factory.get({name:table.name,options:opts},function(d){
+
+            table.loadOptions = opts;
+
+            if (Utils.isFunction(result)) {
+
+              table.loadCallback = result;
+              result(d);
+
+            } else {
+
+              if (d.error) Alert.error(d.error);
+              else {
+                table.setData(d.data);
+              }
+            } 
+
+            table.loading = false;
+            if (table.options.api) table.options.api.hideOverlay();
+          });
+        }
       }
     }
     

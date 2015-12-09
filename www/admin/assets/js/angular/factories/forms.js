@@ -22,7 +22,7 @@ app.factory('Forms',['$http','$q','Urls','Utils','Dictionary','Payload','Const',
           
           //Alert.info('Загрузка идет...');
                   
-        } else {
+        } else if (form.canLoad) {
           
           var opts = options || {};
           

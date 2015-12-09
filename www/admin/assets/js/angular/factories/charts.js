@@ -171,7 +171,7 @@ app.factory('Charts',['$http','$q','Urls','Utils','Dictionary','Payload','Const'
           
           //Alert.info('Загрузка идет...');
                   
-        } else {
+        } else if (chart.canLoad) {
           
           var opts = options || {};
           
