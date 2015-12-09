@@ -1,8 +1,8 @@
 <div class="wrapper wrapper-content zoomIn-zoomOut" 
      data-ng-controller="pageForm" data-ng-show="state.visible">
-  <div class="row">
-    <div data-ng-class="(frame.class)?frame.class:'col-lg-12'" 
-         data-ng-include="'frames/form.html'" data-ng-init="controller=frame.controller">
+  <div class="row" data-ng-if="form">
+    <div data-ng-class="(form.class)?form.class:'col-lg-12'" 
+         data-ng-include="form.template" data-ng-init="controller=form.controller">
     </div>
   </div>
 </div>

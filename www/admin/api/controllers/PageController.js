@@ -49,7 +49,7 @@ module.exports = {
                   
                   var model = null;
                   var fields = {name:1,title:1,description:1,template:1,actions:1,
-                              controller:1,collapsed:1,canClose:1,canCollapse:1};
+                              controller:1,collapsed:1,canClose:1,canCollapse:1,titleVisible:1};
 
                   switch (frame.type) {
 
@@ -78,7 +78,7 @@ module.exports = {
                     }
                     case 'form': {
                       model = Forms;
-                      fields = Utils.extend(fields,{icon:1,options:1,class:1});
+                      fields = Utils.extend(fields,{icon:1,options:1,class:1,canReload:1});
                       fields = Utils.extend(fields,{fields:1,submit:1,cancel:1,page:1});
                     }
                   }

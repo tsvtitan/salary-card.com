@@ -17,7 +17,11 @@ module.exports = {
     //model: 'string',
     template: 'stirng',
     controller: 'string',
-    fields: 'json',
+    canCollapse: 'boolean',
+    collapsed: 'boolean',
+    canClose: 'boolean',
+    canReload: 'boolean',
+    options: 'json',
     locked: 'datetime',
     lang: 'string',
     

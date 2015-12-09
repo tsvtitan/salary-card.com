@@ -39,6 +39,12 @@ app.factory('Page',['$http','$q','$controller',
           
           if (Utils.isObject(frame)) {
             
+            frame.titleVisible = Utils.isDefined(frame.titleVisible)?frame.titleVisible:true;
+            frame.collapsed = Utils.isDefined(frame.collapsed)?frame.collapsed:false;
+            frame.canCollapse = Utils.isDefined(frame.canCollapse)?frame.canCollapse:true;
+            frame.canClose = Utils.isDefined(frame.canClose)?frame.canClose:true;
+            frame.canReload = Utils.isDefined(frame.canReload)?frame.canReload:true;
+            
             if (!Utils.isFunction(frame.controller)) {
               var defController = 'frame'+frame.type.charAt(0).toUpperCase()+frame.type.slice(1);
               frame.controllerName = (frame.controller)?frame.controller:defController;
@@ -122,6 +128,17 @@ app.factory('Page',['$http','$q','$controller',
       } else result(Const.pageNotAvailable);
     },
     
+    frame: function(result) {
+     
+      this.frames(function(d){
+        
+        if (Utils.isArray(d.frames) && !Utils.isEmpty(d.frames) && !Utils.isEmpty(d.frames[0])) {
+          d.frame = d.frames[0][0];
+          delete d.frames;
+        }
+        result(d);
+      });
+    }
     
   }
   

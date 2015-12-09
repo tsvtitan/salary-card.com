@@ -1,6 +1,6 @@
 
-app.controller('actionFile',['$scope','$element','Dictionary','Utils',
-                             function($scope,$element,Dictionary,Utils) {
+app.controller('frameActionFile',['$scope','$element','Dictionary','Utils',
+                                  function($scope,$element,Dictionary,Utils) {
   
   $scope.dic = Dictionary.dic($element);        
   

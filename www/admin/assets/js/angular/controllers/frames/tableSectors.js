@@ -1,9 +1,6 @@
 
-app.controller('tableSectors',['$scope','$element','Const','Alert','Dictionary',
-                               function ($scope,$element,Const,Alert,Dictionary) {
-  
-  $scope.table = $scope.parent.isTable()?$scope.parent:null;
-  $scope.dic = Dictionary.dic($element,$scope.parent.controllerName);
+app.controller('frameTableSectors',['$scope','Const','Alert',
+                                    function ($scope,Const,Alert) {
   
   if ($scope.table) {
     

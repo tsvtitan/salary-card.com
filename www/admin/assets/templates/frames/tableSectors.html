@@ -1,0 +1,9 @@
+<div class="ibox float-e-margins fadeIn-fadeOut"
+     data-ng-controller="controller"
+     data-ng-class="(table.collapsed || table.loading)?'border-bottom':''" data-ng-hide="table.closed">
+  
+  <div class="ibox-title" data-ng-include="'frames/table/title.html'"></div>
+
+  <div class="ibox-content fadeIn-fadeOut" data-ng-hide="table.collapsed" data-ng-include="'frames/table/content.html'"></div>
+  
+</div>
