@@ -5,18 +5,25 @@ app.controller('frameActionTableAdd',['$scope','$element','$uibModal',
                                                Dictionary,Utils,Log,Alert) {
                                            
   $scope.dic = Dictionary.dic($element); 
-  $scope.dialogController = 'frameActionTableAddDialog';
+  $scope.modalController = 'frameActionTableAddModal';
   
   $scope.execute = function() {
     
-    if (Utils.isObject($scope.action)) {
+    if (Utils.isObject($scope.action) && Utils.isObject($scope.action.table)) {
       
-      Alert.info($scope.action.table.name);
+      /*$scope.action.table.processing = true;
+      
+      $scope.action.frames(function(d){
+        
+        $scope.action.table.processing = false;
+      });*/
+      
+      /*Alert.info($scope.action.table.name);
       
       var instance = $uibModal.open({
         animation: true,
-        templateUrl: $scope.dialogController+'.html',
-        controller: $scope.dialogController,
+        templateUrl: $scope.modalController+'.html',
+        controller: $scope.modalController,
         resolve: {
           action: function() { return $scope.action; },
           dic: function() { return $scope.dic; }
@@ -28,13 +35,13 @@ app.controller('frameActionTableAdd',['$scope','$element','$uibModal',
         Log.info('Selected: ' +$scope.selected);
       }, function () {
         Log.info('Canceled (');
-      });
+      });*/
     } 
   }
   
 }]);
 
-app.controller('frameActionTableAddDialog',['$scope','$uibModalInstance','action','dic',
+app.controller('frameActionTableAddModal',['$scope','$uibModalInstance','action','dic',
                                                 'Utils','Alert','Dictionary',
                                                 function($scope,$uibModalInstance,action,dic,
                                                          Utils,Alert,Dictionary) {

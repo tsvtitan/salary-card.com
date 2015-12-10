@@ -6,6 +6,6 @@
     <div class="ibox-title" data-ng-include="'frames/form/title.html'" ></div>
   </div>
 
-  <div class="ibox-content fadeIn-fadeOut" data-ng-hide="form.collapsed" data-ng-include="'frames/form/content.html'"></div>
+  <div class="ibox-content fadeIn-fadeOut" data-ng-hide="form.collapsed" data-ng-include="form.content || 'frames/form/content.html'"></div>
   
 </div>

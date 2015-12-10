@@ -60,14 +60,15 @@ module.exports.routes = {
   
   '/admin/api/page': {controller:'PageController', action:'index', policy:'accessGranted'},
   'post /admin/api/page/frames': {controller:'PageController', action:'frames', policy:'accessGranted'},
+  'post /admin/api/page/frame': {controller:'PageController', action:'frame', policy:'accessGranted'},
   
-  '/admin/api/tables': {controller:'TablesController', action:'index', policy:'accessGranted'},
-  'post /admin/api/tables/get': {controller:'TablesController', action:'get', policy:'accessGranted'},
-  'post /admin/api/tables/action': {controller:'TablesController', action:'action', policy:'accessGranted'},
+  '/admin/api/table': {controller:'TableController', action:'index', policy:'accessGranted'},
+  'post /admin/api/table/get': {controller:'TableController', action:'get', policy:'accessGranted'},
+  'post /admin/api/table/action': {controller:'TableController', action:'action', policy:'accessGranted'},
 
-  '/admin/api/charts': {controller:'ChartsController', action:'index', policy:'accessGranted'},
-  'post /admin/api/charts/get': {controller:'ChartsController', action:'get', policy:'accessGranted'},
-  'post /admin/api/charts/action': {controller:'ChartsController', action:'action', policy:'accessGranted'},
+  '/admin/api/chart': {controller:'ChartController', action:'index', policy:'accessGranted'},
+  'post /admin/api/chart/get': {controller:'ChartController', action:'get', policy:'accessGranted'},
+  'post /admin/api/chart/action': {controller:'ChartController', action:'action', policy:'accessGranted'},
 
   '/admin/api/mailer': {controller:'MailerController', action:'index', policy:'accessGranted'},
   'post /admin/api/mailer/send': {controller:'MailerController', action:'send', policy:'accessGranted'},

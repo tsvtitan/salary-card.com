@@ -1,5 +1,5 @@
 
-app.factory('Tables',['$http','$q','Urls','Utils','Dictionary','Payload','Const','Alert',
+app.factory('Table',['$http','$q','Urls','Utils','Dictionary','Payload','Const','Alert',
                       function($http,$q,Urls,Utils,Dictionary,Payload,Const,Alert) {
   
   
@@ -7,7 +7,7 @@ app.factory('Tables',['$http','$q','Urls','Utils','Dictionary','Payload','Const'
     
     action: function(d,result) {
       
-      $http.post(Urls.tablesAction,Utils.makeFormData(Payload.get(d)),{
+      $http.post(Urls.tableAction,Utils.makeFormData(Payload.get(d)),{
                   headers: {'Content-Type':undefined},
                             transformRequest:angular.identity
                 })
@@ -17,10 +17,12 @@ app.factory('Tables',['$http','$q','Urls','Utils','Dictionary','Payload','Const'
 
     get: function(d,result) {
       
-      $http.post(Urls.tablesGet,Payload.get(d))
+      $http.post(Urls.tableGet,Payload.get(d))
            .success(result)
            .error(function(d){ result({error:Dictionary.connectionFailed(d)}); });  
     }
+    
+    
   }
   
   function prepareTable(table) {
@@ -73,6 +75,14 @@ app.factory('Tables',['$http','$q','Urls','Utils','Dictionary','Payload','Const'
         action.execute = function(params,files,result) {
           executeAction(action.name,params,files,result);
         };
+      }
+      
+      if (!Utils.isFunction(action.frames)) {
+        
+        action.frames = function(result) {
+          
+          
+        }
       }
     }
     

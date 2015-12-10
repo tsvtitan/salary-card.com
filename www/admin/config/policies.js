@@ -74,16 +74,21 @@ module.exports.policies = {
     '*': 'accessGranted'
   },
   
-  TablesController: {
+  TableController: {
     
     '*': 'accessGranted'
   },
   
-  ChartsController: {
+  ChartController: {
     
     '*': 'accessGranted'
   },
   
+  FormController: {
+    
+    '*': 'accessGranted'
+  },
+
   MailerController: {
     
     '*': 'accessGranted'

@@ -6,6 +6,6 @@
     <div class="ibox-title" data-ng-include="'frames/table/title.html'"></div>
   </div>  
 
-  <div class="ibox-content fadeIn-fadeOut" data-ng-hide="table.collapsed" data-ng-include="'frames/table/content.html'"></div>
+  <div class="ibox-content fadeIn-fadeOut" data-ng-hide="table.collapsed" data-ng-include="table.content || 'frames/table/content.html'"></div>
 
 </div>

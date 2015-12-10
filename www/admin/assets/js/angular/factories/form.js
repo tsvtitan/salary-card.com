@@ -1,12 +1,12 @@
 
-app.factory('Forms',['$http','$q','Urls','Utils','Dictionary','Payload','Const','Alert',
+app.factory('Form',['$http','$q','Urls','Utils','Dictionary','Payload','Const','Alert',
                      function($http,$q,Urls,Utils,Dictionary,Payload,Const,Alert) {
   
   var factory = {
     
     get: function(d,result) {
       
-      $http.post(Urls.formsGet,Payload.get(d))
+      $http.post(Urls.formGet,Payload.get(d))
            .success(result)
            .error(function(d){ result({error:Dictionary.connectionFailed(d)}); });  
     }

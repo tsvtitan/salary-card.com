@@ -2,9 +2,9 @@ var root = '/admin';
 
 var api = root.concat('/api');
 var apiPage = api.concat('/page');
-var apiTables = api.concat('/tables');
-var apiCharts = api.concat('/charts');
-var apiForms = api.concat('/forms');
+var apiTable = api.concat('/table');
+var apiChart = api.concat('/chart');
+var apiForm = api.concat('/form');
 
 var images = root.concat('/images');
 var userImages = images.concat('/users/{id}');
@@ -21,15 +21,17 @@ app.constant('Urls',{
   
   authLogin: api.concat('/login'),
   authLogout: api.concat('/logout'),
+  
   pageFrames: apiPage.concat('/frames'),
+  pageFrame: apiPage.concat('/frame'),
   
-  tablesGet: apiTables.concat('/get'),
-  tablesAction: apiTables.concat('/action'),
+  tableGet: apiTable.concat('/get'),
+  tableAction: apiTable.concat('/action'),
   
-  chartsGet: apiCharts.concat('/get'),
-  chartsAction: apiCharts.concat('/action'),
+  chartGet: apiChart.concat('/get'),
+  chartAction: apiChart.concat('/action'),
   
-  formsGet: apiForms.concat('/get'),
+  formGet: apiForm.concat('/get'),
   
   captchaLogin: root.concat('/captcha/login'),
   

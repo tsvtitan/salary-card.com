@@ -1,4 +1,3 @@
-// ChartsController
 
 var fs = require('fs'),
     d3 = require('d3');

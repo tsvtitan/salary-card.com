@@ -1,4 +1,3 @@
-// TablesController
 
 var fs = require('fs');
 
@@ -180,78 +179,94 @@ module.exports = {
       return error('User is not found');
     }
     
-    try {
-      
-      if (req.session && req.session.userId) {
-        
-        var stamp = new Date();
-        
-        async.waterfall([
-          
-          function getTable(ret) {
-          
-            if (req.body && req.body.name && req.body.options) {
+    if (req.session && req.session.userId) {
 
-              Tables.findOneByName(req.body.name,function(err,table){
+      var stamp = new Date();
 
-                ret(err,table,req.body.options);
-              });
+      async.waterfall([
 
-            } else ret('Body is not found');
-          },
-          
-          function findModel(table,options,ret) {
-          
-            if (table) {
+        function getTable(ret) {
 
-              var obj = Utils.find(sails.models,function(m){
-                return m.globalId === table.model;
-              });
+          if (req.body && req.body.name && req.body.options) {
 
-              if (obj) {
+            Tables.findOneByName(req.body.name,function(err,table){
 
-                ret(null,table,options,obj);
+              ret(err,table,req.body.options);
+            });
 
-              } else ret('Model is not found');
+          } else ret('Body is not found');
+        },
 
-            } else ret('Table is not found');
-          },
-          
-          function getData(table,options,model,ret){
-            
-            if (table.options) {
-              
-              var fields = {};
+        function findModel(table,options,ret) {
 
-              var columns = Utils.isArray(table.options.columnDefs)?table.options.columnDefs:[];
+          if (table) {
 
-              Utils.forEach(columns,function(column){
-                fields[column.field] = 1;
-              });
+            var obj = Utils.find(sails.models,function(m){
+              return m.globalId === table.model;
+            });
 
-              var where = {};
+            if (obj) {
 
-              Users.getModelTable(req.session.userId,model,fields,where,table.sort,{},
-                                  function(err,data,user){
+              ret(null,table,options,obj);
 
-                ret(err,data);
-              });
-              
-            } else ret('Options is not found');
-          }
-          
-        ],function(err,data){
-          if (err) error(err);
-          else {
-            res.jsonSuccess({data:data},{value:moment().diff(stamp),max:2000});
-          }
-        });
-        
-      } else userNotFound();
-      
-    } catch (e) {
-      error(e.message);
+            } else ret('Model is not found');
+
+          } else ret('Table is not found');
+        },
+
+        function getData(table,options,model,ret){
+
+          if (table.options) {
+
+            var fields = {};
+
+            var columns = Utils.isArray(table.options.columnDefs)?table.options.columnDefs:[];
+
+            Utils.forEach(columns,function(column){
+              fields[column.field] = 1;
+            });
+
+            var where = {};
+
+            Users.getModelTable(req.session.userId,model,fields,where,table.sort,{},
+                                function(err,data,user){
+
+              ret(err,data);
+            });
+
+          } else ret('Options is not found');
+        }
+
+      ],function(err,data){
+        if (err) error(err);
+        else {
+          res.jsonSuccess({data:data},{value:moment().diff(stamp),max:2000});
+        }
+      });
+
+    } else userNotFound();
+  },
+  
+  frames: function(req,res) {
+    
+    var log = this.log;
+    
+    function error(s) {
+      log.error(s,null,1);
+      res.jsonError('Action error');
     }
+    
+    function userNotFound(){
+      return error('User is not found');
+    }
+    
+    if (req.session && req.session.userId) {
+      
+      var stamp = new Date();
+      
+      res.jsonSuccess({data:{}},{value:moment().diff(stamp),max:2000});
+      
+    } else userNotFound();
   }
   
 }

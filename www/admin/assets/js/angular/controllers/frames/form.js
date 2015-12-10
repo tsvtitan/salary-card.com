@@ -6,6 +6,7 @@ app.controller('frameForm',['$scope','Const','Alert',
     Alert.info('submit');
     if ($scope.form && $scope.form.submit && $scope.form.submit.page) {
       $scope.reload($scope.form.submit.page);
+      //$scope.event($scope.form.submit.event,params);
     }
   }
   

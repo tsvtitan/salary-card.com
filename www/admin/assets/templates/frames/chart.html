@@ -6,6 +6,6 @@
     <div class="ibox-title" data-ng-include="'frames/chart/title.html'"></div>
   </div>
 
-  <div class="ibox-content fadeIn-fadeOut" data-ng-hide="chart.collapsed" data-ng-include="'frames/chart/content.html'"></div>
+  <div class="ibox-content fadeIn-fadeOut" data-ng-hide="chart.collapsed" data-ng-include="chart.content || 'frames/chart/content.html'"></div>
 
 </div>
