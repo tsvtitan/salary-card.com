@@ -88,6 +88,11 @@ module.exports.policies = {
     
     '*': 'accessGranted'
   },
+  
+  FrameController: {
+    
+    '*': 'accessGranted'
+  },
 
   MailerController: {
     

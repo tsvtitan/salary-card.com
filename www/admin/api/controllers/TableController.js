@@ -229,7 +229,7 @@ module.exports = {
             var where = {};
 
             Users.getModelTable(req.session.userId,model,fields,where,table.sort,{},
-                                function(err,data,user){
+                                function(err,data){
 
               ret(err,data);
             });
@@ -244,28 +244,6 @@ module.exports = {
         }
       });
 
-    } else userNotFound();
-  },
-  
-  frames: function(req,res) {
-    
-    var log = this.log;
-    
-    function error(s) {
-      log.error(s,null,1);
-      res.jsonError('Action error');
-    }
-    
-    function userNotFound(){
-      return error('User is not found');
-    }
-    
-    if (req.session && req.session.userId) {
-      
-      var stamp = new Date();
-      
-      res.jsonSuccess({data:{}},{value:moment().diff(stamp),max:2000});
-      
     } else userNotFound();
   }
   

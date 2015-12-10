@@ -11,12 +11,12 @@ app.controller('frameActionTableAdd',['$scope','$element','$uibModal',
     
     if (Utils.isObject($scope.action) && Utils.isObject($scope.action.table)) {
       
-      /*$scope.action.table.processing = true;
+      $scope.action.table.processing = true;
       
-      $scope.action.frames(function(d){
+      $scope.action.frame(function(d){
         
         $scope.action.table.processing = false;
-      });*/
+      });
       
       /*Alert.info($scope.action.table.name);
       

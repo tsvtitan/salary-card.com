@@ -5,6 +5,7 @@ var apiPage = api.concat('/page');
 var apiTable = api.concat('/table');
 var apiChart = api.concat('/chart');
 var apiForm = api.concat('/form');
+var apiFrame = api.concat('/frame');
 
 var images = root.concat('/images');
 var userImages = images.concat('/users/{id}');
@@ -32,6 +33,8 @@ app.constant('Urls',{
   chartAction: apiChart.concat('/action'),
   
   formGet: apiForm.concat('/get'),
+  
+  frameGet: apiFrame.concat('/frame'),
   
   captchaLogin: root.concat('/captcha/login'),
   

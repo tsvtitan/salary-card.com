@@ -1,6 +1,6 @@
 
-app.factory('Table',['$http','$q','Urls','Utils','Dictionary','Payload','Const','Alert',
-                      function($http,$q,Urls,Utils,Dictionary,Payload,Const,Alert) {
+app.factory('Table',['$http','$q','Urls','Utils','Dictionary','Payload','Const','Alert','Frame',
+                      function($http,$q,Urls,Utils,Dictionary,Payload,Const,Alert,Frame) {
   
   
   var factory = {
@@ -21,8 +21,6 @@ app.factory('Table',['$http','$q','Urls','Utils','Dictionary','Payload','Const',
            .success(result)
            .error(function(d){ result({error:Dictionary.connectionFailed(d)}); });  
     }
-    
-    
   }
   
   function prepareTable(table) {
@@ -77,9 +75,11 @@ app.factory('Table',['$http','$q','Urls','Utils','Dictionary','Payload','Const',
         };
       }
       
-      if (!Utils.isFunction(action.frames)) {
+      if (!Utils.isFunction(action.frame) && Utils.isObject(action.frame)) {
         
-        action.frames = function(result) {
+        var frame = action.frame;
+        
+        action.frame = function(result) {
           
           
         }
