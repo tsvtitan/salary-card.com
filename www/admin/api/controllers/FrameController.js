@@ -21,24 +21,24 @@ module.exports = {
       
       async.waterfall([
 
-        function getPage(ret){
-
-          var where = {name:(req.body)?req.body.name:null};
-          var fields = {name:1,type:1,class:1,template:1,header:1,body:1,footer:1,frame:1,content:1,
-                      collapsed:1,canClose:1,canCollapse:1,canLoad:1,locked:1};
-
-          Users.getModelRecord(req.session.userId,Pages,fields,where,null,null,
-                               function(err,page,user){
-            ret(err,page,user);
-          });
+        function getFrame(ret){
+          
+          //log.debug(req.body);
+          
+          if (req.body && Utils.isObject(req.body.frame)) {
+            
+            ret(null,req.body.frame);
+            
+          } else ret(null,null);
+          
         },
 
-        function getFrame(page,user,ret){
+        function prepareFrame(frame,ret){
 
-          if (page && Utils.isObject(page.frame)) {
+          if (Utils.isObject(frame)) {
             
-            FrameService.prepareFrame(user,page.frame,function(err,frame){
-              ret(err,frame);
+            FrameService.prepareFrame(req.session.userId,frame,function(err,frm){
+              ret(err,frm);
             });  
             
           } else ret(null,null);

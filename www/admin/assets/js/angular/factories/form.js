@@ -1,6 +1,6 @@
 
-app.factory('Form',['$http','$q','Urls','Utils','Dictionary','Payload','Const','Alert',
-                     function($http,$q,Urls,Utils,Dictionary,Payload,Const,Alert) {
+app.factory('Form',['$http','$q','Urls','Utils','Dictionary','Payload','Const','Alert','Log',
+                     function($http,$q,Urls,Utils,Dictionary,Payload,Const,Alert,Log) {
   
   var factory = {
     
@@ -64,6 +64,28 @@ app.factory('Form',['$http','$q','Urls','Utils','Dictionary','Payload','Const','
       
       form.toggle = function() {
         form.collapsed = !form.collapsed;
+      }
+    }
+    
+    if (!Utils.isFunction(form.submit)) {
+      
+      form.submit = function(fm) {
+        Alert.info('submit submit');
+        Log.debug(fm);
+      }
+    }
+    
+    if (!Utils.isFunction(form.click)) {
+      
+      form.click = function(action) {
+        
+        if (Utils.isObject(action)) {
+          
+          if (action.name==='submit') form.submit();
+          else {
+            Alert.info(action.name);
+          }
+        }
       }
     }
     

@@ -3,20 +3,11 @@ app.controller('frameForm',['$scope','Const','Alert',
                             function($scope,Const,Alert){
   
   $scope.submit = function() {
-    Alert.info('submit');
-    if ($scope.form && $scope.form.submit && $scope.form.submit.page) {
-      $scope.reload($scope.form.submit.page);
-      //$scope.event($scope.form.submit.event,params);
-    }
+    if ($scope.form) $scope.form.submit(this[$scope.form.name]);
   }
   
-  $scope.click = function(button) {
-    Alert.info(button.title);
-    if (button.name==='submit') {
-      if (button.page) {
-        $scope.reload(button.page);
-      }
-    }
+  $scope.click = function(action) {
+    if ($scope.form) $scope.form.cancel(action);
   }
   
   if ($scope.form) {

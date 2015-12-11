@@ -1,15 +1,12 @@
 <div class="hr-line-dashed"></div>
 
-<div class="form-group" data-ng-show="form.submit || form.buttons">
+<div class="form-group" data-ng-show="form.actions">
   
   <div class="text-center">
     
-    <button class="btn" type="submit" 
-            data-ng-if="form.submit" data-ng-class="(form.submit.class)?form.submit.class:'btn-primary'">{{ dic((form.submit && form.submit.title)?form.submit.title:'ОК') }}</button>
-  
-    <button class="btn" type="button"
-            data-ng-repeat="b in form.buttons" data-ng-class="(b.class)?b.class:'btn-white'"
-            data-ng-click="click(b)">{{ dic((b.title)?b.title:b.name) }}</button>
+    <button class="btn" type="button" data-ng-type="{'submit':a.name='submit'}"
+            data-ng-repeat="a in form.actions" data-ng-class="(a.class)?a.class:((a.name!=='submit')?'btn-white':'btn-primary')"
+            data-ng-click="(a.name!=='submit')?click(a):submit()">{{ dic((a.title)?a.title:a.name) }}</button>
     
   </div>
   

@@ -6,16 +6,6 @@ app.factory('Frame',['$http','$controller',
                               Utils,Dictionary,Urls,Payload,
                               Table,Chart,Form) {
   
-  var factory = {
-    
-     get: function(d,result) {
-      
-      $http.post(Urls.frameGet,Payload.get(d))
-           .success(result)
-           .error(function(d){ result({error:Dictionary.connectionFailed(d)}); });  
-    }
-  }
-  
   function prepareFrame(frame) {
 
     if (Utils.isObject(frame)) {
@@ -77,8 +67,20 @@ app.factory('Frame',['$http','$controller',
     }
   }
 
- factory.prepare = function(frame) {
-    prepareFrame(frame);
+  var factory = {
+    
+     get: function(frame,result) {
+      
+      $http.post(Urls.frameGet,Payload.get({frame:frame}))
+           .success(function(d){
+             result(Utils.extend(d,prepareFrame(d.frame)));
+           })
+           .error(function(d){ result({error:Dictionary.connectionFailed(d)}); });  
+    },
+    
+    prepare: function(frame) {
+      prepareFrame(frame);
+    }
   }
   
   return factory;

@@ -4,16 +4,16 @@ app.factory('Chart',['$http','$q','Urls','Utils','Dictionary','Payload','Const',
   
   var factory = {
     
-    get: function(d,result) {
+    data: function(d,result) {
       
-      $http.post(Urls.chartGet,Payload.get(d))
+      $http.post(Urls.chartData,Payload.get(d))
            .success(result)
            .error(function(d){ result({error:Dictionary.connectionFailed(d)}); });  
     },
     
-    action: function(d,result) {
+    action: function(action,result) {
       
-      $http.post(Urls.chartAction,Utils.makeFormData(Payload.get(d)),{
+      $http.post(Urls.chartAction,Utils.makeFormData(Payload.get({action:action})),{
                   headers: {'Content-Type':undefined},
                             transformRequest:angular.identity
                 })
@@ -30,8 +30,8 @@ app.factory('Chart',['$http','$q','Urls','Utils','Dictionary','Payload','Const',
 
         var deferred = $q.defer();
         var data = {
-          name: chart.name,
-          action: name,
+          name: name,
+          chart: chart.name,
           params: params,
           files: files
         };
@@ -178,7 +178,7 @@ app.factory('Chart',['$http','$q','Urls','Utils','Dictionary','Payload','Const',
           chart.loading = true;
           chart.loadCallback = undefined;
 
-          factory.get({name:chart.name,options:opts},function(d){
+          factory.data({name:chart.name,options:opts},function(d){
 
             chart.loadOptions = opts;
 

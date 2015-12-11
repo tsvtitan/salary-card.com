@@ -26,15 +26,15 @@ app.constant('Urls',{
   pageFrames: apiPage.concat('/frames'),
   pageFrame: apiPage.concat('/frame'),
   
-  tableGet: apiTable.concat('/get'),
+  tableData: apiTable.concat('/data'),
   tableAction: apiTable.concat('/action'),
   
-  chartGet: apiChart.concat('/get'),
+  chartData: apiChart.concat('/data'),
   chartAction: apiChart.concat('/action'),
   
   formGet: apiForm.concat('/get'),
   
-  frameGet: apiFrame.concat('/frame'),
+  frameGet: apiFrame.concat('/get'),
   
   captchaLogin: root.concat('/captcha/login'),
   

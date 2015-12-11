@@ -3,10 +3,11 @@ app.constant('Const',{
   
   checkFields: 'Проверьте поля',
   connectionFailed: 'Соединение разорвано',
-  pageNotAvailable: 'Страница не найдена',
-  tableNotAvailable: 'Таблица не найдена',
-  chartNotAvailable: 'График не найден',
-  formNotAvailable: 'Форма не найдена',
+  pageNotAvailable: 'Страница не доступна',
+  tableNotAvailable: 'Таблица не доступна',
+  chartNotAvailable: 'График не доступен',
+  formNotAvailable: 'Форма не доступна',
+  frameNotAvailable: 'Фрейм не доступен',
   
   alertError: 'Ошибка',
   alertInfo: 'Информация',

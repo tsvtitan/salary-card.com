@@ -1,8 +1,8 @@
 
 app.controller('frameActionTableAdd',['$scope','$element','$uibModal',
-                                      'Dictionary','Utils','Log','Alert',
+                                      'Dictionary','Utils','Log','Alert','Frame',
                                       function($scope,$element,$uibModal,
-                                               Dictionary,Utils,Log,Alert) {
+                                               Dictionary,Utils,Log,Alert,Frame) {
                                            
   $scope.dic = Dictionary.dic($element); 
   $scope.modalController = 'frameActionTableAddModal';
@@ -13,22 +13,28 @@ app.controller('frameActionTableAdd',['$scope','$element','$uibModal',
       
       $scope.action.table.processing = true;
       
-      $scope.action.frame(function(d){
+      Frame.get($scope.action.frame,function(d){
         
         $scope.action.table.processing = false;
+        
+        if (d.error) Alert.error(d.error);
+        else {
+          
+          var instance = $uibModal.open({
+            animation: true,
+            templateUrl: $scope.modalController+'.html',
+            controller: $scope.modalController,
+            resolve: {
+              dic: function() { return $scope.dic; },
+              action: function() { return $scope.action; },
+              frame: function() { return d.frame; }
+            }
+          });
+        }
+        
       });
       
       /*Alert.info($scope.action.table.name);
-      
-      var instance = $uibModal.open({
-        animation: true,
-        templateUrl: $scope.modalController+'.html',
-        controller: $scope.modalController,
-        resolve: {
-          action: function() { return $scope.action; },
-          dic: function() { return $scope.dic; }
-        }
-      });
       
       instance.result.then(function (selectedItem) {
         $scope.selected = selectedItem;
@@ -41,17 +47,13 @@ app.controller('frameActionTableAdd',['$scope','$element','$uibModal',
   
 }]);
 
-app.controller('frameActionTableAddModal',['$scope','$uibModalInstance','action','dic',
+app.controller('frameActionTableAddModal',['$scope','$uibModalInstance','dic','action','frame',
                                                 'Utils','Alert','Dictionary',
-                                                function($scope,$uibModalInstance,action,dic,
+                                                function($scope,$uibModalInstance,dic,action,frame,
                                                          Utils,Alert,Dictionary) {
 
   $scope.dic = dic;
-  $scope.action = action;
-  
-  $scope.selected = {
-    item: "123"
-  };
+  $scope.frame = frame;
   
   $scope.ok = function () {
     

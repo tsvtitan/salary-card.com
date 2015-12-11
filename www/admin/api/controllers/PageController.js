@@ -33,7 +33,7 @@ module.exports = {
           });
         },
 
-        function getFrames(page,user,ret){
+        function prepareFrames(page,user,ret){
 
           if (page && Utils.isArray(page.frames)) {
             
@@ -81,7 +81,7 @@ module.exports = {
           });
         },
 
-        function getFrame(page,user,ret){
+        function prepareFrame(page,user,ret){
 
           if (page && Utils.isObject(page.frame)) {
             

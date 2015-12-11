@@ -3,7 +3,9 @@
 module.exports = {
   
   prepareFrames: function(user,frames,result) {
-
+    
+    var log = this.log;
+    
     async.waterfall([
 
       function prepare(ret){
@@ -56,7 +58,7 @@ module.exports = {
                   case 'form': {
                     model = Forms;
                     fields = Utils.extend(fields,{icon:1,options:1,class:1});
-                    fields = Utils.extend(fields,{fields:1,page:1,buttons:1,submit:1,list:1});
+                    fields = Utils.extend(fields,{fields:1,page:1,actions:1,submit:1,list:1});
                   }
                 }
 
@@ -124,9 +126,11 @@ module.exports = {
                 if (Utils.isArray(r.actions) && r.actions.length>0) {
 
                   async.map(r.actions,function(a,cb1){
-
+                    
                     Permissions.asOr(user,i.name,a.name,false,function(err,access){
-
+                      
+                      //log.debug({name:i.name,action:a.name,access:access});
+                      
                       if (a && !access) {
                         a = null;
                       }

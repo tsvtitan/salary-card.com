@@ -26,13 +26,13 @@ module.exports = {
     } else res.userNotFound();
   },
   
-  get: function(req,res) {
+  data: function(req,res) {
     
     var log = this.log;
     
     function error(s) {
       log.error(s,null,1);
-      res.jsonError('Get error');
+      res.jsonError('Data error');
     }
     
     function userNotFound(){

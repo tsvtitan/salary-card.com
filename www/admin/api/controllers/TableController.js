@@ -24,13 +24,13 @@ module.exports = {
         
         function getTable(ret) {
           
-          if (req.body && req.body.name && req.body.action) {
+          //log.debug(req.body);
+          
+          if (req.body && Utils.isObject(req.body.action)) {
             
-            //log.debug(req.body);
-            
-            Tables.findOneByName(req.body.name,function(err,table){
+            Tables.findOneByName(req.body.action.table,function(err,table){
               
-              ret(err,table,req.body.action);
+              ret(err,table,req.body.action.name);
             });
             
           } else ret('Body is not found');
@@ -166,13 +166,13 @@ module.exports = {
     } else res.userNotFound();
   },
   
-  get: function(req,res) {
+  data: function(req,res) {
     
     var log = this.log;
     
     function error(s) {
       log.error(s,null,1);
-      res.jsonError('Get error');
+      res.jsonError('Data error');
     }
     
     function userNotFound(){

@@ -1,13 +1,13 @@
 
-app.factory('Table',['$http','$q','Urls','Utils','Dictionary','Payload','Const','Alert','Frame',
-                      function($http,$q,Urls,Utils,Dictionary,Payload,Const,Alert,Frame) {
+app.factory('Table',['$http','$q','Urls','Utils','Dictionary','Payload','Const','Alert',
+                      function($http,$q,Urls,Utils,Dictionary,Payload,Const,Alert) {
   
   
   var factory = {
     
-    action: function(d,result) {
+    action: function(action,result) {
       
-      $http.post(Urls.tableAction,Utils.makeFormData(Payload.get(d)),{
+      $http.post(Urls.tableAction,Utils.makeFormData(Payload.get({action:action})),{
                   headers: {'Content-Type':undefined},
                             transformRequest:angular.identity
                 })
@@ -15,9 +15,9 @@ app.factory('Table',['$http','$q','Urls','Utils','Dictionary','Payload','Const',
            .error(function(d) { result({error:Dictionary.connectionFailed(d)}); });
     },
 
-    get: function(d,result) {
+    data: function(d,result) {
       
-      $http.post(Urls.tableGet,Payload.get(d))
+      $http.post(Urls.tableData,Payload.get(d))
            .success(result)
            .error(function(d){ result({error:Dictionary.connectionFailed(d)}); });  
     }
@@ -31,8 +31,8 @@ app.factory('Table',['$http','$q','Urls','Utils','Dictionary','Payload','Const',
 
         var deferred = $q.defer();
         var data = {
-          name: table.name,
-          action: name,
+          name: name,
+          table: table.name,
           params: params,
           files: files
         };
@@ -75,15 +75,17 @@ app.factory('Table',['$http','$q','Urls','Utils','Dictionary','Payload','Const',
         };
       }
       
-      if (!Utils.isFunction(action.frame) && Utils.isObject(action.frame)) {
+      /*if (!Utils.isFunction(action.frame) && Utils.isObject(action.frame)) {
         
         var frame = action.frame;
         
         action.frame = function(result) {
           
-          
+          Frame.get(frame,function(d){
+            result(d);
+          });
         }
-      }
+      }*/
     }
     
     if (Utils.isArray(table.actions)) {
@@ -284,7 +286,7 @@ app.factory('Table',['$http','$q','Urls','Utils','Dictionary','Payload','Const',
           if (table.options.api) table.options.api.showLoadingOverlay();
           table.loadCallback = undefined;
 
-          factory.get({name:table.name,options:opts},function(d){
+          factory.data({name:table.name,options:opts},function(d){
 
             table.loadOptions = opts;
 

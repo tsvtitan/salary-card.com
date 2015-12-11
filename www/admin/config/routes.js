@@ -63,11 +63,11 @@ module.exports.routes = {
   'post /admin/api/page/frame': {controller:'PageController', action:'frame', policy:'accessGranted'},
   
   '/admin/api/table': {controller:'TableController', action:'index', policy:'accessGranted'},
-  'post /admin/api/table/get': {controller:'TableController', action:'get', policy:'accessGranted'},
+  'post /admin/api/table/data': {controller:'TableController', action:'data', policy:'accessGranted'},
   'post /admin/api/table/action': {controller:'TableController', action:'action', policy:'accessGranted'},
 
   '/admin/api/chart': {controller:'ChartController', action:'index', policy:'accessGranted'},
-  'post /admin/api/chart/get': {controller:'ChartController', action:'get', policy:'accessGranted'},
+  'post /admin/api/chart/data': {controller:'ChartController', action:'data', policy:'accessGranted'},
   'post /admin/api/chart/action': {controller:'ChartController', action:'action', policy:'accessGranted'},
   
   '/admin/api/frame': {controller:'FrameController', action:'index', policy:'accessGranted'},
