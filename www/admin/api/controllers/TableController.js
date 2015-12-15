@@ -6,8 +6,32 @@ module.exports = {
   index: function(req,res) {
     res.jsonSuccess();
   },
-  
+
   action: function(req,res) {
+    
+    var log = this.log;
+    
+    function error(s) {
+      log.error(s,null,1);
+      res.jsonError('Action error');
+    }
+    
+    if (req.session && req.session.userId) {
+      
+      var stamp = new Date();
+      
+      ActionService.executeRequest(req,TablesModel,false,function(err,result){
+        
+        if (err) error(err);
+        else {
+          res.jsonSuccess(result,moment().diff(stamp));
+        }
+      });
+      
+    } else res.userNotFound();
+  },
+  
+ /*action: function(req,res) {
     
     var log = this.log;
     
@@ -24,11 +48,18 @@ module.exports = {
         
         function getTable(ret) {
           
-          //log.debug(req.body);
-          
-          if (req.body && Utils.isObject(req.body.action)) {
+          if (req.body) {
             
-            TablesModel.findOneByName(req.body.action.table,function(err,table){
+            if (!Utils.isObject(req.body.action)) {
+              
+              try {
+                req.body.action = JSON.parse(req.body.action);
+              } catch (e) {
+                ret(e.message);
+              }
+            }
+            
+            TablesModel.findOneByName(req.body.action.entity,function(err,table){
               
               ret(err,table,req.body.action.name);
             });
@@ -164,7 +195,7 @@ module.exports = {
       });
       
     } else res.userNotFound();
-  },
+  },*/
   
   data: function(req,res) {
     

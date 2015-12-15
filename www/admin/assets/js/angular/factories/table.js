@@ -32,7 +32,7 @@ app.factory('Table',['$http','$q','Urls','Utils','Dictionary','Payload','Const',
         var deferred = $q.defer();
         var data = {
           name: name,
-          table: table.name,
+          entity: table.name,
           params: params,
           files: files
         };

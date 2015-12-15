@@ -107,6 +107,13 @@ module.exports = {
       
     } else result(null,{reload:true});
 
+  },
+  
+  strengthAdd: function(user,params,files,result) {
+    
+    this.log.debug(params);
+    
+    result(null,{});
   }
   
 }

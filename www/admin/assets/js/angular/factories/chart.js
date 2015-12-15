@@ -31,7 +31,7 @@ app.factory('Chart',['$http','$q','Urls','Utils','Dictionary','Payload','Const',
         var deferred = $q.defer();
         var data = {
           name: name,
-          chart: chart.name,
+          entity: chart.name,
           params: params,
           files: files
         };
