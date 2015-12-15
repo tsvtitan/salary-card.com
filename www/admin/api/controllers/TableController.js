@@ -28,7 +28,7 @@ module.exports = {
           
           if (req.body && Utils.isObject(req.body.action)) {
             
-            Tables.findOneByName(req.body.action.table,function(err,table){
+            TablesModel.findOneByName(req.body.action.table,function(err,table){
               
               ret(err,table,req.body.action.name);
             });
@@ -40,8 +40,8 @@ module.exports = {
           
           if (table) {
             
-            Permissions.asOr(req.session.userId,table.name,action,false,
-                             function(err,access,user){
+            PermissionsModel.asOr(req.session.userId,table.name,action,false,
+                                  function(err,access,user){
 
               ret(err,access,table.model,action,user);
             });
@@ -53,7 +53,7 @@ module.exports = {
           
           if (access) {
             
-            var obj = Utils.find(sails.models,function(m){
+            var obj = Utils.find(Models,function(m){
               return m.globalId === model;
             });
 
@@ -189,7 +189,7 @@ module.exports = {
 
           if (req.body && req.body.name && req.body.options) {
 
-            Tables.findOneByName(req.body.name,function(err,table){
+            TablesModel.findOneByName(req.body.name,function(err,table){
 
               ret(err,table,req.body.options);
             });
@@ -201,7 +201,7 @@ module.exports = {
 
           if (table) {
 
-            var obj = Utils.find(sails.models,function(m){
+            var obj = Utils.find(Models,function(m){
               return m.globalId === table.model;
             });
 

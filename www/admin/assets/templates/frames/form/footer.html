@@ -6,7 +6,7 @@
     
     <button class="btn" type="button" data-ng-type="{'submit':a.name='submit'}"
             data-ng-repeat="a in form.actions" data-ng-class="(a.class)?a.class:((a.name!=='submit')?'btn-white':'btn-primary')"
-            data-ng-click="(a.name!=='submit')?click(a):submit()">{{ dic((a.title)?a.title:a.name) }}</button>
+            data-ng-click="(a.name!=='submit')?this[a.name](a):submit()">{{ dic((a.title)?a.title:a.name) }}</button>
     
   </div>
   

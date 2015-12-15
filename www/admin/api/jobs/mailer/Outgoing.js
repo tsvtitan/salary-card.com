@@ -66,10 +66,10 @@ module.exports = {
             attachments: 1
           };
           
-          Messages.find({where:where,sort:sort,limit:options.limit},{fields:fields},
-                        function(err,msgs){
+          MessagesModel.find({where:where,sort:sort,limit:options.limit},{fields:fields},
+                             function(err,msgs){
                           
-                          console.log(msgs);
+            //console.log(msgs);
             result(err,msgs);
           });
         },
@@ -82,7 +82,7 @@ module.exports = {
             
             async.map(msgs,function(m,ret){
               
-              Messages.update({id:m.id},{locked:locked},function(err,updated){
+              MessagesModel.update({id:m.id},{locked:locked},function(err,updated){
                 
                 if (!err && updated) {
                   m.locked = locked;
@@ -130,7 +130,7 @@ module.exports = {
                 errorCount: (m.errorCount)?m.errorCount:null
               };
               
-              Messages.update({id:m.id},obj,function(err,updated){
+              MessagesModel.update({id:m.id},obj,function(err,updated){
                 
                 ret(err,{id:m.id,updated:updated});
               });

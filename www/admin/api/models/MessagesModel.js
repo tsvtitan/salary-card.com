@@ -1,7 +1,8 @@
 // Messages
 
 module.exports = {
-
+  
+  tableName: 'messages',
   migrate: 'safe',
   autoPK: true,
   autoCreatedAt: false,

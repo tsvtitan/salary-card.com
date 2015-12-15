@@ -9,6 +9,10 @@ app.factory('Form',['$http','$q','Urls','Utils','Dictionary','Payload','Const','
       $http.post(Urls.formGet,Payload.get(d))
            .success(result)
            .error(function(d){ result({error:Dictionary.connectionFailed(d)}); });  
+    },
+    
+    submit: function() {
+      
     }
   }
 
@@ -69,23 +73,15 @@ app.factory('Form',['$http','$q','Urls','Utils','Dictionary','Payload','Const','
     
     if (!Utils.isFunction(form.submit)) {
       
-      form.submit = function(fm) {
-        Alert.info('submit submit');
-        Log.debug(fm);
-      }
-    }
-    
-    if (!Utils.isFunction(form.click)) {
-      
-      form.click = function(action) {
+      form.submit = function(data) {
         
-        if (Utils.isObject(action)) {
+        
+        factory.submit(data,function(d){
           
-          if (action.name==='submit') form.submit();
-          else {
-            Alert.info(action.name);
-          }
-        }
+        });
+        
+        //var fm = this[form.name];
+        Log.debug(data);
       }
     }
     

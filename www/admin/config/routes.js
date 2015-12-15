@@ -70,8 +70,14 @@ module.exports.routes = {
   'post /admin/api/chart/data': {controller:'ChartController', action:'data', policy:'accessGranted'},
   'post /admin/api/chart/action': {controller:'ChartController', action:'action', policy:'accessGranted'},
   
+  '/admin/api/form': {controller:'FormController', action:'index', policy:'accessGranted'},
+  'post /admin/api/form/get': {controller:'FormController', action:'get', policy:'accessGranted'},
+  'post /admin/api/form/action': {controller:'FormController', action:'action', policy:'accessGranted'},
+  
   '/admin/api/frame': {controller:'FrameController', action:'index', policy:'accessGranted'},
   'post /admin/api/frame/get': {controller:'FrameController', action:'get', policy:'accessGranted'},
+  
+  
 
   '/admin/api/mailer': {controller:'MailerController', action:'index', policy:'accessGranted'},
   'post /admin/api/mailer/send': {controller:'MailerController', action:'send', policy:'accessGranted'},

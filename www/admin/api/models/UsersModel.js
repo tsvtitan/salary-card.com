@@ -3,7 +3,8 @@
 var bcrypt = require('bcrypt');    
 
 module.exports = {
-
+  
+  tableName: 'users',
   migrate: 'safe',
   autoPK: true,
   autoCreatedAt: false,
@@ -180,7 +181,7 @@ module.exports = {
         
         function getAccess(ret) {
           
-          Permissions.asWhere(userOrId,model.tableName,'view',def,function(err,access,user){
+          PermissionsModel.asWhere(userOrId,model.tableName,'view',def,function(err,access,user){
             
             ret(err,access,user);
           });
@@ -266,14 +267,14 @@ module.exports = {
 
             items.push({
               name: 'pages',
-              model: Pages,
+              model: PagesModel,
               where: {},
               fields: {name:1,title:1,description:1,url:1,template:1,breadcrumbs:1}
             });
             
             items.push({
               name: 'menu',
-              model: Menu,
+              model: MenuModel,
               where: {},
               fields: {title:1,description:1,page:1,items:1,class:1}
             });

@@ -1,13 +1,13 @@
 
 module.exports = {
-
+  
+  tableName: 'charts',
   migrate: 'safe',
-  autoPK: true, // need for id
+  autoPK: true,
   autoCreatedAt: false,
   autoUpdatedAt: false,
   
   attributes: {
-    
     
     name: {
       type: 'string',
@@ -15,9 +15,13 @@ module.exports = {
     },
     title: 'string',
     description: 'string',
-    url: 'string',
-    template: 'string',
-    priority: 'integer',
+    icon: 'string',
+    template: 'stirng',
+    canCollapse: 'boolean',
+    collapsed: 'boolean',
+    canClose: 'boolean',
+    options: 'json',
+    controller: 'string',
     locked: 'datetime',
     lang: 'string',
     

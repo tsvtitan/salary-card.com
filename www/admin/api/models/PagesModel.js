@@ -1,12 +1,14 @@
 
 module.exports = {
 
+  tableName: 'pages',
   migrate: 'safe',
-  autoPK: true,
+  autoPK: true, // need for id
   autoCreatedAt: false,
   autoUpdatedAt: false,
   
   attributes: {
+    
     
     name: {
       type: 'string',
@@ -14,14 +16,9 @@ module.exports = {
     },
     title: 'string',
     description: 'string',
-    //model: 'string',
-    template: 'stirng',
-    controller: 'string',
-    canCollapse: 'boolean',
-    collapsed: 'boolean',
-    canClose: 'boolean',
-    canReload: 'boolean',
-    options: 'json',
+    url: 'string',
+    template: 'string',
+    priority: 'integer',
     locked: 'datetime',
     lang: 'string',
     

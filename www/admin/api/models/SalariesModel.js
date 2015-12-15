@@ -2,7 +2,8 @@
 var XLSX = require('xlsx');
 
 module.exports = {
-
+  
+  tableName: 'salaries',
   migrate: 'safe',
   autoPK: true,
   autoCreatedAt: false,
@@ -43,7 +44,7 @@ module.exports = {
           history: true
         };
         
-        Imports.fromFiles(user,self,files,['xlsx','xls'],options,function(imp,cb){
+        ImportsModel.fromFiles(user,self,files,['xlsx','xls'],options,function(imp,cb){
           
           try {
             

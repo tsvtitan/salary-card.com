@@ -67,15 +67,18 @@ module.exports = function() {
   utils.forEach(sails.services,function(service){
     service = log.extend(service,'services',service.globalId,null,true);
   });
+  global['Services'] = sails.services;
 
   utils.forEach(sails.models,function(model){
     model = log.extend(model,'models',model.globalId,null,true);
     model = extendModel(utils,model);
   });
+  global['Models'] = sails.models;
 
   utils.forEach(sails.controllers,function(controller){
     controller = log.extend(controller,'controllers',controller.globalId+'Controller',null,true);
   });
+  global['Controllers'] = sails.controllers;
   
   global['Jobs'] = jobs = Jobs();
   global['Channels'] = channels = Channels();

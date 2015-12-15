@@ -58,9 +58,9 @@ module.exports = {
               priority: priority
             }
             
-            Messages.create(message,function(err,m){
+            MessagesModel.create(message,function(err,m){
 
-              Messages.notifyCreate(m);
+              MessagesModel.notifyCreate(m);
               result(err,m);
             });
             

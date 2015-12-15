@@ -27,7 +27,7 @@ module.exports = {
           var fields = {name:1,type:1,class:1,template:1,header:1,body:1,footer:1,frames:1,content:1,
                       collapsed:1,canClose:1,canCollapse:1,canLoad:1,locked:1};
 
-          Users.getModelRecord(req.session.userId,Pages,fields,where,null,null,
+          Users.getModelRecord(req.session.userId,PagesModel,fields,where,null,null,
                                function(err,page,user){
             ret(err,page,user);
           });
@@ -75,7 +75,7 @@ module.exports = {
           var fields = {name:1,type:1,class:1,template:1,header:1,body:1,footer:1,frame:1,content:1,
                       collapsed:1,canClose:1,canCollapse:1,canLoad:1,locked:1};
 
-          Users.getModelRecord(req.session.userId,Pages,fields,where,null,null,
+          Users.getModelRecord(req.session.userId,PagesModel,fields,where,null,null,
                                function(err,page,user){
             ret(err,page,user);
           });

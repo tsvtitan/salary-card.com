@@ -1,6 +1,7 @@
 
 module.exports = {
-
+  
+  tableName: 'menu',
   migrate: 'safe',
   autoPK: true, //need for id
   autoCreatedAt: false,
@@ -52,7 +53,7 @@ module.exports = {
           
           if (user) {
             
-            Permissions.forFind(user,'menu','view',function(err,access){
+            PermissionsModel.forFind(user,'menu','view',function(err,access){
               
               ret(err,access);
             });

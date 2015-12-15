@@ -1,6 +1,7 @@
 
 module.exports = {
-
+  
+  tableName: 'tables',
   migrate: 'safe',
   autoPK: true,
   autoCreatedAt: false,

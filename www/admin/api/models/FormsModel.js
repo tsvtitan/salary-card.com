@@ -1,6 +1,7 @@
 
 module.exports = {
-
+  
+  tableName: 'forms',
   migrate: 'safe',
   autoPK: true,
   autoCreatedAt: false,
@@ -14,13 +15,14 @@ module.exports = {
     },
     title: 'string',
     description: 'string',
-    icon: 'string',
+    //model: 'string',
     template: 'stirng',
+    controller: 'string',
     canCollapse: 'boolean',
     collapsed: 'boolean',
     canClose: 'boolean',
+    canReload: 'boolean',
     options: 'json',
-    controller: 'string',
     locked: 'datetime',
     lang: 'string',
     

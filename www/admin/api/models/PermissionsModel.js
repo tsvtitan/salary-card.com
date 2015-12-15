@@ -1,6 +1,7 @@
 
 module.exports = {
 
+  tableName: 'permissions',
   migrate: 'safe',
   autoPK: true,
   autoCreatedAt: false,

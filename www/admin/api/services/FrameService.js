@@ -33,7 +33,7 @@ module.exports = {
                 switch (frame.type) {
 
                   case 'table': {
-                    model = Tables;
+                    model = TablesModel;
                     fields = Utils.extend(fields,{model:1,icon:1,options:1,class:1,children:1});
                     fields = Utils.extend(fields,{columnDefs:1,headerName:1,field:1,hide:1,rowSelection:1,enableSorting:1,pinnedColumnCount:1,
                                                   rowHeight:1,enableColResize:1,showToolPanel:1,singleClickEdit:1,suppressScrollLag:1,width:1,
@@ -41,7 +41,7 @@ module.exports = {
                     break;
                   }
                   case 'chart': {
-                    model = Charts;
+                    model = ChartsModel;
                     fields = Utils.extend(fields,{icon:1,options:1,class:1});
                     fields = Utils.extend(fields,{chart:1,type:1,margin:1,top:1,right:1,bottom:1,left:1,
                                                   showValues:1,valueFormat:1,transitionDuration:1,xAxis:1,axisLabel:1,yAxis:1,
@@ -56,7 +56,7 @@ module.exports = {
                     break;
                   }
                   case 'form': {
-                    model = Forms;
+                    model = FormsModel;
                     fields = Utils.extend(fields,{icon:1,options:1,class:1});
                     fields = Utils.extend(fields,{fields:1,page:1,actions:1,submit:1,list:1});
                   }
@@ -97,7 +97,7 @@ module.exports = {
 
                   case 'table': {
 
-                    var model = Utils.find(sails.models,function(m){
+                    var model = Utils.find(Models,function(m){
                       return m.globalId === r.model;
                     });
 
@@ -127,7 +127,7 @@ module.exports = {
 
                   async.map(r.actions,function(a,cb1){
                     
-                    Permissions.asOr(user,i.name,a.name,false,function(err,access){
+                    PermissionsModel.asOr(user,i.name,a.name,false,function(err,access){
                       
                       //log.debug({name:i.name,action:a.name,access:access});
                       
