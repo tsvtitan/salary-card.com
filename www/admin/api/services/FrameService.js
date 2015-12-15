@@ -88,8 +88,8 @@ module.exports = {
 
           async.map(items,function(i,cb){
 
-            Users.getModelRecord(user,i.model,i.fields,i.where,null,{},
-                                 function(err,r,user){
+            UsersModel.getModelRecord(user,i.model,i.fields,i.where,null,{},
+                                      function(err,r,user){
 
               if (!err && r) {
 

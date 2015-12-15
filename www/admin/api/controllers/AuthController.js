@@ -38,10 +38,10 @@ module.exports = {
             var loginCount = (req.session.loginCount)?req.session.loginCount:0;
             var lockOnFail = (loginCount+1)>8;
 
-            Users.getByLogin(req.body.login,req.body.pass,
-                             lockOnFail,true,
-                             function(err,user,env){
-              
+            UsersModel.getByLogin(req.body.login,req.body.pass,
+                                  lockOnFail,true,
+                                  function(err,user,env){
+
               if (err) error(err);
               else {
 

@@ -15,7 +15,7 @@ module.exports = {
       
       if (req.session && req.session.userId) {
         
-        Users.getEnvironment(req.session.userId,function(err,user,env){
+        UsersModel.getEnvironment(req.session.userId,function(err,user,env){
         
           result(err,user,env,!(user));
         });

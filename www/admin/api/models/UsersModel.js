@@ -43,7 +43,7 @@ module.exports = {
   
   setPassHash: function(user,result) {
     
-    var log = Users.log;
+    var log = UsersModel.log;
     
     if (user.pass) {
       bcrypt.genSalt(10, function(err,salt) {
@@ -411,14 +411,14 @@ module.exports = {
     
     if (req && req.body && req.body.auth) {
             
-      Users.getByLogin(req.body.auth.login,req.body.auth.pass,false,false,
+      UsersModel.getByLogin(req.body.auth.login,req.body.auth.pass,false,false,
                        function(err,user){
         result(err,user);
       });
 
     } else if (req.session && req.session.userId) {
 
-      Users.findOneById(req.session.userId,function(err,user){
+      UsersModel.findOneById(req.session.userId,function(err,user){
         
         if (err) result(err,null);
         else result(null,user);

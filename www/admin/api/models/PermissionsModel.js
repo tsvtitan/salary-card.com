@@ -82,7 +82,7 @@ module.exports = {
         
         function findById(ret){
           
-          Users.findOneById(userOrIdOrLogin,function(err,user){
+          UsersModel.findOneById(userOrIdOrLogin,function(err,user){
             ret(err,user);
           });
         },
@@ -91,7 +91,7 @@ module.exports = {
          
           if (!user) {
             
-            Users.findOneByLogin(userOrIdOrLogin,function(err,user){
+            UsersModel.findOneByLogin(userOrIdOrLogin,function(err,user){
               ret(err,user);
             });
             

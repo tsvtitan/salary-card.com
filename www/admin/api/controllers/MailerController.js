@@ -22,7 +22,7 @@ module.exports = {
         
         function getUser(result){
           
-          Users.getByRequest(req,result);
+          UsersModel.getByRequest(req,result);
         },
         
         function tryCreate(user,result){

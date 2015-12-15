@@ -228,7 +228,7 @@ module.exports = {
 
             var where = {};
 
-            Users.getModelTable(req.session.userId,model,fields,where,table.sort,{},
+            UsersModel.getModelTable(req.session.userId,model,fields,where,table.sort,{},
                                 function(err,data){
 
               ret(err,data);

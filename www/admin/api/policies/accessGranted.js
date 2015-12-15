@@ -6,13 +6,13 @@ module.exports = function(req, res, next) {
   
   if (req.body && req.body.auth) {
     
-    Users.getByLogin(req.body.auth.login,req.body.auth.pass,false,false,
-                     function(err1,user){
+    UsersModel.getByLogin(req.body.auth.login,req.body.auth.pass,false,false,
+                          function(err1,user){
       
       if (err1) res.serverError(err1);
       else if (user) {
         
-        Users.isGranted(user,req.url,req,function(err2,granted){
+        UsersModel.isGranted(user,req.url,req,function(err2,granted){
           
           if (err2) res.serverError(err2);
           else if (granted) {
@@ -27,7 +27,7 @@ module.exports = function(req, res, next) {
     
   } else if (req.session && req.session.userId) {
     
-    Users.isGranted(req.session.userId,req.url,req,function(err,granted) {
+    UsersModel.isGranted(req.session.userId,req.url,req,function(err,granted) {
       
       if (err) res.serverError(err);
       else if (granted) {

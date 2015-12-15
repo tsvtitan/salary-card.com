@@ -42,7 +42,7 @@ module.exports = {
             ret(null,userOrId);
           } else {
             
-            Users.findOneById(userOrId,function(err,user){
+            UsersModel.findOneById(userOrId,function(err,user){
               
               ret(err,user);
             });
