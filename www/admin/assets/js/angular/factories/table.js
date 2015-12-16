@@ -74,18 +74,6 @@ app.factory('Table',['$http','$q','Urls','Utils','Dictionary','Payload','Const',
           executeAction(action.name,params,files,result);
         };
       }
-      
-      /*if (!Utils.isFunction(action.frame) && Utils.isObject(action.frame)) {
-        
-        var frame = action.frame;
-        
-        action.frame = function(result) {
-          
-          Frame.get(frame,function(d){
-            result(d);
-          });
-        }
-      }*/
     }
     
     if (Utils.isArray(table.actions)) {
@@ -276,7 +264,7 @@ app.factory('Table',['$http','$q','Urls','Utils','Dictionary','Payload','Const',
         
         if (table.loading) {
           
-          //Alert.info('Загрузка идет...');
+          Alert.warning(Const.tableLoading);
                   
         } else if (table.canLoad) {
           

@@ -96,7 +96,9 @@ app.factory('Form',['$http','$q','Urls','Utils','Dictionary','Payload','Const','
           };
         
           factory.action(action,function(d){
-
+            
+            //if (!d.error) LocalEvent.post(action.entity);
+              
             if (Utils.isFunction(result)) {
               result(d);
             } else {

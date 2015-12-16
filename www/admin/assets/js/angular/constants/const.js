@@ -4,7 +4,10 @@ app.constant('Const',{
   checkFields: 'Проверьте поля',
   connectionFailed: 'Соединение разорвано',
   pageNotAvailable: 'Страница не доступна',
+  
   tableNotAvailable: 'Таблица не доступна',
+  tableLoading: 'Идет загрузка таблицы...',
+  
   chartNotAvailable: 'График не доступен',
   
   formNotAvailable: 'Форма не доступна',
