@@ -1,6 +1,6 @@
 
-app.controller('pageFrame',['$scope','Page','Utils',
-                             function($scope,Page,Utils) {
+app.controller('pageFrame',['$scope','Page','Utils','Alert','Const',
+                             function($scope,Page,Utils,Alert,Const) {
   
   $scope.page = Page;
   $scope.frame = false;
@@ -20,6 +20,8 @@ app.controller('pageFrame',['$scope','Page','Utils',
       $scope.ready(function(){
         $scope.state.visible = true;
       });
+      
+      if (!$scope.frame) Alert.error(Const.frameNotAvailable);
     }  
     
   });

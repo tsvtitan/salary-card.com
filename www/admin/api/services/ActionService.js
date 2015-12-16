@@ -3,13 +3,15 @@ var fs = require('fs');
 
 module.exports = {
   
-  executeRequest: function(req,entityModel,actionPrefix,result) {
+  executeRequest: function(req,entityModel,result) {
     
     var log = this.log;
     
     async.waterfall([
 
       function getEntity(ret) {
+        
+        log.debug(req.body);
         
         if (req.body) {
           
@@ -25,7 +27,7 @@ module.exports = {
           
           entityModel.findOneByName(action.entity,function(err,entity){
 
-            ret(err,entity,action.name);
+            ret(err,entity,action);
           });
 
         } else ret('Body is not found');
@@ -35,7 +37,7 @@ module.exports = {
 
         if (entity) {
 
-          PermissionsModel.asOr(req.session.userId,entity.name,action,false,
+          PermissionsModel.asOr(req.session.userId,entity.name,action.name,false,
                                 function(err,access,user){
 
             ret(err,access,entity,action,user);
@@ -54,7 +56,7 @@ module.exports = {
 
           if (obj) {
 
-            var name = (actionPrefix)?entity.name+action:action;
+            var name = (action.prefix)?entity.name+action.name:entity.name;
             
             if (Utils.isFunction(obj[name])) {
 

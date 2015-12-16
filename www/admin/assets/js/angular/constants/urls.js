@@ -33,6 +33,7 @@ app.constant('Urls',{
   chartAction: apiChart.concat('/action'),
   
   formGet: apiForm.concat('/get'),
+  formAction: apiForm.concat('/action'),
   
   frameGet: apiFrame.concat('/get'),
   

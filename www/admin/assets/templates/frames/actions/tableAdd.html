@@ -1,34 +1,34 @@
 <script type="text/ng-template" id="frameActionTableAddModal.html">
     
   <div class="inmodal">
-        <!--div class="modal-header">
-            <h3 class="modal-title">I'm a modal!</h3>
-        </div>
-        <div class="modal-body">
-            <ul>
-                <li ng-repeat="item in items">
-                    <a href="#" ng-click="$event.preventDefault(); selected.item = item">{{ item }}</a>
-                </li>
-            </ul>
-            Selected: <b>{{ selected.item }}</b>
-        </div-->
-
-    <div class="ibox float-e-margins">
-
-        <div class="ibox-title">Title</div>
-
-        <div class="ibox-content">
-          <div data-ng-include="'frames/form/bodyStrengthAdd.html'"></div>
-        </div>
-
+    
+    <div class="modal-header">
+      <h3 class="modal-title">
+        <span data-ng-show="form.icon"><i class="fa" data-ng-class="form.icon"></i>&nbsp;&nbsp;</span>
+        <span>{{ dic(form.title) }}</span>
+      </h3>
     </div>
+    
+    <form class="form-horizontal ng-pristine" novalidate name="{{form.name}}"
+          data-ng-submit="submit()">
+      
+      <div class="modal-body">
+      
+        <div data-ng-include="form.header || 'frames/form/header.html'"></div>
+  
+        <div data-ng-include="form.body || 'frames/form/body.html'"></div>
 
-        <!--div class="modal-footer">
-            <button type="button" class="btn btn-primary" data-ng-click="ok()" ladda="action.executing">Save changes</button>
-            <button type="button" class="btn" data-ng-click="alert()">{{ dic('Предупреждение') }}</button>
-            <button type="button" class="btn btn-white" data-ng-click="cancel()">Close</button>
+      </div>
 
-        </div-->
+      <div class="modal-footer" data-ng-show="form.actions">
+
+        <div class="text-center">
+          <div data-ng-include="'frames/form/actions.html'"></div>
+        </div>
+            
+      </div>
+    </form>
+    
   </div>
   
 </script>

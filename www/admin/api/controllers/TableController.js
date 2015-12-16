@@ -20,7 +20,7 @@ module.exports = {
       
       var stamp = new Date();
       
-      ActionService.executeRequest(req,TablesModel,false,function(err,result){
+      ActionService.executeRequest(req,TablesModel,function(err,result){
         
         if (err) error(err);
         else {

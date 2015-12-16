@@ -1,8 +1,8 @@
 
 app.controller('frameActionTableAdd',['$scope','$element','$uibModal',
-                                      'Dictionary','Utils','Log','Alert','Frame',
+                                      'Dictionary','Utils','Const','Alert','Frame',
                                       function($scope,$element,$uibModal,
-                                               Dictionary,Utils,Log,Alert,Frame) {
+                                               Dictionary,Utils,Const,Alert,Frame) {
                                            
   $scope.dic = Dictionary.dic($element); 
   $scope.modalController = 'frameActionTableAddModal';
@@ -20,65 +20,54 @@ app.controller('frameActionTableAdd',['$scope','$element','$uibModal',
         if (d.error) Alert.error(d.error);
         else {
           
-          var instance = $uibModal.open({
-            animation: true,
-            templateUrl: $scope.modalController+'.html',
-            controller: $scope.modalController,
-            resolve: {
-              dic: function() { return $scope.dic; },
-              action: function() { return $scope.action; },
-              frame: function() { return d.frame; }
-            }
-          });
+          if (d.frame) {
+            
+            var instance = $uibModal.open({
+              animation: true,
+              templateUrl: $scope.modalController+'.html',
+              controller: $scope.modalController,
+              resolve: {
+                dic: function() { return $scope.dic; },
+                form: function() { return d.frame; }
+              }
+            });
+
+            instance.result.then(function(d){
+
+              if (!d.error) {
+                if (d.reload) $scope.action.table.reload();
+              } 
+            });
+            
+          } else Alert.error(Const.frameNotAvailable);
         }
-        
       });
-      
-      /*Alert.info($scope.action.table.name);
-      
-      instance.result.then(function (selectedItem) {
-        $scope.selected = selectedItem;
-        Log.info('Selected: ' +$scope.selected);
-      }, function () {
-        Log.info('Canceled (');
-      });*/
     } 
   }
   
 }]);
 
-app.controller('frameActionTableAddModal',['$scope','$uibModalInstance','dic','action','frame',
-                                                'Utils','Alert','Dictionary',
-                                                function($scope,$uibModalInstance,dic,action,frame,
-                                                         Utils,Alert,Dictionary) {
+app.controller('frameActionTableAddModal',['$scope','$uibModalInstance','dic','form',
+                                           'Const','Alert','Utils',
+                                           function($scope,$uibModalInstance,dic,form,
+                                                    Const,Alert,Utils) {
 
   $scope.dic = dic;
-  $scope.frame = frame;
+  $scope.form = form;
   
-  $scope.ok = function () {
+  Utils.findWhere($scope.form.actions,{name:'cancel'}) || $scope.form.actions.push({name:'cancel',title:Const.cancel});
+   
+  $scope.submit = function() {
     
-    if (!action.executing) {
+    $scope.form.submit(this[$scope.form.name],function(d){
       
-      action.executing = true;
-
-      action.execute({item:$scope.selected.item},null,function(d){
-
-        action.executing = false;
-
-        if (d.error) {
-          Alert.error(d.error);
-        } else {
-          $uibModalInstance.close($scope.selected.item);
-        }
-      });
-    }
+      if (d.error) Alert.error(d.error);
+      else $uibModalInstance.close(d);
+    });
   }
-
-  $scope.cancel = function () {
+  
+  $scope.cancel = function() {
     $uibModalInstance.dismiss('cancel');
   }
-  
-  $scope.alert = function () {
-    Alert.info('Info from dialog');
-  }
+
 }]);

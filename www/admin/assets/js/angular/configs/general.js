@@ -51,8 +51,8 @@ app.config(['$provide','$sceDelegateProvider','laddaProvider','toastrConfig','Co
 
   laddaProvider.setOption({
     style: 'expand-left',
-    spinnerColor: '#000',
-    spinnerSize: '20'
+    spinnerColor: '#ccc',
+    spinnerSize: '24'
   });
   
   angular.extend(toastrConfig, {

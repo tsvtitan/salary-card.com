@@ -6,8 +6,14 @@ app.constant('Const',{
   pageNotAvailable: 'Страница не доступна',
   tableNotAvailable: 'Таблица не доступна',
   chartNotAvailable: 'График не доступен',
+  
   formNotAvailable: 'Форма не доступна',
+  formLoading: 'Идет загрузка формы...',
+  formProcessing: 'Идет обработка формы...',
+  
   frameNotAvailable: 'Фрейм не доступен',
+  
+  cancel: 'Отмена',
   
   alertError: 'Ошибка',
   alertInfo: 'Информация',

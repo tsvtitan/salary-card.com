@@ -11,8 +11,14 @@ app.factory('Form',['$http','$q','Urls','Utils','Dictionary','Payload','Const','
            .error(function(d){ result({error:Dictionary.connectionFailed(d)}); });  
     },
     
-    submit: function() {
-      
+    action: function(action,result) {
+
+      $http.post(Urls.formAction,Utils.makeFormData(Payload.get({action:action})),{
+                  headers: {'Content-Type':undefined},
+                            transformRequest:angular.identity
+                })
+           .success(result)
+           .error(function(d) { result({error:Dictionary.connectionFailed(d)}); });      
     }
   }
 
@@ -24,7 +30,7 @@ app.factory('Form',['$http','$q','Urls','Utils','Dictionary','Payload','Const','
         
         if (form.loading) {
           
-          //Alert.info('Загрузка идет...');
+          Alert.warning(Const.formLoading);
                   
         } else if (form.canLoad) {
           
@@ -73,15 +79,33 @@ app.factory('Form',['$http','$q','Urls','Utils','Dictionary','Payload','Const','
     
     if (!Utils.isFunction(form.submit)) {
       
-      form.submit = function(data) {
+      form.submit = function(data,result) {
         
-        
-        factory.submit(data,function(d){
+        if (form.processing) {
           
-        });
+          Alert.warning(Const.formProcessing);
+          
+        } else {
+          
+          form.processing = true;
+          
+          var action = {
+            name: 'submit',
+            entity: form.name,
+            params: data
+          };
         
-        //var fm = this[form.name];
-        Log.debug(data);
+          factory.action(action,function(d){
+
+            if (Utils.isFunction(result)) {
+              result(d);
+            } else {
+              if (d.error) Alert.error(d.error);
+            }
+
+            form.processing = false;
+          });
+        }
       }
     }
     

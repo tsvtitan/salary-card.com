@@ -29,14 +29,14 @@ app.factory('Chart',['$http','$q','Urls','Utils','Dictionary','Payload','Const',
       function execute() {
 
         var deferred = $q.defer();
-        var data = {
+        var action = {
           name: name,
           entity: chart.name,
           params: params,
           files: files
         };
 
-        factory.action(data,function(d){
+        factory.action(action,function(d){
           deferred.resolve(d);
         });
 

@@ -113,6 +113,13 @@ module.exports = {
     
     this.log.debug(params);
     
+    result(null,{reload:true});
+  },
+  
+  strengthAddcancel: function(user,params,files,result) {
+    
+    this.log.debug('cancel');
+    
     result(null,{});
   }
   

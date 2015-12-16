@@ -43,9 +43,21 @@
         restrict: 'A',
         priority: -1,
         link: function (scope, element, attrs) {
+          
           element.addClass('ladda-button');
+          
           if(angular.isUndefined(element.attr('data-style'))) {
             element.attr('data-style', laddaOption.style || 'zoom-in');
+          }
+          
+          // tsv
+          if(angular.isUndefined(element.attr('data-spinner-size'))) {
+            element.attr('data-spinner-size', laddaOption.spinnerSize || '24');
+          }
+          
+          // tsv
+          if(angular.isUndefined(element.attr('data-spinner-color'))) {
+            element.attr('data-spinner-color', laddaOption.spinnerColor || '#000');
           }
 
           // ladda breaks childNode's event property.
