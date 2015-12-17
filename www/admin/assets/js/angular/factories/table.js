@@ -1,6 +1,6 @@
 
-app.factory('Table',['$http','$q','Urls','Utils','Dictionary','Payload','Const','Alert',
-                      function($http,$q,Urls,Utils,Dictionary,Payload,Const,Alert) {
+app.factory('Table',['$http','$q','Urls','Utils','Dictionary','Payload','Const','Alert','Event',
+                      function($http,$q,Urls,Utils,Dictionary,Payload,Const,Alert,Event) {
   
   
   var factory = {

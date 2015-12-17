@@ -27,7 +27,7 @@ app.controller('boot',['$rootScope','$scope','$state','$element','$timeout',
     $scope.spinner = false; 
   }
   
-  $scope.reload = function(name) {
+  /*$scope.reload = function(name) {
     
     if (Utils.isEmpty(name)) {
       name = Auth.getDefaultPageName();
@@ -39,6 +39,11 @@ app.controller('boot',['$rootScope','$scope','$state','$element','$timeout',
       return true;
       
     } else Alert.error(Const.pageNotAvailable);
+  }*/
+                         
+  $scope.reload = function(name) {
+    
+    Page.reload(name);
   }
   
   $scope.ready = function(error,result) {

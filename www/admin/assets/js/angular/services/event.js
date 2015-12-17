@@ -1,6 +1,6 @@
 
-app.service('Event',['Dictionary','Log',
-                     function(Dictionary,Log) {
+app.service('Event',['Dictionary','Log','Utils',
+                     function(Dictionary,Log,Utils) {
   
   
   var events = {};
@@ -14,58 +14,116 @@ app.service('Event',['Dictionary','Log',
     return error;
   }
   
-  function post(path,data,onResult) {
-    return io.socket.post(path,data,onResult);
+  function post(path,data,result) {
+    return io.socket.post(path,data,result);
   }
   
-  function on(event,onResult) {
-    return io.socket.on(event,onResult);
+  function on(event,result) {
+    return io.socket.on(event,result);
   }
   
-  function subscribe(event,path,data,onResult,onEvent) {
+  function remote(event,path,data,onEvent,result) {
     
-    Log.debug('Event %s is registering...',[event]);
+    Log.debug('Remote event %s is registering...',[event]);
     
-    return post(path,data,function(data,raw){
+    /*return post(path,data,function(data,raw){
       
       var error = getError(data,raw);
       if (!error) {
         
         if (!events[event]) {
+          
           if (onEvent) {
             on(event,function(d){
               //Log.write(d);
               onEvent(d);
             });
-            events[event] = {subscribe:{path:path,data:data}};
+            events[event] = {remote:{path:path,data:data}};
             Log.debug('Event %s is registered',[event]);
           }
         }
-        if (onResult) onResult({error:false});
+        if (result) result({error:false});
         
       } else {
         
         Log.error(error);
-        if (onResult) onResult({error:Dictionary.couldNotSubscribeOnEvent()});
+        if (result) result({error:Dictionary.couldNotSubscribeOnEvent()});
       } 
-    });
+    });*/
   }
-  this.subscribe = subscribe;
+  this.remote = remote;
   
-  function unsubscribe(event,path,data,onResult) {
+  this.local = function(event,onEvent) {
     
-    Log.debug('Event %s is unregistering...',[event]);
-    return post(path,data,function(data,raw){
+    //Log.debug('Local event %s is registering...',[event]);
+    
+    var e = events[event];
+    if (!e) {
+      e = {locals:[]};
+      events[event] = e;
+    } else if (!e.locals) {
+      e.locals = [];
+    }
+    
+    var local = Utils.findWhere(e.locals,{on:onEvent});
+    if (!local) {
+      e.locals.push({
+        on: onEvent
+      });
+    }
+    
+    //Log.debug('Local event %s is registered',[event]);
+  }
+  
+  this.publish = function(event,data,result) {
+    
+    var e = events[event];
+    if (e) {
       
-      var error = getError(data,raw);
-      if (error) Log.error(error);
-      else {
-        delete events[event];
-        Log.debug('Event %s is unregistered',[event]);
+      if (e.locals) {
+        
+        Utils.forEach(e.locals,function(local){
+          
+          if (Utils.isFunction(local.on))
+            local.on(data);
+        });
       }
-              
-      onResult({error:(error)?Dictionary.couldNotUnsubscribeFromEvent():false});
-    });
+      
+      if (e.remotes) {
+        
+        Utils.forEach(e.remotes,function(remote){
+          
+          post(remote.path,data,result);
+        });
+      }
+    }
+  }
+  
+  function unsubscribe(event,path,data,result) {
+    
+    //Log.debug('Event %s is unregistering...',[event]);
+    
+    var e = events[event];
+    if (e) {
+      
+      if (e.remotes) {
+        /*return post(path,data,function(data,raw){
+
+          var error = getError(data,raw);
+          if (error) Log.error(error);
+          else {
+            delete events[event];
+            Log.debug('Event %s is unregistered',[event]);
+          }
+
+          if (result) result({error:(error)?Dictionary.couldNotUnsubscribeFromEvent():false});
+        });*/
+        
+      } else if (e.locals) {
+        
+        delete e.locals;
+      }
+    } else if (result) result({error:Dictionary.couldNotUnsubscribeFromEvent()});
   }
   this.unsubscribe = unsubscribe;
   
@@ -73,9 +131,8 @@ app.service('Event',['Dictionary','Log',
     
     for (var k in events) {
       var e = events[k];
-      if (e.subscribe) {
-        var s = e.subscribe;
-        subscribe(k,s.path,s.data);
+      if (e.remote) {
+        remote(k,e.remote.path,e.remote.data);
       }
     }
   });

@@ -19,6 +19,18 @@ app.factory('Auth',['$rootScope','$http','Route','Urls','Dictionary','Payload','
     });
   }
   
+  function registerEvents(events,callback) {
+      
+    if (Utils.isString(events)) {
+      $rootScope.$on(events,callback);
+    } else if (Utils.isArray(events)) {
+
+      Utils.forEach(events,function(event){
+        $rootScope.$on(event,callback);
+      });
+    }
+  }
+            
   var factory = {
     
     user: false,
@@ -91,20 +103,8 @@ app.factory('Auth',['$rootScope','$http','Route','Urls','Dictionary','Payload','
       return r;
     },
     
-    onEvents: function(events,callback) {
-      
-      if (Utils.isString(events)) {
-        $rootScope.$on(events,callback);
-      } else if (Utils.isArray(events)) {
-
-        Utils.forEach(events,function(event){
-          $rootScope.$on(event,callback);
-        });
-      }
-    },
-    
     onLogin: function(callback) {
-      this.onEvents([Const.eventLogin],callback);
+      registerEvents([Const.eventLogin],callback);
     },
     
     emitLogin: function() {
@@ -112,7 +112,7 @@ app.factory('Auth',['$rootScope','$http','Route','Urls','Dictionary','Payload','
     },
   
     onLogout: function(callback) {
-      this.onEvents([Const.eventLogout],callback);
+      registerEvents([Const.eventLogout],callback);
     },
     
     emitLogout: function() {

@@ -35,7 +35,7 @@ app.controller('frameActionTableAdd',['$scope','$element','$uibModal',
             instance.result.then(function(d){
 
               if (!d.error) {
-                if (d.reload) $scope.action.table.reload();
+                //if (d.reload) $scope.action.table.reload();
               } 
             });
             

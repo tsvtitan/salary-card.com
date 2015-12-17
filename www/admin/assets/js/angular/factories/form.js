@@ -1,6 +1,8 @@
 
-app.factory('Form',['$http','$q','Urls','Utils','Dictionary','Payload','Const','Alert','Log',
-                     function($http,$q,Urls,Utils,Dictionary,Payload,Const,Alert,Log) {
+app.factory('Form',['$http','$q','$rootScope',
+                    'Urls','Utils','Dictionary','Payload','Const','Alert','Event',
+                     function($http,$q,$rootScope,
+                              Urls,Utils,Dictionary,Payload,Const,Alert,Event) {
   
   var factory = {
     
@@ -97,7 +99,14 @@ app.factory('Form',['$http','$q','Urls','Utils','Dictionary','Payload','Const','
         
           factory.action(action,function(d){
             
-            //if (!d.error) LocalEvent.post(action.entity);
+            if (!d.error) { 
+              
+              var a = Utils.findWhere(form.actions,{name:action.name});
+              
+              $rootScope.$broadcast((a && a.event)?a.event:action.entity,data);
+              //Event.publish((a && a.event)?a.event:action.entity,data);
+              //if (a && a.page) Page.reload(a.page);
+            }
               
             if (Utils.isFunction(result)) {
               result(d);

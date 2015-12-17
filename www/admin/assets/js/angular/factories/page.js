@@ -1,8 +1,8 @@
 
-app.factory('Page',['$http',
-                    'Urls','Utils','Dictionary','Auth','Payload','Const','Frame',
-                    function($http,
-                             Urls,Utils,Dictionary,Auth,Payload,Const,Frame) {
+app.factory('Page',['$http','$state',
+                    'Urls','Utils','Dictionary','Auth','Payload','Const','Frame','Alert',
+                    function($http,$state,
+                             Urls,Utils,Dictionary,Auth,Payload,Const,Frame,Alert) {
   
   function getTitle(p,def) {
     return Utils.isObject(p)?p.title:def;
@@ -79,6 +79,20 @@ app.factory('Page',['$http',
              result(Utils.extend(d,prepareFrame(d.frame)));
            })
            .error(function(d){ result({error:Dictionary.connectionFailed(d)}); });  
+    },
+    
+    reload: function(name) {
+    
+      if (Utils.isEmpty(name)) {
+        name = Auth.getDefaultPageName();
+      }
+
+      if (Auth.pageExists(name)) {
+
+        $state.transitionTo(name,{},{reload:true,inherit:false,notify:true});
+        return true;
+
+      } else Alert.error(Const.pageNotAvailable);
     }
     
   }

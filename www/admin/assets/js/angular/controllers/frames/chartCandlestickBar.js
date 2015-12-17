@@ -1,6 +1,6 @@
 
-app.controller('frameChartCandlestickBar',['$scope','Const','Alert','Utils',
-                                           function ($scope,Const,Alert,Utils) {
+app.controller('frameChartCandlestickBar',['$scope','$rootScope','Const','Alert','Utils',
+                                           function ($scope,$rootScope,Const,Alert,Utils) {
   
   if ($scope.chart) {
     
@@ -14,6 +14,14 @@ app.controller('frameChartCandlestickBar',['$scope','Const','Alert','Utils',
       tickFormat: function(d) {
         return '$' + d3.format(',.1f')(d);
       }
+    });
+    
+    $rootScope.$on('strengthAdd',function(event,data) {
+      
+      console.log(data);
+      $scope.chart.reload(function(){
+        $scope.chart.collapsed = false;
+      });
     });
     
     $scope.chart.load();

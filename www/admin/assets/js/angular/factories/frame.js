@@ -1,8 +1,8 @@
 
-app.factory('Frame',['$http','$controller',
+app.factory('Frame',['$http','$controller','$rootScope',
                      'Utils','Dictionary','Urls','Payload','Event',
                      'Table','Chart','Form',
-                     function($http,$controller,
+                     function($http,$controller,$rootScope,
                               Utils,Dictionary,Urls,Payload,Event,
                               Table,Chart,Form) {
   
@@ -44,6 +44,25 @@ app.factory('Frame',['$http','$controller',
           return frame.type==='form';
         }
       }
+      
+      if (Utils.isObject(frame.events)) {
+      
+        for (var event in frame.events) {
+
+          var obj = frame.events[event];
+          if (Utils.isArray(obj)) {
+
+            if (Utils.isFunction(frame[event])) {
+
+              Utils.forEach(obj,function(name){
+
+                //Event.local(name,frame[event]);
+                $rootScope.$on(event,frame[event]);
+              });
+            }
+          }
+        }
+      }
 
       if (!Utils.isFunction(frame.controller)) {
 
@@ -55,16 +74,6 @@ app.factory('Frame',['$http','$controller',
 
           $scope.dic = Dictionary.dic($element,frame.controllerName);
           
-          /*if (Utils.isArray(frame.events)) {
-            
-            Utils.forEach(frame.events,function(event){
-              
-              if (!$scope[event]) {
-                Event.on(event,$scope[event])
-              }
-            });
-          }*/
-
           var inject = {
             '$scope':$scope,
             '$element':$element
@@ -72,10 +81,6 @@ app.factory('Frame',['$http','$controller',
           
           return $controller(frame.controllerName,inject);
         }
-      }
-      
-      if (Utils.isObject()) {
-        
       }
       
     }
