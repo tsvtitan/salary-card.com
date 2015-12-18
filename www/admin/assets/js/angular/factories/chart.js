@@ -75,13 +75,6 @@ app.factory('Chart',['$http','$q','Urls','Utils','Dictionary','Payload','Const',
       }
     }
     
-    if (Utils.isArray(chart.actions)) {
-    
-      Utils.forEach(chart.actions,function(action){
-        prepareAction(action);
-      });
-    }
-    
     if (Utils.isObject(chart.options)) {
       
       function convertTo(type,value,def) {
@@ -197,7 +190,7 @@ app.factory('Chart',['$http','$q','Urls','Utils','Dictionary','Payload','Const',
 
             chart.loading = false;
           });
-        }
+        } else if (Utils.isFunction(result)) result({});
       }
     }
     
@@ -216,6 +209,13 @@ app.factory('Chart',['$http','$q','Urls','Utils','Dictionary','Payload','Const',
       }
     }
     
+    
+    if (Utils.isArray(chart.actions)) {
+    
+      Utils.forEach(chart.actions,function(action){
+        prepareAction(action);
+      });
+    }
   }
                         
   factory.prepare = function(chart) {

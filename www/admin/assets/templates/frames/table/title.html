@@ -5,7 +5,7 @@
 
 <div class="ibox-tools">
 
-  <a data-ng-click="table.reload()">
+  <a data-ng-click="table.reload()" data-ng-show="form.canLoad" data-ng-disabled="form.loading">
     <i class="fa fa-refresh" data-ng-class="(table.loading || table.processing)?'fa-spin':''"></i>
   </a>
 

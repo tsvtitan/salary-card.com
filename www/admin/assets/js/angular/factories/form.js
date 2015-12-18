@@ -1,8 +1,8 @@
 
 app.factory('Form',['$http','$q','$rootScope',
-                    'Urls','Utils','Dictionary','Payload','Const','Alert','Event',
+                    'Urls','Utils','Dictionary','Payload','Const','Alert',
                      function($http,$q,$rootScope,
-                              Urls,Utils,Dictionary,Payload,Const,Alert,Event) {
+                              Urls,Utils,Dictionary,Payload,Const,Alert) {
   
   var factory = {
     
@@ -60,7 +60,7 @@ app.factory('Form',['$http','$q','$rootScope',
 
             form.loading = false;
           });
-        }
+        } else if (Utils.isFunction(result)) result({});
       }
     }
     
@@ -103,9 +103,8 @@ app.factory('Form',['$http','$q','$rootScope',
               
               var a = Utils.findWhere(form.actions,{name:action.name});
               
-              $rootScope.$broadcast((a && a.event)?a.event:action.entity,data);
-              //Event.publish((a && a.event)?a.event:action.entity,data);
-              //if (a && a.page) Page.reload(a.page);
+              var event = (form.event)?form.event:((a && a.event)?a.event:action.entity);
+              $rootScope.$broadcast(event,d);
             }
               
             if (Utils.isFunction(result)) {
@@ -116,6 +115,7 @@ app.factory('Form',['$http','$q','$rootScope',
 
             form.processing = false;
           });
+          
         }
       }
     }

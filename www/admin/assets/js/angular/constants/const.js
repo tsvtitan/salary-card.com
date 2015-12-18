@@ -31,6 +31,7 @@ app.constant('Const',{
   //eventInit: 'init',
   eventLogin: 'login',
   eventLogout: 'logout',
+  eventReload: 'reload',
   
   couldNotSubscribeOnEvent: 'Could not subscribe on event',
   couldNotUnsubscribeFromEvent: 'Could not unsubscribe from event',

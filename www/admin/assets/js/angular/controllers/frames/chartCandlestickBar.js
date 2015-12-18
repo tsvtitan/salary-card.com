@@ -18,7 +18,6 @@ app.controller('frameChartCandlestickBar',['$scope','$rootScope','Const','Alert'
     
     $rootScope.$on('strengthAdd',function(event,data) {
       
-      console.log(data);
       $scope.chart.reload(function(){
         $scope.chart.collapsed = false;
       });

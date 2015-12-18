@@ -8,7 +8,7 @@ module.exports = {
   
   get: function(req,res) {
     
-    res.jsonSuccess();
+    res.jsonSuccess({},1000);
   },
   
   action: function(req,res) {

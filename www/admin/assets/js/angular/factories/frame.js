@@ -56,10 +56,17 @@ app.factory('Frame',['$http','$controller','$rootScope',
 
               Utils.forEach(obj,function(name){
 
-                //Event.local(name,frame[event]);
-                $rootScope.$on(event,frame[event]);
+                $rootScope.$on(name,function(e,n){
+                  frame[event](n);
+                });
               });
             }
+          } else if (Utils.isString(obj)) {
+            
+            if (Utils.isFunction(frame[event])) 
+              $rootScope.$on(obj,function(e,n){
+                frame[event](n);
+              });
           }
         }
       }

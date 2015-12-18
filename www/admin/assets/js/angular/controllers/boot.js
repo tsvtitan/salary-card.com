@@ -108,6 +108,11 @@ app.controller('boot',['$rootScope','$scope','$state','$element','$timeout',
   });
   
   Auth.onLogin(function(){
+    
+    $rootScope.$on(Const.eventReload,function(event,name){
+      $scope.reload(name);
+    });
+    
     defaultUrl();
   });
   

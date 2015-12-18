@@ -18,18 +18,26 @@ module.exports = function jsonSuccess (data,duration) {
     
   } else {
     
-    var max = 1000;
+    var min = 1000;
+    var value = min;
     
-    if (Utils.isObject(duration) && Utils.isInteger(duration.max)) max = duration.max;
+    if (Utils.isObject(duration) && Utils.isInteger(duration.value)) {
+      
+      value = duration.value;
+      min = Utils.isInteger(duration.min)?duration.min:min;
+      
+    } else if (Utils.isInteger(duration)) value = duration;
+    else value = false;
     
-    if ((Utils.isInteger(duration) && duration<max) || 
-        (Utils.isObject(duration) && Utils.isInteger(duration.value) && duration.value<max)) {
+    if (value) {
+      
+      if (value<min) value = min;
       
       return setTimeout(function(){
         
         res.json(obj);
         
-      },max);
+      },value);
       
     } else return res.json(obj);
   }

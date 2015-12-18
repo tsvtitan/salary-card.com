@@ -186,7 +186,7 @@ app.factory('Auth',['$rootScope','$http','Route','Urls','Dictionary','Payload','
         });
       }
       
-      this.activeMenu.push(menu);
+      if (menu) this.activeMenu.push(menu);
       
       Utils.forEach(this.activeMenu,function(m){
         m.expanded = true;

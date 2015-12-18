@@ -3,31 +3,36 @@
   <div class="inmodal">
     
     <div class="modal-header">
+    
       <h3 class="modal-title">
-        <span data-ng-show="form.icon"><i class="fa" data-ng-class="form.icon"></i>&nbsp;&nbsp;</span>
-        <span>{{ dic(form.title) }}</span>
+        <span data-ng-show="(form && !form.loading)?form.icon:true"><i class="fa" data-ng-class="(form && !form.loading)?form.icon:'fa-refresh fa-spin'"></i>&nbsp;&nbsp;</span>
+        <span class="fadeInRight-fadeOut" data-ng-show="form">{{ dic(form.title) }}</span>
       </h3>
     </div>
     
-    <form class="form-horizontal ng-pristine" novalidate name="{{form.name}}"
-          data-ng-submit="submit()">
-      
-      <div class="modal-body">
-      
-        <div data-ng-include="form.header || 'frames/form/header.html'"></div>
-  
-        <div data-ng-include="form.body || 'frames/form/body.html'"></div>
+    <div data-ng-class="(form && !form.loading)?'fadeIn-fadeOut':''" data-ng-show="(form && !form.loading)">
+    
+      <form class="form-horizontal ng-pristine" novalidate name="{{form.name}}"
+            data-ng-submit="submit()">
 
-      </div>
+        <div class="modal-body">
 
-      <div class="modal-footer" data-ng-show="form.actions">
+          <div data-ng-include="form.header || 'frames/form/header.html'"></div>
 
-        <div class="text-center">
-          <div data-ng-include="'frames/form/actions.html'"></div>
+          <div data-ng-include="form.body || 'frames/form/body.html'"></div>
+
         </div>
-            
-      </div>
-    </form>
+
+        <div class="modal-footer" data-ng-show="form.actions">
+
+          <div class="text-center">
+            <div data-ng-include="'frames/form/actions.html'"></div>
+          </div>
+
+        </div>
+      </form>
+      
+    </div>
     
   </div>
   

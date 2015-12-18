@@ -11,7 +11,7 @@ module.exports = {
 
       function getEntity(ret) {
         
-        log.debug(req.body);
+        //log.debug(req.body);
         
         if (req.body) {
           

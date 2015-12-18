@@ -4,10 +4,14 @@ app.controller('frameTableCorrections',['$scope','$rootScope','Const','Alert','E
   
   if ($scope.table) {
     
+    var collapsed = false;
+    
     $scope.table.reloadAndOpen = function(data) {
       
+      console.log(data);
+      collapsed = false;
       $scope.table.reload(function(){
-        $scope.table.collapsed = false;
+        $scope.table.collapsed = collapsed;
       });
     }
     
@@ -19,7 +23,7 @@ app.controller('frameTableCorrections',['$scope','$rootScope','Const','Alert','E
       
       if (d.error) Alert.error(d.error);
       else {
-        
+        $scope.table.collapsed = collapsed;
         $scope.table.setData(d.data);
       }
     });

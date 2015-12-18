@@ -113,7 +113,11 @@ module.exports = {
     
     this.log.debug(params);
     
-    result(null,{reload:true});
+    var data = [
+      {id:"0",grade:0,amount:0},
+      {id:"1",grade:1,amount:1}
+    ]
+    result(null,{data:data,reload:true});
   },
   
   strengthAddcancel: function(user,params,files,result) {

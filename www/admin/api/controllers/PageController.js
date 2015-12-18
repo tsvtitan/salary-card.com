@@ -24,7 +24,8 @@ module.exports = {
         function getPage(ret){
 
           var where = {name:(req.body)?req.body.name:null};
-          var fields = {name:1,type:1,class:1,template:1,header:1,body:1,footer:1,frames:1,content:1,
+          var fields = {name:1,type:1,class:1,template:1,event:1,
+                      header:1,body:1,footer:1,frames:1,content:1,
                       collapsed:1,canClose:1,canCollapse:1,canLoad:1,locked:1};
 
           UsersModel.getModelRecord(req.session.userId,PagesModel,fields,where,null,null,

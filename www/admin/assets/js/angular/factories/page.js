@@ -82,17 +82,20 @@ app.factory('Page',['$http','$state',
     },
     
     reload: function(name) {
-    
-      if (Utils.isEmpty(name)) {
-        name = Auth.getDefaultPageName();
+      
+      if (name!==this.name) {
+      
+        if (Utils.isEmpty(name)) {
+          name = Auth.getDefaultPageName();
+        }
+
+        if (Auth.pageExists(name)) {
+
+          $state.transitionTo(name,{},{reload:true,inherit:false,notify:true});
+          return true;
+
+        } else Alert.error(Const.pageNotAvailable);
       }
-
-      if (Auth.pageExists(name)) {
-
-        $state.transitionTo(name,{},{reload:true,inherit:false,notify:true});
-        return true;
-
-      } else Alert.error(Const.pageNotAvailable);
     }
     
   }

@@ -1,6 +1,6 @@
 
-app.factory('Table',['$http','$q','Urls','Utils','Dictionary','Payload','Const','Alert','Event',
-                      function($http,$q,Urls,Utils,Dictionary,Payload,Const,Alert,Event) {
+app.factory('Table',['$http','$q','$rootScope','Urls','Utils','Dictionary','Payload','Const','Alert','Event',
+                      function($http,$q,$rootScope,Urls,Utils,Dictionary,Payload,Const,Alert,Event) {
   
   
   var factory = {
@@ -74,13 +74,15 @@ app.factory('Table',['$http','$q','Urls','Utils','Dictionary','Payload','Const',
           executeAction(action.name,params,files,result);
         };
       }
-    }
-    
-    if (Utils.isArray(table.actions)) {
-    
-      Utils.forEach(table.actions,function(action){
-        prepareAction(action);
-      });
+      
+      if (Utils.isFunction(table[action.name]) && Utils.isObject(action.frame)) {
+        
+        var name = (action.frame.event)?action.frame.event:action.frame.name;
+        $rootScope.$on(name,function(e,n){
+          table[action.name](n);
+        });
+      }
+      
     }
     
     if (Utils.isObject(table.options)) {
@@ -294,7 +296,8 @@ app.factory('Table',['$http','$q','Urls','Utils','Dictionary','Payload','Const',
             table.loading = false;
             if (table.options.api) table.options.api.hideOverlay();
           });
-        }
+          
+        } else if (Utils.isFunction(result)) result({});
       }
     }
     
@@ -311,6 +314,50 @@ app.factory('Table',['$http','$q','Urls','Utils','Dictionary','Payload','Const',
       table.toggle = function() {
         table.collapsed = !table.collapsed;
       }
+    }
+    
+    if (!Utils.isFunction(table.add)) {
+      
+      table.add = function(d) {
+        
+        if (table.options.api && d.data) {
+          
+          if (Utils.isArray(table.options.rowData)) {
+            
+            if (Utils.isArray(d.data)) {
+              
+              Utils.forEach(d.data,function(row){
+                
+                table.options.rowData.push(row);
+              });
+            }
+            
+          } else if (Utils.isObject(d.data)) {
+            
+            table.options.rowData.push(d.data);
+          }
+          
+          table.options.api.onNewRows();
+          
+          table.options.api.forEachNode(function(node){
+            
+            var data = Utils.findWhere(d.data,node.data);
+            if (data)
+              table.options.api.selectNode(node,false,true);
+          });
+          
+        }
+      }
+    }
+    
+    
+    // last initialization because of events
+    
+    if (Utils.isArray(table.actions)) {
+    
+      Utils.forEach(table.actions,function(action){
+        prepareAction(action);
+      });
     }
     
   }

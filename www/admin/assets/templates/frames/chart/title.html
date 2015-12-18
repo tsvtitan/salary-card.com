@@ -5,7 +5,7 @@
 
 <div class="ibox-tools">
 
-  <a data-ng-click="chart.reload()" data-ng-disabled="chart.loading">
+  <a data-ng-click="chart.reload()" data-ng-show="chart.canLoad" data-ng-disabled="chart.loading">
     <i class="fa fa-refresh" data-ng-class="(chart.loading || chart.processing)?'fa-spin':''"></i>
   </a>
 
