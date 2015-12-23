@@ -60,7 +60,8 @@ process.chdir(__dirname);
   // tsv
   var grunt = (process.env.GRUNT===undefined)?true:(process.env.GRUNT.toLowerCase()==='true');
   if (grunt) {
-    sails.lift(rc('sails'));
+    //sails.lift(rc('sails'));
+    sails.lift(rc('sails', {hooks:{grunt:false}}));
   } else {
     sails.lift(rc('sails', {hooks:{grunt:false}}));
   }

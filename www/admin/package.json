@@ -1,61 +1,61 @@
 {
-  "name" : "salary-card-admin",
-  "private" : true,
-  "version" : "0.0.3",
-  "description" : "Salary Card Admin",
-  "keywords" : [ ],
-  "dependencies" : {
-    "sails" : "~0.11.0",
-    "grunt" : "0.4.2",
-    "grunt-sync" : "~0.0.4",
-    "grunt-contrib-copy" : "~0.5.0",
-    "grunt-contrib-clean" : "~0.5.0",
-    "grunt-contrib-concat" : "~0.3.0",
-    "grunt-sails-linker" : "~0.9.5",
-    "grunt-contrib-jst" : "~0.6.0",
-    "grunt-contrib-watch" : "~0.5.3",
-    "grunt-contrib-uglify" : "~0.4.0",
-    "grunt-contrib-cssmin" : "~0.9.0",
-    "grunt-contrib-less" : "0.11.1",
-    "grunt-contrib-coffee" : "~0.10.1",
-    "agenda" : "~0.6.28",
+  "name": "salary-card-admin",
+  "private": true,
+  "version": "0.0.3",
+  "description": "Salary Card Admin",
+  "keywords": [],
+  "dependencies": {
+    "agenda": "~0.6.28",
+    "bcrypt": "~0.8.5",
+    "canvas-captcha": "~2.0.0",
+    "connect-redis": "~1.4.5",
+    "content-disposition": "~0.5.0",
     "d3": "~3.5.9",
-    "bcrypt" : "~0.8.2",
-    "canvas-captcha" : "~1.2.7",
-    "connect-redis" : "~1.4.5",
-    "content-disposition" : "~0.5.0",
-    "ejs" : "~0.8.8",
-    "include-all" : "~0.1.6",
-    "node-redis-pubsub" : "~0.5.0",
-    "nodemailer" : "~1.8.0",
-    "nodemailer-smtp-pool": "~1.1.2",
+    "ejs": "~0.8.8",
+    "grunt": "0.4.2",
+    "grunt-contrib-clean": "~0.5.0",
+    "grunt-contrib-coffee": "~0.10.1",
+    "grunt-contrib-concat": "~0.3.0",
+    "grunt-contrib-copy": "~0.5.0",
+    "grunt-contrib-cssmin": "~0.9.0",
+    "grunt-contrib-jst": "~0.6.0",
+    "grunt-contrib-less": "0.11.1",
+    "grunt-contrib-uglify": "~0.4.0",
+    "grunt-contrib-watch": "~0.5.3",
+    "grunt-sails-linker": "~0.9.5",
+    "grunt-sync": "~0.0.4",
+    "include-all": "~0.1.6",
+    "moment": "~2.10.2",
+    "node-redis-pubsub": "~0.5.0",
+    "nodemailer": "~1.8.0",
     "nodemailer-mailgun-transport": "~1.0.1",
-    "moment" : "~2.10.2",
-    "randomstring" : "~1.1.3",
-    "rc" : "~0.5.5",
-    "request" : "~2.64.0",
-    "sails-mongo" : "~0.10.8",
-    "socket.io-redis" : "~0.1.4",
-    "stack-trace" : "~0.0.9",
-    "ua-parser-js" : "~0.7.7",
-    "winston" : "~1.0.0",
-    "xlsx" : "~0.8.0",
+    "nodemailer-smtp-pool": "~1.1.2",
+    "randomstring": "~1.1.3",
+    "rc": "~0.5.5",
+    "request": "~2.64.0",
+    "sails": "~0.11.0",
+    "sails-mongo": "~0.10.8",
+    "socket.io-redis": "~0.1.4",
+    "stack-trace": "~0.0.9",
+    "ua-parser-js": "~0.7.7",
+    "winston": "~1.0.0",
+    "xlsx": "~0.8.0",
     "xoauth2": "~1.1.0"
   },
-  "scripts" : {
-    "start" : "node app.js",
-    "debug" : "node debug app.js"
+  "scripts": {
+    "start": "node app.js",
+    "debug": "node debug app.js"
   },
-  "main" : "./app.js",
-  "repository" : {
-    "type" : "git",
-    "url" : "https://github.com/tsvtitan/salary-card.com.git"
+  "main": "./app.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tsvtitan/salary-card.com.git"
   },
-  "author" : {
-    "name" : "tsvtitan",
-    "email" : "tsv.titan@gmail.om"
+  "author": {
+    "name": "tsvtitan",
+    "email": "tsv.titan@gmail.om"
   },
-  "bugs" : {
-    "url" : "null"
+  "bugs": {
+    "url": "null"
   }
 }
