@@ -2,7 +2,14 @@
 
 SC_DIR=`dirname $0`
 SC_DIR_LEN=${#SC_DIR}
-SC_SCRIPT=$1
+
+if [[ $1 == *"--debug"* ]]  
+then
+    SC_SCRIPT=$2
+else
+    SC_SCRIPT=$1
+fi    
+    
 SC_SCRIPT=${SC_SCRIPT:SC_DIR_LEN}
 
 export SC_DIR
@@ -17,6 +24,6 @@ function tearDown {
 trap tearDown 0 1 2 3 6 9 15
 
 #echo ${#SC_DIR}
-#echo $SC_SCRIPT
+echo $SC_SCRIPT
 
 /usr/local/bin/sshpass -p 't6)uDUgy' ssh root@salary-card.com -p 50022 /www-start.sh $SC_SCRIPT
